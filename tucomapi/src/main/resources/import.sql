@@ -1,0 +1,1 @@
+INSERT INTO COMUNIDAD (id, nombre) VALUES (1, 'Comunidad 13 Rue del Percebe'),(2, 'Comunidad 2');

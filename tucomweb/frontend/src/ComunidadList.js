@@ -10,13 +10,11 @@ class ComunidadList extends Component {
         this.state = {comunidades: []};
     }
 
-    /*
     componentDidMount() {
         fetch('/comunidades')
             .then(response => response.json())
             .then(data => this.setState({comunidades: data}));
     }
-    */
 
     render() {
         const {comunidades} = this.state;
