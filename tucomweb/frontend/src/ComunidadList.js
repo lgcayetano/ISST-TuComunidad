@@ -11,7 +11,7 @@ class ComunidadList extends Component {
     }
 
     componentDidMount() {
-        fetch('/comunidades')
+        fetch('http://localhost:8083/comunidades/')
             .then(response => response.json())
             .then(data => this.setState({comunidades: data}));
     }
