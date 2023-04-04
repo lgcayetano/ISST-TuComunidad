@@ -7,7 +7,7 @@ class ComunidadList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {comunidades: []}; 
+        this.state = {comunidades: []};
     }
 
     componentDidMount() {
