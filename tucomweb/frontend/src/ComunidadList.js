@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import { Link } from 'react-router-dom';
+import { apiURL } from './App';
 
 class ComunidadList extends Component {
 
@@ -11,7 +12,7 @@ class ComunidadList extends Component {
     }
 
     componentDidMount() {
-        fetch('http://localhost:8083/comunidades/')
+        fetch(apiURL + '/comunidades')
             .then(response => response.json())
             .then(data => this.setState({comunidades: data}));
     }

@@ -4,6 +4,8 @@ import Home from './Home';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ComunidadList from './ComunidadList';
 
+export const apiURL = "http://localhost:8083";
+
 class App extends Component {
   render() {
     return (
