@@ -11,10 +11,22 @@ class ComunidadList extends Component {
         this.state = {comunidades: []};
     }
 
-    componentDidMount() {
-        fetch(apiURL + '/comunidades')
-            .then(response => response.json())
-            .then(data => this.setState({comunidades: data}));
+    async componentDidMount() {
+
+        const dataLogin = new FormData();
+        dataLogin.append('username', 'presi1@email.com');
+        dataLogin.append('password', 'presi1');
+        await fetch(apiURL + '/login', {
+            method: 'POST',
+            credentials: 'include',
+            body: dataLogin
+        });
+
+        fetch(apiURL + '/comunidades', {
+            credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(data => this.setState({comunidades: data}));
     }
 
     render() {
