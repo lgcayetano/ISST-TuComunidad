@@ -9,6 +9,9 @@ public class Comunidad {
     @Id
     private int id;
     private String nombre;
+    private String codigopresidente;
+    private String codigovecino;
+    private boolean estado;
 
     public Comunidad() {
     }
@@ -27,6 +30,30 @@ public class Comunidad {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getCodigopresidente() {
+        return codigopresidente;
+    }
+
+    public void setCodigopresidente(String codigopresidente) {
+        this.codigopresidente = codigopresidente;
+    }
+
+    public String getCodigovecino() {
+        return codigovecino;
+    }
+
+    public void setCodigovecino(String codigovecino) {
+        this.codigovecino = codigovecino;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 
 }

@@ -1,7 +1,9 @@
 package es.upm.dit.isst.tucomapi.controller;
 
 import es.upm.dit.isst.tucomapi.model.Comunidad;
+import es.upm.dit.isst.tucomapi.model.Usuario;
 import es.upm.dit.isst.tucomapi.repository.ComunidadRepository;
+import es.upm.dit.isst.tucomapi.repository.UsuarioRepository;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -24,13 +26,36 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ComunidadController {
 
-    private final ComunidadRepository comunidadRepository;
+  private final ComunidadRepository comunidadRepository;
+  private final UsuarioRepository usuarioRepository;
 
     public static final Logger log = LoggerFactory.getLogger(ComunidadController.class);
 
-    public ComunidadController(ComunidadRepository t) {
-        this.comunidadRepository = t;
+    public ComunidadController(ComunidadRepository t, UsuarioRepository t2) {
+      this.comunidadRepository = t;
+      this.usuarioRepository = t2;
     }
+
+    @GetMapping("/comunidad")
+    String readNombre(Principal principal) {
+
+      int idComunidad = 0;
+      String nombreComunidad = "";
+
+      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (Usuario!=null)
+        idComunidad = Usuario.getIdcomunidad();
+      
+      Comunidad Comunidad = comunidadRepository.findById(idComunidad).orElse(null);
+
+      if (Comunidad!=null)
+        nombreComunidad = Comunidad.getNombre();
+
+      return nombreComunidad;
+    }
+
+    //Métodos no útiles, utilizados para pruebas:
 
     @GetMapping("/comunidades")
     List<Comunidad> readAll(Principal principal) {

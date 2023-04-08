@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,12 +28,31 @@ public class UsuarioController {
         this.usuarioRepository = t;
     }
 
+    @GetMapping("/usuario")
+    String readNombre(Principal principal) {
+
+      String nombreUsuario = "";
+
+      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (Usuario!=null)
+        nombreUsuario = Usuario.getNombre();
+
+      return nombreUsuario;
+    }
+
+    @PostMapping("/registro")
+    //................................................
+
+
+    //Métodos no útiles, utilizados para pruebas:
+
     @GetMapping("/usuarios")
     List<Usuario> readAll() {
       return (List<Usuario>) usuarioRepository.findAll();
     }
 
-    @GetMapping("/usuario")
+    @GetMapping("/idusuario")
     int idUsuario(@RequestParam("email") String email, @RequestParam("contrasena") String contrasena){
 
       int Id = 0;

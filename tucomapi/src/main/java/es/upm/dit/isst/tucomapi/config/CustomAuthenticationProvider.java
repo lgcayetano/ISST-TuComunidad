@@ -31,7 +31,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         Usuario Usuario = usuarioRepository.findByEmailContrasena(name,pass).orElse(null);
       
-        if (Usuario!=null) {
+        if (Usuario!=null && Usuario.isEstado()) {
 
             int nivel = Usuario.getNivel();
             String role = "ROLE_VECI";
