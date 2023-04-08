@@ -9,6 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ComunidadRepository extends CrudRepository<Comunidad, Integer> {
     
-    @Query(value = "SELECT * FROM Comunidad WHERE codigopresidente=?1 OR codigovecino=?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM Comunidad WHERE BINARY codigopresidente=?1 OR BINARY codigovecino=?1", nativeQuery = true)
     Optional<Comunidad> findByCodigo(String codigoregistro);
 }

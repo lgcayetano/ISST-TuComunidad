@@ -1,6 +1,8 @@
 package es.upm.dit.isst.tucomapi.controller;
 
+import es.upm.dit.isst.tucomapi.model.Comunidad;
 import es.upm.dit.isst.tucomapi.model.Usuario;
+import es.upm.dit.isst.tucomapi.repository.ComunidadRepository;
 import es.upm.dit.isst.tucomapi.repository.UsuarioRepository;
 
 import java.security.Principal;
@@ -21,11 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuarioController {
 
     private final UsuarioRepository usuarioRepository;
+    private final ComunidadRepository comunidadRepository;
 
     public static final Logger log = LoggerFactory.getLogger(UsuarioController.class);
 
-    public UsuarioController(UsuarioRepository t) {
+    public UsuarioController(UsuarioRepository t, ComunidadRepository t2) {
         this.usuarioRepository = t;
+        this.comunidadRepository = t2;
     }
 
     @GetMapping("/usuario")
@@ -33,16 +37,56 @@ public class UsuarioController {
 
       String nombreUsuario = "";
 
-      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+      Usuario usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
 
-      if (Usuario!=null)
-        nombreUsuario = Usuario.getNombre();
+      if (usuario!=null)
+        nombreUsuario = usuario.getNombre();
 
       return nombreUsuario;
     }
 
     @PostMapping("/registro")
-    //................................................
+    String registerUsuario(@RequestParam("nombre") String nombre, @RequestParam("email") String email, 
+                        @RequestParam("contrasena") String contrasena, @RequestParam("codigoregistro") String codigoregistro) {
+
+      String resultado = "Error: El email indicado ya está registrado en la plataforma.";
+
+      Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
+
+      if (usuario==null) {
+
+        resultado = "Error: Código de registro no válido.";
+
+        Comunidad comunidad = comunidadRepository.findByCodigo(codigoregistro).orElse(null);
+        
+        if (comunidad!=null) {
+          
+          int nivel = 0;
+
+          String codigopresidente = comunidad.getCodigopresidente();
+          String codigovecino = comunidad.getCodigovecino();
+
+          if (codigoregistro.equals(codigopresidente)) nivel = 1;
+          else if (codigoregistro.equals(codigovecino)) nivel = 2;
+          
+          Usuario newUsuario = new Usuario();
+
+          newUsuario.setNombre(nombre);
+          newUsuario.setEmail(email);
+          newUsuario.setContrasena(contrasena);
+          newUsuario.setNivel(nivel);
+          newUsuario.setEstado(true);
+          newUsuario.setPermisos(true);
+          newUsuario.setIdcomunidad(comunidad.getId());
+
+          usuarioRepository.save(newUsuario);
+
+          resultado = "¡Registrado correctamente!";
+        }
+      }
+
+      return resultado;
+    }
 
 
     //Métodos no útiles, utilizados para pruebas:
