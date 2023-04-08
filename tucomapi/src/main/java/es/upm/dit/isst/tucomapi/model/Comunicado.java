@@ -4,7 +4,7 @@ package es.upm.dit.isst.tucomapi.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+/*import javax.persistence.ManyToOne;*/
 
 import java.time.LocalDateTime;
 
@@ -18,9 +18,17 @@ public class Comunicado {
     private String mensaje;
     /*@ManyToOne
     private Usuario idUsuario;*/
-    @ManyToOne
-    private Comunidad idComunidad;
+    /*@ManyToOne
+    private Comunidad idcomunidad;*/
 
+    private int idcomunidad;
+
+    public int getIdcomunidad() {
+        return idcomunidad;
+    }
+    public void setIdcomunidad(int idcomunidad) {
+        this.idcomunidad = idcomunidad;
+    }
     public int getId() {
         return id;
     }
@@ -45,18 +53,24 @@ public class Comunicado {
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
+    public int getIdComunidad() {
+        return idcomunidad;
+    }
+    public void setIdComunidad(int idcomunidad) {
+        this.idcomunidad = idcomunidad;
+
     /*public Usuario getIdUsuario() {
         return idUsuario;
     }
     public void setIdUsuario(Usuario idUsuario) {
         this.idUsuario = idUsuario;
-    }*/
+    }
     
     public Comunidad getIdComunidad() {
-        return idComunidad;
+        return idcomunidad;
     }
-    public void setIdComunidad(Comunidad idComunidad) {
-        this.idComunidad = idComunidad;
+    public void setIdComunidad(Comunidad idcomunidad) {
+        this.idcomunidad = idcomunidad;
+    }*/
     }
-
 }
