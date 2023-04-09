@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 //import './App.css';
-import './Home.css';
+import './Login.css';
 import AppNavbar from './AppNavbar';
 import { Link } from 'react-router-dom';
 import { apiURL } from './App';
 import { Form, FormGroup, Button, Card, CardBody, CardGroup, CardText, CardTitle, Container, Input, Label } from 'reactstrap';
 
 
-class Home extends Component {
+class Login extends Component {
 
     constructor(props) {
         super(props);
@@ -107,4 +107,4 @@ class Home extends Component {
     }
 }
 
-export default Home;
+export default Login;
