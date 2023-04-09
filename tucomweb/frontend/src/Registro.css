@@ -1,0 +1,28 @@
+label{
+    display: inline-block;
+    width:20%;
+    margin-left: 25%;
+}
+input{
+border-style: inset;
+width: 40%;
+}
+
+#cuadro{
+border: solid;
+border-style: inset;
+margin-right: 10%;
+margin-left: 10%;
+background-color: #bebebe;
+}
+
+
+#footer{
+position: fixed;
+left: 0%;
+bottom: 0%;
+width: 100%;
+background-color: grey;
+color:white;
+text-align: center;
+}

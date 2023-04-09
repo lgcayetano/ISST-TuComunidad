@@ -1,0 +1,35 @@
+.title{
+    text-align: center;
+
+  }
+  
+  .body{
+    margin-left: 3cm;
+    margin-right: 3cm;
+    margin-top: 5cm;
+    text-align: center;
+    height: 100%;
+  }
+  
+  .boton-registro{
+    margin-top: 5cm;
+    text-align: center;
+    height: 100%;
+  }
+  
+  .background {
+    background-image: url("./casa.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+    
+  }
+
+.footer{
+    text-align: center;
+    height:40px;
+    background-color: grey;
+    margin-top: 11cm;
+    
+}
