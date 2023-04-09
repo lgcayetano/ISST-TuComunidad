@@ -20,8 +20,19 @@ public class Comunicado {
     private Usuario idUsuario;*/
     /*@ManyToOne
     private Comunidad idcomunidad;*/
-
+    private int idusuario;
     private int idcomunidad;
+
+
+
+
+    public int getIdusuario() {
+        return idusuario;
+    }
+    public void setIdusuario(int idusuario) {
+        this.idusuario = idusuario;
+    }
+    
 
     public int getIdcomunidad() {
         return idcomunidad;
