@@ -1,0 +1,60 @@
+.paginausuario{
+    border: 1px;
+    background-color: blue;
+    color:white;
+    left:0;
+    width:  10%;
+    height: 30%;
+    border-style: inset;
+    border-color: black;
+    position: absolute;
+
+}
+
+.otrapaginausuario{
+    border: 1px;
+    background-color: lightblue;
+    color:black;
+    width:  10%;
+    height: 30%;
+    border-style: inset;
+    border-color:blue;
+    left:0;
+    position: absolute;
+}
+
+.pagina{
+    position: relative;
+    top:50%;
+    width: 100%;
+    text-align: center;
+}
+
+.otrapaginaadmin{
+    border: 1px;
+    background-color: lightgreen;
+    color:black;
+    width:  10%;
+    height: 30%;
+    border-style: inset;
+    border-color:green;
+    right: 0px;
+    position:absolute;
+}
+
+.comunicados{
+    position: absolute;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+
+#footer{
+    position: fixed;
+    left: 0%;
+    bottom: 0%;
+    width: 100%;
+    background-color: grey;
+    color:white;
+    text-align: center;
+}
