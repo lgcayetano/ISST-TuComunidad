@@ -62,7 +62,6 @@ public class ComunicadoController {
           
       Comunicado newComunicado = new Comunicado();
         
-        newComunicado.setId(89);
         newComunicado.setTitulo("titulo de prueba");
         newComunicado.setMensaje("hola que tal esto es el mensaje");
         newComunicado.setFecha(null);
