@@ -37,10 +37,11 @@ class Home extends Component {
             credentials: 'include',
             body: dataLogin
         }).then((response) => {
-            alert('Login correcto: ' + response);
-            console.log(response.headers.get('Location'));
-        }).catch((error) => {
-            alert('Login incorrecto: ' + error);
+
+            if (response.status==200)
+                alert('¡Login correcto!');
+            else
+                alert('Error: Email y/o contraseña no válidos.');
         });
     }
 

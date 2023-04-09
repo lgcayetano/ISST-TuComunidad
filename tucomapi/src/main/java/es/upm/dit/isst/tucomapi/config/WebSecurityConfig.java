@@ -20,6 +20,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
     private CustomAuthenticationProvider authProvider;
 
+    @Autowired
+    Securityhandler successHandler;
+
+    @Autowired
+    Failurehandler failureHandler;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authProvider);
@@ -40,6 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				//.loginPage("/login")
                 //.defaultSuccessUrl("/",true) //añadido por luis para probar
 				.permitAll()
+                .successHandler(successHandler)
+                .failureHandler(failureHandler)
 		.and()
             .logout()
 			.permitAll();
