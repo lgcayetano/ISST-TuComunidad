@@ -4,14 +4,13 @@ import './Login.css';
 import AppNavbar from './AppNavbar';
 import { Link } from 'react-router-dom';
 import { apiURL } from './App';
-import { Form, FormGroup, Button, Card, CardBody, CardGroup, CardText, CardTitle, Container, Input, Label } from 'reactstrap';
-
+import { Form, FormGroup, FormFeedback, FormText, Button, Card, CardBody, CardGroup, CardText, CardTitle, Container, Input, Label } from 'reactstrap';
 
 class Login extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {username: '', password: ''};
+        this.state = {username: '', password: '', invalid: false, login: false};
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,10 +24,15 @@ class Login extends Component {
         this.setState({
             [name]: value
         });
+
+        this.setState({
+            invalid: false
+        });
     }
 
     async handleSubmit(event) {
 
+        //evita que se recarge la pagina al darle al boton acceder (submit)
         event.preventDefault();
 
         const dataLogin = new FormData(event.target);
@@ -38,10 +42,21 @@ class Login extends Component {
             body: dataLogin
         }).then((response) => {
 
-            if (response.status==200)
-                alert('¡Login correcto!');
-            else
-                alert('Error: Email y/o contraseña no válidos.');
+            if (response.status==200) {
+
+                this.setState({
+                    invalid: false,
+                    login: true
+                });
+
+                window.location.href = "/";
+
+            } else {
+
+                this.setState({
+                    invalid: true
+                });
+            }
         });
     }
 
@@ -77,12 +92,13 @@ class Login extends Component {
                                     <FormGroup>
                                         <Label for="username">Email</Label>
                                         <Input type="email" name="username" id="username" value={this.state.username}
-                                            onChange={this.handleChange}/>
+                                            onChange={this.handleChange} invalid={this.state.invalid}/>
                                     </FormGroup>
                                     <FormGroup>
                                         <Label for="password">Contraseña</Label>
                                         <Input type="password" name="password" id="password" value={this.state.password}
-                                            onChange={this.handleChange}/>
+                                            onChange={this.handleChange} invalid={this.state.invalid}/>
+                                        <FormFeedback invalid={this.state.invalid}>Email y/o contraseña incorrectos.</FormFeedback>
                                     </FormGroup>
                                     <FormGroup>
                                         <Button type="submit">Iniciar sesión</Button>
@@ -95,7 +111,7 @@ class Login extends Component {
                             <CardTitle><h3>Si no está registrado</h3></CardTitle>
                             <CardBody>
                                 <Link to="/registro">
-                                    <Button size='lg'>Registrese</Button>
+                                    <Button size='lg'>Regístrese</Button>
                                 </Link>
                             </CardBody>
                         </Card>

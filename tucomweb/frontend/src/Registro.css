@@ -1,14 +1,14 @@
-label{
+#CuadroRegistro label{
     display: inline-block;
     width:20%;
     margin-left: 25%;
 }
-input{
+#CuadroRegistro input{
 border-style: inset;
 width: 40%;
 }
 
-#cuadro{
+#CuadroRegistro #cuadro{
 border: solid;
 border-style: inset;
 margin-right: 10%;
@@ -17,7 +17,7 @@ background-color: #bebebe;
 }
 
 
-#footer{
+#CuadroRegistro #footer{
 position: fixed;
 left: 0%;
 bottom: 0%;

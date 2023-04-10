@@ -13,7 +13,7 @@ export default function Registro () {
 
     return(
 
-        <div >
+        <div id="CuadroRegistro">
 
             <div id="cabecera"><h1 style={{textAlign: "center", color:"blue"}}><b>TuComunidad</b></h1></div>
 

@@ -13,6 +13,7 @@ class ComunidadList extends Component {
 
     async componentDidMount() {
 
+        /*
         const dataLogin = new FormData();
         dataLogin.append('username', 'presi1@email.com');
         dataLogin.append('password', 'presi1');
@@ -21,6 +22,7 @@ class ComunidadList extends Component {
             credentials: 'include',
             body: dataLogin
         });
+        */
 
         fetch(apiURL + '/comunidades', {
             credentials: 'include'
