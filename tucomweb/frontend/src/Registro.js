@@ -1,5 +1,6 @@
 import { useState } from "react";
 import './Registro.css'
+
 export default function Registro () {
     const [query, setQuery] = useState("");
     const [query2, setQuery2] = useState("");

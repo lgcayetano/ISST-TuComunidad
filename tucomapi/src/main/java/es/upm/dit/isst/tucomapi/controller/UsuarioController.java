@@ -32,6 +32,11 @@ public class UsuarioController {
         this.comunidadRepository = t2;
     }
 
+    @GetMapping("/auth")
+    String checkAuth() {
+      return "OK";
+    }
+
     @GetMapping("/usuario")
     String readNombre(Principal principal) {
 

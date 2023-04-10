@@ -1,36 +1,34 @@
-import React, { Component } from 'react';
+import React, { useState, useContext  } from 'react';
 //import './App.css';
 import './Login.css';
 import AppNavbar from './AppNavbar';
-import { Link } from 'react-router-dom';
-import { apiURL } from './App';
+import { Link, Redirect } from 'react-router-dom';
+import { apiURL, AuthContext } from './App';
 import { Form, FormGroup, FormFeedback, FormText, Button, Card, CardBody, CardGroup, CardText, CardTitle, Container, Input, Label } from 'reactstrap';
 
-class Login extends Component {
+export default function Login () {
 
-    constructor(props) {
-        super(props);
-        this.state = {username: '', password: '', invalid: false, login: false};
+    const [state, setState] = useState({
+        username: '', password: '', invalid: false, login: false
+    });
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    const { setAuthenticated } = useContext(AuthContext);
 
-    handleChange(event) {
+    function handleChange(event) {
         const target = event.target;
         const value = target.value;
         const name = target.name;
 
-        this.setState({
+        setState({
             [name]: value
         });
 
-        this.setState({
+        setState({
             invalid: false
         });
     }
 
-    async handleSubmit(event) {
+    async function handleSubmit(event) {
 
         //evita que se recarge la pagina al darle al boton acceder (submit)
         event.preventDefault();
@@ -42,25 +40,26 @@ class Login extends Component {
             body: dataLogin
         }).then((response) => {
 
-            if (response.status==200) {
-
-                this.setState({
+            if (response.status===200) {
+                setAuthenticated(true);
+                setState({
                     invalid: false,
                     login: true
                 });
-
-                window.location.href = "/";
-
             } else {
-
-                this.setState({
+                setAuthenticated(false);
+                setState({
                     invalid: true
                 });
             }
         });
     }
 
-    render() {
+    if (state.login) {
+        return (
+            <Redirect to='/' />
+        )
+    } else {
         return (
             /*
             <div>
@@ -88,17 +87,17 @@ class Login extends Component {
                                 <Button>Boton para entrar</Button>
                                 */}
 
-                                <Form onSubmit={this.handleSubmit}>
+                                <Form onSubmit={handleSubmit}>
                                     <FormGroup>
                                         <Label for="username">Email</Label>
-                                        <Input type="email" name="username" id="username" value={this.state.username}
-                                            onChange={this.handleChange} invalid={this.state.invalid}/>
+                                        <Input type="email" name="username" id="username" value={state.username}
+                                            onChange={handleChange} invalid={state.invalid}/>
                                     </FormGroup>
                                     <FormGroup>
                                         <Label for="password">Contraseña</Label>
-                                        <Input type="password" name="password" id="password" value={this.state.password}
-                                            onChange={this.handleChange} invalid={this.state.invalid}/>
-                                        <FormFeedback invalid={this.state.invalid}>Email y/o contraseña incorrectos.</FormFeedback>
+                                        <Input type="password" name="password" id="password" value={state.password}
+                                            onChange={handleChange} invalid={state.invalid}/>
+                                        <FormFeedback invalid={state.invalid}>Email y/o contraseña incorrectos.</FormFeedback>
                                     </FormGroup>
                                     <FormGroup>
                                         <Button type="submit">Iniciar sesión</Button>
@@ -119,8 +118,7 @@ class Login extends Component {
 
                 <footer className='footer'>Tu comunidad</footer>
             </div>
+
         );
     }
 }
-
-export default Login;
