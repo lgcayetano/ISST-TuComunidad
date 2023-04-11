@@ -31,8 +31,8 @@ export default function PublicarComunicados () {
         event.preventDefault();
 
         const comunicados = new FormData();
-            comunicados.append('title', event.target.elements.title.value);
-            comunicados.append('text', event.target.elements.text.value);
+            comunicados.append('titulo', event.target.elements.title.value);
+            comunicados.append('mensaje', event.target.elements.text.value);
             await fetch(apiURL + '/comunicados/nuevo', {
                 method: 'POST',
                 credentials: 'include',
