@@ -50,6 +50,19 @@ public class UsuarioController {
       return nombreUsuario;
     }
 
+    @GetMapping("/usuario/nivel")
+    int readNivel(Principal principal) {
+
+      int nivelUsuario = 0;
+
+      Usuario usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (usuario!=null)
+        nivelUsuario = usuario.getNivel();
+
+      return nivelUsuario;
+    }
+
     @PostMapping("/registro")
     String registerUsuario(@RequestParam("nombre") String nombre, @RequestParam("email") String email, 
                         @RequestParam("contrasena") String contrasena, @RequestParam("codigoregistro") String codigoregistro) {
