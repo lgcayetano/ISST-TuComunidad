@@ -54,13 +54,20 @@ public class UsuarioController {
     String registerUsuario(@RequestParam("nombre") String nombre, @RequestParam("email") String email, 
                         @RequestParam("contrasena") String contrasena, @RequestParam("codigoregistro") String codigoregistro) {
 
-      String resultado = "Error: El email indicado ya está registrado en la plataforma.";
+      String vacioTxt = "Campo vacío. Por favor, indique un valor";
+      
+      if (nombre.isEmpty()) return "error_nombre|" + vacioTxt;
+      if (email.isEmpty()) return "error_email|" + vacioTxt;
+      if (contrasena.isEmpty()) return "error_contrasena|" + vacioTxt;
+      if (codigoregistro.isEmpty()) return "error_codigo|" + vacioTxt;
+
+      String resultado = "error_email|El email indicado ya está registrado en la plataforma.";
 
       Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
 
       if (usuario==null) {
 
-        resultado = "Error: Código de registro no válido.";
+        resultado = "error_codigo|Código de registro no válido.";
 
         Comunidad comunidad = comunidadRepository.findByCodigo(codigoregistro).orElse(null);
         
@@ -86,7 +93,7 @@ public class UsuarioController {
 
           usuarioRepository.save(newUsuario);
 
-          resultado = "¡Registrado correctamente!";
+          return "OK|¡Registrado correctamente!";
         }
       }
 
