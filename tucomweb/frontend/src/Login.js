@@ -71,7 +71,7 @@ export default function Login () {
             */
 
             <div className='background'>
-                <h1 className='title'>TU COMUNIDAD</h1>
+                <h1 className='titulo'><b>TuComunidad</b></h1>
 
                     <CardGroup className='body'>
                         <Card>
@@ -99,7 +99,7 @@ export default function Login () {
                                             onChange={handleChange} invalid={state.invalid}/>
                                         <FormFeedback invalid={state.invalid}>Email y/o contraseña incorrectos.</FormFeedback>
                                     </FormGroup>
-                                    <FormGroup>
+                                    <FormGroup style={{marginTop:"20px"}}>
                                         <Button type="submit">Iniciar sesión</Button>
                                     </FormGroup>
                                 </Form>
@@ -107,7 +107,7 @@ export default function Login () {
                             </CardBody>
                         </Card>
                         <Card>
-                            <CardTitle><h3>Si no está registrado</h3></CardTitle>
+                            <CardTitle style={{marginTop:"30px"}}><h3>Si no está registrado</h3></CardTitle>
                             <CardBody>
                                 <Link to="/registro">
                                     <Button size='lg'>Regístrese</Button>
@@ -116,7 +116,7 @@ export default function Login () {
                         </Card>
                     </CardGroup>
 
-                <footer className='footer'>Tu comunidad</footer>
+                <footer className='footer'><b>TuComunidad 2023</b></footer>
             </div>
 
         );

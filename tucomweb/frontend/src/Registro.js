@@ -64,10 +64,11 @@ export default function Registro () {
 
         <div id="CuadroRegistro">
 
-            <div id="cabecera"><h1 style={{textAlign: "center", color:"blue"}}><b>TuComunidad</b></h1></div>
+            <div id="cabecera"><h1 className="titulo"><b>TuComunidad</b></h1></div>
 
-            <p style={{textAlign: "center"}}><h3>Datos de nuevo usuario</h3></p>
+            <p style={{textAlign: "center", marginTop:"2%"}}><h3 className="info"><b>Datos de nuevo usuario</b></h3></p>
             <div id="cuadro">
+                <div id="datos">
                 {/*
                 <p></p>
                 <label > <b>Nombre y Apellidos</b> </label>
@@ -83,32 +84,33 @@ export default function Registro () {
                 */}
                 <Form onSubmit={handleSubmit}>
                     <FormGroup>
-                        <Label for="nombre"><b>Nombre y Apellidos</b></Label>
-                        <Input type="text" name="nombre" id="nombre" value={state.nombre}
+                        <Label for="nombre"><b style={{}}>Nombre y Apellidos</b></Label>
+                        <Input className="innput" type="text" name="nombre" id="nombre" value={state.nombre}
                             onChange={handleChange} invalid={state.invalid}/>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="email"><b>Email</b></Label>
-                        <Input type="email" name="email" id="email" value={state.email}
+                        <Label for="email"><b >Email</b></Label>
+                        <Input className="innput" type="email" name="email" id="email" value={state.email}
                             onChange={handleChange} invalid={state.invalid}/>
                     </FormGroup>
                     <FormGroup>
                         <Label for="contrasena"><b>Contraseña</b></Label>
-                        <Input type="password" name="contrasena" id="contrasena" value={state.contrasena}
+                        <Input className="innput" type="password" name="contrasena" id="contrasena" value={state.contrasena}
                             onChange={handleChange} invalid={state.invalid}/>
                         <FormFeedback invalid={state.invalid}>Email y/o contraseña incorrectos.</FormFeedback>
                     </FormGroup>
                     <FormGroup>
                         <Label for="codigoregistro"><b>Código de acceso</b></Label>
-                        <Input type="text" name="codigoregistro" id="codigoregistro" value={state.codigoregistro}
+                        <Input className="innput"type="text" name="codigoregistro" id="codigoregistro" value={state.codigoregistro}
                             onChange={handleChange} invalid={state.invalid}/>
                     </FormGroup>
                     <FormGroup>
-                        <Button type="submit">Registrar</Button>
+                        <Button type="submit" style={{marginLeft:"45%"}}>Registrar</Button>
                     </FormGroup>
                 </Form>
+                </div>
             </div>
-            <div id="footer">
+            <div className="footer">
                 <b>TuComunidad 2023</b>
             </div>
         </div>
