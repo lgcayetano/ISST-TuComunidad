@@ -23,11 +23,13 @@ export default function Comunicados () {
                 <div className="otrapaginaadmin"style={{top:"40%", textAlign:"center"}}><b className="pagina">Publicar votaciones</b></div>
                 <div className="otrapaginaadmin"style={{top:"70%", textAlign:"center"}}><b className="pagina">Gestión comunidad</b></div>
                 <div className="comunicados" >
-                    <Input type="text" placeholder="Título del nuevo comunicado" id="titulocomunicado" name="titulocomunicado" style={{size:"50"}}/>
-                    <textarea type="text" name="Nuevo Comunicado" id="nuevocomunicado" 
-                    style={{height:"300px", width:"100%", marginTop:"20px"}} />
-                     <Button type="submit" placeholder='Comun' style={{marginLeft:"45%"}}>Publicar comunicado</Button>
-                   
+                    <div id="datos">
+                        <p><b>Título del nuevo comunicado:</b></p>
+                        <Input type="text"  id="titulocomunicado" name="titulocomunicado" style={{marginBottom:"20px"}}/>
+                        <p><b>Comunicado a escribir:</b></p>
+                        <textarea type="text" name="Nuevo Comunicado" id="nuevocomunicado" style={{height:"300px", width:"100%"}} />
+                        <Button type="submit"  style={{marginLeft:"45%", marginTop:"20px"}}>Publicar comunicado</Button>
+                    </div>
                 </div>
             </div>
             
