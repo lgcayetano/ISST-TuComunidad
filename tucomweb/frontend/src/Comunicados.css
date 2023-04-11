@@ -36,11 +36,22 @@
 
 .pagina{
     position: relative;
-    top:50%;
+    top:45%;
     width: 100%;
     text-align: center;
 }
 
+.paginaadmin{
+    border: 1px;
+    background-color: rgb(63, 62, 62);
+    color:white;
+    right:0;
+    width:  10%;
+    height: 30%;
+    border-style: inset;
+    border-color: black;
+    position: absolute;
+}
 
 .otrapaginaadmin{
     border: 1px;
@@ -60,6 +71,7 @@
     margin-right: 15%;
     background-color: rgba(255, 255, 255, 0.803);
     border-radius: 10px;
+    width:70%;
 }
 
 
@@ -71,4 +83,5 @@
     background-color: grey;
     color:white;
     text-align: center;
+    
 }

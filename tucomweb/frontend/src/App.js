@@ -6,6 +6,7 @@ import ComunidadList from './ComunidadList';
 import Registro from './Registro';
 import Comunicados from './Comunicados';
 import PrivateRoute from './PrivateRoute';
+import PublicarComunicado from './PublicarComunicado'
 
 export const apiURL = "http://localhost:8083";
 
@@ -50,6 +51,7 @@ class App extends Component {
             <PrivateRoute path='/comunidades' exact={true} component={ComunidadList}/>
             <Route path='/registro' exact={true} component={Registro}/>
             <Route path='/login' exact={true} component={Login}/>
+            <Route path='/publicarcomunicado' exact={true} component={PublicarComunicado}/>
             <Redirect from="*" to="/" />
           </Switch>
         </Router>
