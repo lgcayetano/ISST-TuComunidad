@@ -53,18 +53,22 @@ public class ComunicadoController {
     
     
     @PostMapping("/comunicados/nuevo")
-      public Comunicado nuevoComunicado(@RequestParam("titulo") String titulo, @RequestParam("mensaje") String mensaje, Principal principal) {
+      public ResponseEntity<Object> nuevoComunicado(@RequestParam("titulo") String titulo, @RequestParam("mensaje") String mensaje, Principal principal) {
         /*gestion de usuario, obtener comunidad e id de principal */
         Usuario usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
         int idComunidad = 0;
         int idUsuario = 0;
+        int nivelUsuario = 0;
 
         if (usuario!=null){
           idComunidad = usuario.getIdcomunidad();
           idUsuario = usuario.getId();
+          nivelUsuario = usuario.getNivel();
 
         }
-        /*nuevo comunicado */
+
+        if ( nivelUsuario == 1){
+          /*nuevo comunicado */
         Comunicado newComunicado = new Comunicado();
 
         newComunicado.setIdComunidad(idComunidad);
@@ -72,8 +76,12 @@ public class ComunicadoController {
         newComunicado.setMensaje(mensaje);
         newComunicado.setFecha(LocalDateTime.now());
         newComunicado.setIdusuario(idUsuario);
+        comunicadoRepository.save(newComunicado);
         
        
-       return comunicadoRepository.save(newComunicado);
+        return ResponseEntity.ok().body("comunicado creado correctamente");
+
+      }
+      return ResponseEntity.badRequest().body("No tienes permisos para hacer comunicados");  
     }
 }
