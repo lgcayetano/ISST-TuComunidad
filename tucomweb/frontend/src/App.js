@@ -48,10 +48,10 @@ class App extends Component {
         <Router>
           <Switch>
             <PrivateRoute path="/" exact={true} component={Comunicados}/>
-            <PrivateRoute path='/comunidades' exact={true} component={ComunidadList}/>
             <Route path='/registro' exact={true} component={Registro}/>
             <Route path='/login' exact={true} component={Login}/>
-            <Route path='/publicarcomunicado' exact={true} component={PublicarComunicado}/>
+            <PrivateRoute path='/comunidades' exact={true} component={ComunidadList}/>
+            <PrivateRoute path='/publicarcomunicado' exact={true} component={PublicarComunicado}/>
             <Redirect from="*" to="/" />
           </Switch>
         </Router>

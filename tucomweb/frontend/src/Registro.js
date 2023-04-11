@@ -27,7 +27,7 @@ export default function Registro () {
         invalid_contrasena: false, 
         invalid_codigo: false, 
         respuesta_error: '', 
-        registro: false
+        login: false
     });
 
     const { setAuthenticated } = useContext(AuthContext);
@@ -54,21 +54,16 @@ export default function Registro () {
         //evita que se recarge la pagina al darle al boton acceder (submit)
         event.preventDefault();
 
-        const dataLogin = new FormData(event.target);
+        const dataRegistro = new FormData(event.target);
         await fetch(apiURL + '/registro', {
             method: 'POST',
             credentials: 'include',
-            body: dataLogin
+            body: dataRegistro
         }).then((response) => {
             return response.text()
         })
-        .then((result) => {
+        .then(async (result) => {
             let arrayResult = result.split("|");
-
-            if (arrayResult[0]==="OK")
-                setAuthenticated(true);
-            else
-                setAuthenticated(false);
 
             if (arrayResult[0]==="error_email") {
                 setState({
@@ -91,15 +86,35 @@ export default function Registro () {
                     respuesta_error: arrayResult[1]
                 });
             } else if (arrayResult[0]==="OK") {
+                
                 setState({
-                    invalid: false,
-                    registro: true
+                    invalid: false
+                });
+
+                const dataLogin = new FormData();
+                dataLogin.append('username', event.target.elements.email.value);
+                dataLogin.append('password', event.target.elements.contrasena.value);
+                await fetch(apiURL + '/login', {
+                    method: 'POST',
+                    credentials: 'include',
+                    body: dataLogin
+                }).then((response) => {
+
+                    if (response.status===200) {
+                        setAuthenticated(true);
+                        setState({
+                            login: true
+                        });
+                    } else {
+                        setAuthenticated(false);
+                    }
                 });
             }
         });
+
     }
 
-    if (state.registro) {
+    if (state.login) {
         return (
             <Redirect to='/' />
         )
