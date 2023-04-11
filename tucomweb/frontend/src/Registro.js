@@ -1,7 +1,11 @@
 import { useState } from "react";
 import './Registro.css'
+import { apiURL } from './App';
+import { Form, FormGroup, FormFeedback, FormText, Button, Card, CardBody, CardGroup, CardText, CardTitle, Container, Input, Label } from 'reactstrap';
+
 
 export default function Registro () {
+    /*
     const [query, setQuery] = useState("");
     const [query2, setQuery2] = useState("");
     const [query3, setQuery3] = useState("");
@@ -9,6 +13,50 @@ export default function Registro () {
 
     function registrar(text, text2, text3, text4){
         return;
+    }
+    */
+
+    const [state, setState] = useState({
+        nombre: '', email: '', contrasena: '', codigoregistro: '', invalid: false, registro: false
+    });
+
+    function handleChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+
+        setState({
+            [name]: value
+        });
+
+        setState({
+            invalid: false
+        });
+    }
+
+    async function handleSubmit(event) {
+
+        //evita que se recarge la pagina al darle al boton acceder (submit)
+        event.preventDefault();
+
+        const dataLogin = new FormData(event.target);
+        await fetch(apiURL + '/registro', {
+            method: 'POST',
+            credentials: 'include',
+            body: dataLogin
+        }).then((response) => {
+
+            if (response.status===200) {
+                setState({
+                    invalid: false,
+                    registro: true
+                });
+            } else {
+                setState({
+                    invalid: true
+                });
+            }
+        });
     }
 
 
@@ -20,6 +68,7 @@ export default function Registro () {
 
             <p style={{textAlign: "center"}}><h3>Datos de nuevo usuario</h3></p>
             <div id="cuadro">
+                {/*
                 <p></p>
                 <label > <b>Nombre y Apellidos</b> </label>
                 <input type="text" placeholder="Añada nombre y apellidos" value={query} onChange={e=>setQuery(e.target.value)}></input>
@@ -31,7 +80,33 @@ export default function Registro () {
                 <input type="text" placeholder="Añada código de acceso" value={query4} onChange={e=>setQuery4(e.target.value)}></input>
                 <p></p>
                 <p style={{textAlign: "center"}}><button onClick={()=>(registrar(query, query2, query3, query4))}>Registrar</button></p>
-
+                */}
+                <Form onSubmit={handleSubmit}>
+                    <FormGroup>
+                        <Label for="nombre"><b>Nombre y Apellidos</b></Label>
+                        <Input type="text" name="nombre" id="nombre" value={state.nombre}
+                            onChange={handleChange} invalid={state.invalid}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="email"><b>Email</b></Label>
+                        <Input type="email" name="email" id="email" value={state.email}
+                            onChange={handleChange} invalid={state.invalid}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="contrasena"><b>Contraseña</b></Label>
+                        <Input type="password" name="contrasena" id="contrasena" value={state.contrasena}
+                            onChange={handleChange} invalid={state.invalid}/>
+                        <FormFeedback invalid={state.invalid}>Email y/o contraseña incorrectos.</FormFeedback>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="codigoregistro"><b>Código de acceso</b></Label>
+                        <Input type="text" name="codigoregistro" id="codigoregistro" value={state.codigoregistro}
+                            onChange={handleChange} invalid={state.invalid}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Button type="submit">Registrar</Button>
+                    </FormGroup>
+                </Form>
             </div>
             <div id="footer">
                 <b>TuComunidad 2023</b>

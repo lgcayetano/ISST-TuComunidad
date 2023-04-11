@@ -1,12 +1,15 @@
+/*
 #CuadroRegistro label{
     display: inline-block;
     width:20%;
     margin-left: 25%;
 }
+
 #CuadroRegistro input{
 border-style: inset;
 width: 40%;
 }
+*/
 
 #CuadroRegistro #cuadro{
 border: solid;
