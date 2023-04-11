@@ -1,5 +1,5 @@
 import './Comunicados.css';
-import { Button } from 'reactstrap';
+import { Button, Input } from 'reactstrap';
 import { Link } from 'react-router-dom';
 export default function Comunicados () {
     
@@ -23,10 +23,10 @@ export default function Comunicados () {
                 <div className="otrapaginaadmin"style={{top:"40%", textAlign:"center"}}><b className="pagina">Publicar votaciones</b></div>
                 <div className="otrapaginaadmin"style={{top:"70%", textAlign:"center"}}><b className="pagina">Gestión comunidad</b></div>
                 <div className="comunicados" >
-                    <p><b style={{size:"50"}}>Nuevo comunicado</b> </p>
-                    <textarea  type="text" name="Nuevo Comunicado" id="nuevocomunicado" 
-                    style={{height:"300px", width:"100%"}} />
-                     <Button type="submit" style={{marginLeft:"45%"}}>Publicar comunicado</Button>
+                    <Input type="text" placeholder="Título del nuevo comunicado" id="titulocomunicado" name="titulocomunicado" style={{size:"50"}}/>
+                    <textarea type="text" name="Nuevo Comunicado" id="nuevocomunicado" 
+                    style={{height:"300px", width:"100%", marginTop:"20px"}} />
+                     <Button type="submit" placeholder='Comun' style={{marginLeft:"45%"}}>Publicar comunicado</Button>
                    
                 </div>
             </div>

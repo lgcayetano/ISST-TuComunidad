@@ -1,4 +1,5 @@
 import './Comunicados.css'
+import { Link } from 'react-router-dom';
 export default function Comunicados () {
     
     return(
@@ -15,7 +16,9 @@ export default function Comunicados () {
                 <div className="paginausuario" style={{top:"10%", textAlign:"center"}}><b className="pagina">Comunicados</b></div>
                 <div className="otrapaginausuario" style={{top:"40%", textAlign:"center"}}> <b className="pagina">Votaciones</b></div>
                 <div className="otrapaginausuario" style={{top:"70%", textAlign:"center"}}><b className="pagina">Enviar sugerencias</b></div>
-                <div className="otrapaginaadmin" style={{top:"10%", textAlign:"center"}}><b className="pagina">Publicar comunicados</b></div>
+                <Link to="/publicarcomunicado">
+                    <div className="otrapaginaadmin" style={{top:"10%", textAlign:"center"}}><b className="pagina">Publicar comunicados</b></div>
+                </Link>               
                 <div className="otrapaginaadmin"style={{top:"40%", textAlign:"center"}}><b className="pagina">Publicar votaciones</b></div>
                 <div className="otrapaginaadmin"style={{top:"70%", textAlign:"center"}}><b className="pagina">Gestión comunidad</b></div>
                 <div className="comunicados" >
