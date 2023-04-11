@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import es.upm.dit.isst.tucomapi.model.Usuario;
@@ -50,30 +51,29 @@ public class ComunicadoController {
     }
 
     
-    /*public ResponseEntity<Comunicado> nuevoComunicado(@RequestBody Comunicado comunicado) {
+    
+    @PostMapping("/comunicados/nuevo")
+      public Comunicado nuevoComunicado(@RequestParam("titulo") String titulo, @RequestParam("mensaje") String mensaje, Principal principal) {
+        /*gestion de usuario, obtener comunidad e id de principal */
+        Usuario usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+        int idComunidad = 0;
+        int idUsuario = 0;
 
-      comunicadoRepository.save(comunicado);
+        if (usuario!=null){
+          idComunidad = usuario.getIdcomunidad();
+          idUsuario = usuario.getId();
 
-      return ResponseEntity.ok().build();*/
-      @PostMapping("/comunicados/nuevo")
-      public Comunicado registerComunicado() {
+        }
+        /*nuevo comunicado */
+        Comunicado newComunicado = new Comunicado();
 
-      
-          
-      Comunicado newComunicado = new Comunicado();
+        newComunicado.setIdComunidad(idComunidad);
+        newComunicado.setTitulo(titulo);
+        newComunicado.setMensaje(mensaje);
+        newComunicado.setFecha(LocalDateTime.now());
+        newComunicado.setIdusuario(idUsuario);
         
-        newComunicado.setTitulo("titulo de prueba");
-        newComunicado.setMensaje("hola que tal esto es el mensaje");
-        newComunicado.setFecha(null);
-        newComunicado.setIdusuario(1);
-        newComunicado.setIdComunidad(2);
-        
-
-          
-        
-      
-
-      return comunicadoRepository.save(newComunicado);
-
+       
+       return comunicadoRepository.save(newComunicado);
     }
 }
