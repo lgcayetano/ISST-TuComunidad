@@ -80,17 +80,17 @@ export default function PublicarComunicados () {
 
                     <Form onSubmit={handleSubmit}>
                         <FormGroup>
-                            <Label for="title">Título del nuevo comunicado</Label>
+                            <Label for="title"><b>Título del nuevo comunicado</b></Label>
                             <Input type="text" name="title" id="title" value={state.title}
                                     onChange={handleChange} invalid={state.invalid} style={{marginBottom:"20px"}}/>
                         </FormGroup>
                         <FormGroup>
-                            <Label for="text">Contraseña</Label>
-                            <textarea type="text" name="text" id="text" value={state.text}
-                                    onChange={handleChange} invalid={state.invalid} />
+                            <Label for="text"><b>Comunicado a escribir</b></Label>
+                            <textarea type="text" name="text" id="text" value={state.text} style={{height:"300px", width:"100%"}}
+                                    onChange={handleChange} invalid={state.invalid}  />
                         </FormGroup>
                         <FormGroup style={{marginTop:"20px", textAlign:"center"}}>
-                            <Button type="submit">Publicar comentario</Button>
+                            <Button type="submit">Publicar comunicado</Button>
                         </FormGroup>
                     </Form>
 
