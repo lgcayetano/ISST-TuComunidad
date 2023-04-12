@@ -9,37 +9,45 @@ export default function Comunicados () {
         comunicados: [], usuario: '', comunidad: '', presidente: false
     });
 
-    useEffect(async () => {
+    useEffect(() => {
 
-        /*
-        await fetch(apiURL + '/usuario', {
+        let promises = [];
+
+        promises.push(fetch(apiURL + '/usuario', {
             credentials: 'include'
         })
-        .then(response => response.text())
-        .then(data => setState({usuario: data}));
+        .then(response => response.text()));
 
-        await fetch(apiURL + '/comunidad', {
+        promises.push(fetch(apiURL + '/comunidad', {
             credentials: 'include'
         })
-        .then(response => response.text())
-        .then(data => setState({comunidad: data}));
+        .then(response => response.text()));
 
-        await fetch(apiURL + '/usuario/nivel', {
+        promises.push(fetch(apiURL + '/usuario/nivel', {
             credentials: 'include'
         })
-        .then(response => response.text())
-        .then(data => {
-            if (data==1)
-                setState({presidente: true});
-        });
-        */
+        .then(response => response.text()));
 
-        await fetch(apiURL + '/comunicados', {
+        promises.push(fetch(apiURL + '/comunicados', {
             credentials: 'include'
         })
-        .then(response => response.json())
-        .then(data => setState({comunicados: data}));
+        .then(response => response.json()));
         
+        Promise.all(promises)
+        .then(data => {
+
+            let data2 = false;
+            if (data[2]=="1")
+                data2 = true;
+
+            setState({
+                usuario: data[0],
+                comunidad: data[1],
+                presidente: data2,
+                comunicados: data[3]
+            })
+        });
+
     }, []);
 
     function convertDate(datetext) {
@@ -55,8 +63,6 @@ export default function Comunicados () {
         return dd + '/' + mm + '/' + yyyy;
     }
 
-    
-    
     return(
         <div>
             <div id="cabecera">
@@ -68,17 +74,26 @@ export default function Comunicados () {
                 </p>
             </div>
             <div className="cuerpo">
-                <div className="paginausuario" style={{top:"10%", textAlign:"center"}}><b className="pagina">Comunicados</b></div>
+                <Link to="/">
+                    <div className="paginausuario" style={{top:"10%", textAlign:"center"}}><b className="pagina">Comunicados</b></div>
+                </Link>
                 <div className="otrapaginausuario" style={{top:"40%", textAlign:"center"}}> <b className="pagina">Votaciones</b></div>
                 <div className="otrapaginausuario" style={{top:"70%", textAlign:"center"}}><b className="pagina">Enviar sugerencias</b></div>
-                <Link to="/publicarcomunicado">
-                    <div className="otrapaginaadmin" style={{top:"10%", textAlign:"center"}}><b className="pagina">Publicar comunicados</b></div>
-                </Link>               
-                <div className="otrapaginaadmin"style={{top:"40%", textAlign:"center"}}><b className="pagina">Publicar votaciones</b></div>
-                <div className="otrapaginaadmin"style={{top:"70%", textAlign:"center"}}><b className="pagina">Gestión comunidad</b></div>
                 
+                { state.presidente &&
+                    <Link to="/publicarcomunicado">
+                        <div className="otrapaginaadmin" style={{top:"10%", textAlign:"center"}}><b className="pagina">Publicar comunicados</b></div>
+                    </Link> 
+                }
+                { state.presidente &&
+                    <div className="otrapaginaadmin"style={{top:"40%", textAlign:"center"}}><b className="pagina">Publicar votaciones</b></div>
+                }
+                { state.presidente && 
+                    <div className="otrapaginaadmin"style={{top:"70%", textAlign:"center"}}><b className="pagina">Gestión comunidad</b></div>
+                }
+
                 {
-                    state.comunicados.map(comunicado => (
+                    state.comunicados && state.comunicados.map(comunicado => (
                         <div key={comunicado.id} className="comunicados" >
                             <b style={{size:"50"}}>{comunicado.titulo}</b> {convertDate(comunicado.fecha)}
                             <p>{comunicado.mensaje}</p>
