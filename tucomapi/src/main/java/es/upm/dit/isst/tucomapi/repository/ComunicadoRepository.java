@@ -9,6 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 
 
 public interface ComunicadoRepository extends CrudRepository<Comunicado, Integer> {
-    @Query(value = "SELECT * FROM Comunicado WHERE idcomunidad=?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM Comunicado WHERE idcomunidad=?1 ORDER BY id DESC", nativeQuery = true)
     Iterable<Comunicado> findAllByIdComunidad(int idcomunidad);
 }
