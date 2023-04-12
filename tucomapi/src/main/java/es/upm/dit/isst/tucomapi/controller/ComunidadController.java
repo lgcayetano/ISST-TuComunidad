@@ -55,19 +55,4 @@ public class ComunidadController {
       return nombreComunidad;
     }
 
-    //Métodos no útiles, utilizados para pruebas:
-
-    @GetMapping("/comunidades")
-    List<Comunidad> readAll(Principal principal) {
-
-      List<Comunidad> ListaComunidades = new ArrayList<>();
-
-      if (principal == null || principal.getName().equals(""))
-        ListaComunidades = ListaComunidades;
-      else
-        ListaComunidades = (List<Comunidad>) comunidadRepository.findAll();
-
-      return ListaComunidades;
-    }
-
 }
