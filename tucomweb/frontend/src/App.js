@@ -35,25 +35,13 @@ class App extends Component {
     var timer = setInterval(function () {
         if (op <= variacion){
             clearInterval(timer);
+            element.style.opacity = 0;
+            element.style.filter = 'alpha(opacity=' + 0 + ")";
             element.style.display = 'none';
         }
         element.style.opacity = op;
         element.style.filter = 'alpha(opacity=' + op * 100 + ")";
         op -= op * variacion;
-    }, 10);
-  }
-  
-  fadeIn(element, velocidad) {
-    var variacion = velocidad/100;
-    var op = variacion;  // initial opacity
-    element.style.display = 'block';
-    var timer = setInterval(function () {
-        if (op >= 1){
-            clearInterval(timer);
-        }
-        element.style.opacity = op;
-        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-        op += op * variacion;
     }, 10);
   }
 

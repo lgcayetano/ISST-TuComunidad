@@ -1,7 +1,6 @@
 import React, { useState, useContext  } from 'react';
 //import './App.css';
 import './Login.css';
-import AppNavbar from './AppNavbar';
 import { Link, Redirect } from 'react-router-dom';
 import { apiURL, AuthContext } from './App';
 import { Form, FormGroup, FormFeedback, FormText, Button, Card, CardBody, CardGroup, CardText, CardTitle, Container, Input, Label } from 'reactstrap';
@@ -56,20 +55,9 @@ export default function Login () {
     }
 
     if (state.login) {
-        return (
-            <Redirect to='/' />
-        )
+        return ( <Redirect to='/' /> )
     } else {
         return (
-            /*
-            <div>
-                <AppNavbar/>
-                <Container fluid>
-                    <Button color="link"><Link to="/comunidades">Comunidades</Link></Button>
-                </Container>
-            </div>
-            */
-
             <div className='background'>
                 <h1 className='titulo'><b>TuComunidad</b></h1>
 

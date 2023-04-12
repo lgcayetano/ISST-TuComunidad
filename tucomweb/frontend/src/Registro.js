@@ -6,16 +6,6 @@ import { Form, FormGroup, FormFeedback, FormText, Button, Card, CardBody, CardGr
 
 
 export default function Registro () {
-    /*
-    const [query, setQuery] = useState("");
-    const [query2, setQuery2] = useState("");
-    const [query3, setQuery3] = useState("");
-    const [query4, setQuery4] = useState("");
-
-    function registrar(text, text2, text3, text4){
-        return;
-    }
-    */
 
     const [state, setState] = useState({
         nombre: '', 
@@ -31,6 +21,42 @@ export default function Registro () {
     });
 
     const { setAuthenticated } = useContext(AuthContext);
+
+    function fadeOut(element, velocidad) {
+        var variacion = velocidad/100;
+        var op = 1;  // initial opacity
+        var timer = setInterval(function () {
+            if (op <= variacion){
+                clearInterval(timer);
+                element.style.opacity = 0;
+                element.style.filter = 'alpha(opacity=' + 0 + ")";
+                element.style.display = 'none';
+            }
+            element.style.opacity = op;
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op -= op * variacion;
+        }, 10);
+    }
+      
+    function fadeIn(element, velocidad) {
+        var variacion = velocidad/100;
+        var op = variacion;  // initial opacity
+        element.style.display = 'block';
+        var timer = setInterval(function () {
+            if (op >= 1){
+                clearInterval(timer);
+                element.style.opacity = 1;
+                element.style.filter = 'alpha(opacity=' + 1 * 100 + ")";
+            }
+            element.style.opacity = op;
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op += op * variacion;
+        }, 10);
+    }
+
+    function timeout(delay) {
+        return new Promise( res => setTimeout(res, delay) );
+    }
 
     function handleChange(event) {
         const target = event.target;
@@ -53,6 +79,8 @@ export default function Registro () {
 
         //evita que se recarge la pagina al darle al boton acceder (submit)
         event.preventDefault();
+
+        let registro_OK = false;
 
         const dataRegistro = new FormData(event.target);
         await fetch(apiURL + '/registro', {
@@ -87,37 +115,53 @@ export default function Registro () {
                 });
             } else if (arrayResult[0]==="OK") {
                 
+                document.getElementsByClassName("loaderTexto")[0].innerHTML  = "Registrando...";
+
+                fadeIn(document.getElementsByClassName("loaderCaja")[0],5);
+                fadeIn(document.getElementsByClassName("loaderDiv")[0],20);
+
                 setState({
                     invalid: false
                 });
 
-                const dataLogin = new FormData();
-                dataLogin.append('username', event.target.elements.email.value);
-                dataLogin.append('password', event.target.elements.contrasena.value);
-                await fetch(apiURL + '/login', {
-                    method: 'POST',
-                    credentials: 'include',
-                    body: dataLogin
-                }).then((response) => {
+                registro_OK = true;
 
-                    if (response.status===200) {
-                        setAuthenticated(true);
-                        setState({
-                            login: true
-                        });
-                    } else {
-                        setAuthenticated(false);
-                    }
-                });
+                await timeout(2000);
             }
         });
 
+        if (registro_OK) {
+
+            document.getElementsByClassName("loaderTexto")[0].innerHTML  = "¡Registrado!<br><br>Iniciando sesión...";
+
+            const dataLogin = new FormData();
+            dataLogin.append('username', event.target.elements.email.value);
+            dataLogin.append('password', event.target.elements.contrasena.value);
+            await fetch(apiURL + '/login', {
+                method: 'POST',
+                credentials: 'include',
+                body: dataLogin
+            }).then(async (response) => {
+    
+                await timeout(2000);
+                
+                fadeOut(document.getElementsByClassName("loaderCaja")[0],20);
+                fadeOut(document.getElementsByClassName("loaderDiv")[0],5);
+    
+                if (response.status===200) {
+                    setAuthenticated(true);
+                    setState({
+                        login: true
+                    });
+                } else {
+                    setAuthenticated(false);
+                }
+            });
+        }
     }
 
     if (state.login) {
-        return (
-            <Redirect to='/' />
-        )
+        return ( <Redirect to='/' /> )
     } else {
         return(
 
@@ -128,48 +172,35 @@ export default function Registro () {
                 <p style={{textAlign: "center", marginTop:"2%"}}><h3 className="info"><b>Datos de nuevo usuario</b></h3></p>
                 <div id="cuadro">
                     <div id="datos">
-                    {/*
-                    <p></p>
-                    <label > <b>Nombre y Apellidos</b> </label>
-                    <input type="text" placeholder="Añada nombre y apellidos" value={query} onChange={e=>setQuery(e.target.value)}></input>
-                    <label > <b>Contraseña</b> </label>
-                    <input type="Password" placeholder="Añada contraseña" value={query2} onChange={e=>setQuery2(e.target.value)}></input>
-                    <label > <b>E-mai</b>l </label>
-                    <input type="text" placeholder="Añada correo electrónico" value={query3} onChange={e=>setQuery3(e.target.value)}></input>
-                    <label > <b>Código de acceso</b> </label>
-                    <input type="text" placeholder="Añada código de acceso" value={query4} onChange={e=>setQuery4(e.target.value)}></input>
-                    <p></p>
-                    <p style={{textAlign: "center"}}><button onClick={()=>(registrar(query, query2, query3, query4))}>Registrar</button></p>
-                    */}
-                    <Form onSubmit={handleSubmit}>
-                        <FormGroup>
-                            <Label for="nombre"><b style={{}}>Nombre y Apellidos</b></Label>
-                            <Input className="innput" type="text" name="nombre" id="nombre" value={state.nombre}
-                                onChange={handleChange} invalid={state.invalid_nombre}/>
-                            <FormFeedback invalid={state.invalid_nombre}>{state.respuesta_error}</FormFeedback>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="email"><b >Email</b></Label>
-                            <Input className="innput" type="email" name="email" id="email" value={state.email}
-                                onChange={handleChange} invalid={state.invalid_email}/>
-                            <FormFeedback invalid={state.invalid_email}>{state.respuesta_error}</FormFeedback>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="contrasena"><b>Contraseña</b></Label>
-                            <Input className="innput" type="password" name="contrasena" id="contrasena" value={state.contrasena}
-                                onChange={handleChange} invalid={state.invalid_contrasena}/>
-                            <FormFeedback invalid={state.invalid_contrasena}>{state.respuesta_error}</FormFeedback>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="codigoregistro"><b>Código de acceso</b></Label>
-                            <Input className="innput"type="text" name="codigoregistro" id="codigoregistro" value={state.codigoregistro}
-                                onChange={handleChange} invalid={state.invalid_codigo}/>
-                            <FormFeedback invalid={state.invalid_codigo}>{state.respuesta_error}</FormFeedback>
-                        </FormGroup>
-                        <FormGroup style={{textAlign:"center"}}>
-                            <Button type="submit" style={{}}>Registrarse</Button>
-                        </FormGroup>
-                    </Form>
+                        <Form onSubmit={handleSubmit}>
+                            <FormGroup>
+                                <Label for="nombre"><b style={{}}>Nombre y Apellidos</b></Label>
+                                <Input className="innput" type="text" name="nombre" id="nombre" value={state.nombre}
+                                    onChange={handleChange} invalid={state.invalid_nombre}/>
+                                <FormFeedback invalid={state.invalid_nombre}>{state.respuesta_error}</FormFeedback>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="email"><b >Email</b></Label>
+                                <Input className="innput" type="email" name="email" id="email" value={state.email}
+                                    onChange={handleChange} invalid={state.invalid_email}/>
+                                <FormFeedback invalid={state.invalid_email}>{state.respuesta_error}</FormFeedback>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="contrasena"><b>Contraseña</b></Label>
+                                <Input className="innput" type="password" name="contrasena" id="contrasena" value={state.contrasena}
+                                    onChange={handleChange} invalid={state.invalid_contrasena}/>
+                                <FormFeedback invalid={state.invalid_contrasena}>{state.respuesta_error}</FormFeedback>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="codigoregistro"><b>Código de acceso</b></Label>
+                                <Input className="innput"type="text" name="codigoregistro" id="codigoregistro" value={state.codigoregistro}
+                                    onChange={handleChange} invalid={state.invalid_codigo}/>
+                                <FormFeedback invalid={state.invalid_codigo}>{state.respuesta_error}</FormFeedback>
+                            </FormGroup>
+                            <FormGroup style={{textAlign:"center"}}>
+                                <Button type="submit" style={{}}>Registrarse</Button>
+                            </FormGroup>
+                        </Form>
                     </div>
                 </div>
                 <div className="footer">

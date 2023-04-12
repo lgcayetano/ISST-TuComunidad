@@ -151,12 +151,3 @@ export default function PublicarComunicados () {
 
 }
 }
-/*
-                        <p><b>Título del nuevo comunicado:</b></p>
-                        <Input type="text"  id="titulocomunicado" name="titulocomunicado" 
-                        value={state.title} onChange={handleChange} />
-                        <p><b>Comunicado a escribir:</b></p>
-                        <textarea type="text" name="Nuevo Comunicado" id="nuevocomunicado" style={{height:"300px", width:"100%"}}
-                        value={state.text} onChange={handleChange} />
-                        <Button type="submit"  style={{marginLeft:"45%", marginTop:"20px"}}>Publicar comunicado</Button>
-                         */

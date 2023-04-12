@@ -11,7 +11,8 @@ ReactDOM.render(
     <App />
     <div className='loaderDiv' style={{position:'fixed', top:'0', left:'0', width:'100%', height:'100%', background:'white'}}>
       <div className='loaderCaja' style={{position:'absolute', top:'50%', marginTop:'-10%', textAlign:'center', width:'100%', height:'200px'}}>
-        <img src={loader} style={{width:'100px'}}/>
+        <img className='loaderGif' src={loader} style={{width:'100px'}}/>
+        <h5 className='loaderTexto' alt="" style={{paddingTop:'20px'}}> </h5>
       </div>
     </div>
   </React.StrictMode>,
