@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 /*import javax.persistence.ManyToOne;*/
+import javax.persistence.Lob;
 
 import java.time.LocalDateTime;
 
@@ -20,6 +21,7 @@ public class Comunicado {
     private int id;
     private String titulo;
     private LocalDateTime fecha;
+    @Column(length = 10000)
     private String mensaje;
     /*@ManyToOne
     private Usuario idUsuario;*/

@@ -126,7 +126,7 @@ export default function Registro () {
 
                 registro_OK = true;
 
-                await timeout(2000);
+                await timeout(1500);
             }
         });
 

@@ -1,13 +1,12 @@
 import './Comunicados.css';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { apiURL} from './App';
 import React, { useState, useEffect } from 'react';
 import { Button, Input, Form, FormGroup, Label } from 'reactstrap';
-import { Link } from 'react-router-dom';
 export default function PublicarComunicados () {
 
     const [state, setState] = useState({
-        title: '', text: '', invalid: false, publicado: false,  usuario: '', comunidad: '', presidente: false
+        title: '', text: '', invalid_titulo: false, invalid_mensaje: '', publicado: false,  usuario: '', comunidad: '', presidente: false
     });
 
     useEffect(() => {
@@ -55,7 +54,10 @@ export default function PublicarComunicados () {
         });
 
         setState({
-            invalid: false
+            invalid_titulo: false,
+            invalid_mensaje: '',
+            usuario: state.usuario,
+            comunidad: state.comunidad
         });
     }
 
@@ -64,7 +66,36 @@ export default function PublicarComunicados () {
         //evita que se recarge la pagina al darle al boton acceder (submit)
         event.preventDefault();
 
-        const comunicados = new FormData();
+        if (event.target.elements.title.value=='' && event.target.elements.text.value=='')
+        {
+            setState({
+                invalid_titulo: true,
+                invalid_mensaje: 'is-invalid form-control',
+                usuario: state.usuario,
+                comunidad: state.comunidad
+            });
+        }
+        else if (event.target.elements.title.value=='')
+        {
+            setState({
+                invalid_titulo: true,
+                invalid_mensaje: '',
+                usuario: state.usuario,
+                comunidad: state.comunidad
+            });
+        }
+        else if (event.target.elements.text.value=='')
+        {
+            setState({
+                invalid_titulo: false,
+                invalid_mensaje: 'is-invalid form-control',
+                usuario: state.usuario,
+                comunidad: state.comunidad
+            });
+        }
+        else
+        {
+            const comunicados = new FormData();
             comunicados.append('titulo', event.target.elements.title.value);
             comunicados.append('mensaje', event.target.elements.text.value);
             await fetch(apiURL + '/comunicados/nuevo', {
@@ -77,12 +108,22 @@ export default function PublicarComunicados () {
                     setState({
                         publicado:true
                     });
-                    }
-                    else {
-                       
-                    }
-                });
-            
+                }
+            });
+        }
+    }
+
+    async function logoutClick() {
+        const dataLogin = new FormData();
+        dataLogin.append('username', '');
+        dataLogin.append('password', '');
+        await fetch(apiURL + '/login', {
+            method: 'POST',
+            credentials: 'include',
+            body: dataLogin
+        }).then(async (response) => {
+            window.location.reload();
+        });
     }
 
     if (state.publicado) {
@@ -95,7 +136,7 @@ export default function PublicarComunicados () {
             <div id="cabecera">
                 <p>
                     <b style={{position:'absolute', color:"black", top:"2%", left:"2%"}}>{state.comunidad}</b>
-                    <b style={{position:'absolute', color:"black", top:"2%", right:"2%"}}>{state.usuario}</b>
+                    <b style={{position:'absolute', color:"black", top:"2%", right:"2%"}}>{state.usuario} (<Link onClick={logoutClick}>Salir</Link>)</b>
                     <h1 className="titulo"><b>TuComunidad</b></h1>
                     
                 </p>
@@ -118,12 +159,12 @@ export default function PublicarComunicados () {
                         <FormGroup>
                             <Label for="title"><b>Título del nuevo comunicado</b></Label>
                             <Input type="text" name="title" id="title" value={state.title}
-                                    onChange={handleChange} invalid={state.invalid} style={{marginBottom:"20px"}}/>
+                                    onChange={handleChange} invalid={state.invalid_titulo} style={{marginBottom:"20px"}}/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="text"><b>Comunicado a escribir</b></Label>
-                            <textarea type="text" name="text" id="text" value={state.text} style={{height:"300px", width:"100%"}}
-                                    onChange={handleChange} invalid={state.invalid}  />
+                            <textarea name="text" id="text" value={state.text} style={{height:"300px", width:"100%"}}
+                                    onChange={handleChange} className={state.invalid_mensaje}  />
                         </FormGroup>
                         <FormGroup style={{marginTop:"20px", textAlign:"center"}}>
                             <Button type="submit">Publicar comunicado</Button>

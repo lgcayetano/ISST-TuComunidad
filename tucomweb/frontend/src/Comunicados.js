@@ -50,6 +50,19 @@ export default function Comunicados () {
 
     }, []);
 
+    async function logoutClick() {
+        const dataLogin = new FormData();
+        dataLogin.append('username', '');
+        dataLogin.append('password', '');
+        await fetch(apiURL + '/login', {
+            method: 'POST',
+            credentials: 'include',
+            body: dataLogin
+        }).then(async (response) => {
+            window.location.reload();
+        });
+    }
+
     function convertDate(datetext) {
         const date = new Date(datetext);
 
@@ -68,7 +81,7 @@ export default function Comunicados () {
             <div id="cabecera">
                 <p>
                     <b style={{position:'absolute', color:"black", top:"2%", left:"2%"}}>{state.comunidad}</b>
-                    <b style={{position:'absolute', color:"black", top:"2%", right:"2%"}}>{state.usuario}</b>
+                    <b style={{position:'absolute', color:"black", top:"2%", right:"2%"}}>{state.usuario} (<Link onClick={logoutClick}>Salir</Link>)</b>
                     <h1 className="titulo"><b>TuComunidad</b></h1>
                     
                 </p>
@@ -95,8 +108,8 @@ export default function Comunicados () {
                 {
                     state.comunicados && state.comunicados.map(comunicado => (
                         <div key={comunicado.id} className="comunicados" >
-                            <b style={{size:"50"}}>{comunicado.titulo}</b> {convertDate(comunicado.fecha)}
-                            <p>{comunicado.mensaje}</p>
+                            <b style={{fontSize:'18px'}}>{comunicado.titulo}</b> <span style={{float:'right'}}>{convertDate(comunicado.fecha)}</span>
+                            <p style={{paddingTop:'8px'}} dangerouslySetInnerHTML={{__html: comunicado.mensaje.replace(/(?:\r\n|\r|\n)/g, '<br>')}} />
                         </div>
                     ))
                 }
