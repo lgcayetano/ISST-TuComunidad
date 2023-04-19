@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.csrf().disable()
         .authorizeRequests()
 			.antMatchers("/css/**", "/img/**", "/layouts/**").permitAll()
-			.antMatchers("/", "/registro").permitAll()
+			.antMatchers("/", "/registro","/swagger-ui.html","/swagger-ui/**","/v3/**").permitAll()
 			//.antMatchers("/crear", "/guardar").permitAll()
 			.anyRequest().authenticated()
         .and()
