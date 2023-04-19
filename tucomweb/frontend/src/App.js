@@ -5,7 +5,9 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import Registro from './Registro';
 import Comunicados from './Comunicados';
 import PrivateRoute from './PrivateRoute';
-import PublicarComunicado from './PublicarComunicado'
+import PublicarComunicado from './PublicarComunicado';
+import PublicarVotacion from './PublicarVotacion';
+import Votacion from './Votaciones';
 
 export const apiURL = "http://localhost:8083";
 
@@ -69,6 +71,8 @@ class App extends Component {
             <Route path='/registro' exact={true} component={Registro}/>
             <Route path='/login' exact={true} component={Login}/>
             <PrivateRoute path='/publicarcomunicado' exact={true} component={PublicarComunicado}/>
+            <PrivateRoute path='/publicarvotacion' exact={true} component={PublicarVotacion}/>
+            <PrivateRoute path='/votaciones' exact={true} component={Votacion}/>
             <Redirect from="*" to="/" />
           </Switch>
         </Router>
