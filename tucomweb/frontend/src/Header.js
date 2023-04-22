@@ -60,8 +60,8 @@ export default function Header () {
         <div>
             <div id="cabecera">    
                 <p>
-                    <b style={{position:'absolute', color:"black", top:"2%", left:"2%"}}>{state.comunidad}</b>
-                    <b style={{position:'absolute', color:"black", top:"2%", right:"2%"}}>{state.usuario} (<Link onClick={logoutClick}>Salir</Link>)</b>
+                    <b style={{position:'fixed', color:"black", top:"2%", left:"2%"}}>{state.comunidad}</b>
+                    <b style={{position:'fixed', color:"black", top:"2%", right:"2%"}}>{state.usuario} (<Link onClick={logoutClick}>Salir</Link>)</b>
                     <h1 className="titulo"><b>TuComunidad</b></h1>
                 </p>    
             </div>
