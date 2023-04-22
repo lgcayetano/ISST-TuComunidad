@@ -9,19 +9,6 @@
     color:rgb(164, 40, 40);
 }
 
-.paginausuario{
-    border: 1px;
-    background-color: rgb(63, 62, 62);
-    color:white;
-    left:0;
-    width:  10%;
-    height: 30%;
-    border-style: inset;
-    border-color: black;
-    position: fixed;
-
-}
-
 .otrapaginausuario{
     border: 1px;
     background-color: lightgrey;
@@ -39,18 +26,6 @@
     top:45%;
     width: 100%;
     text-align: center;
-}
-
-.paginaadmin{
-    border: 1px;
-    background-color: rgb(63, 62, 62);
-    color:white;
-    right:0;
-    width:  10%;
-    height: 30%;
-    border-style: inset;
-    border-color: black;
-    position: fixed;
 }
 
 .otrapaginaadmin{

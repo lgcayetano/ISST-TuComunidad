@@ -8,6 +8,8 @@ import PrivateRoute from './PrivateRoute';
 import PublicarComunicado from './PublicarComunicado';
 import PublicarVotacion from './PublicarVotacion';
 import Votacion from './Votaciones';
+import EnviarSugerencia from './EnviarSugerencia';
+import GestionComunidad from './GestionComunidad';
 
 export const apiURL = "http://localhost:8083";
 
@@ -73,6 +75,8 @@ class App extends Component {
             <PrivateRoute path='/publicarcomunicado' exact={true} component={PublicarComunicado}/>
             <PrivateRoute path='/publicarvotacion' exact={true} component={PublicarVotacion}/>
             <PrivateRoute path='/votaciones' exact={true} component={Votacion}/>
+            <PrivateRoute path='/gestioncomunidad' exact={true} component={GestionComunidad}/>
+            <PrivateRoute path='/enviarsugerencia' exact={true} component={EnviarSugerencia}/>
             <Redirect from="*" to="/" />
           </Switch>
         </Router>

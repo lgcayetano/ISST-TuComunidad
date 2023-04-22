@@ -72,8 +72,9 @@ export default function Header () {
                 <Link to="/votaciones">
                     <div className="otrapaginausuario" style={{top:"40%", textAlign:"center"}}> <b className="pagina">Votaciones</b></div>
                 </Link>
+                <Link to ='/enviarsugerencia'>
                 <div className="otrapaginausuario" style={{top:"70%", textAlign:"center"}}><b className="pagina">Enviar sugerencias</b></div>
-                
+                </Link>
                 { state.presidente &&
                     <Link to="/publicarcomunicado">
                         <div className="otrapaginaadmin" style={{top:"10%", textAlign:"center"}}><b className="pagina">Publicar comunicados</b></div>
@@ -85,7 +86,9 @@ export default function Header () {
                     </Link>
                 }
                 { state.presidente && 
-                    <div className="otrapaginaadmin"style={{top:"70%", textAlign:"center"}}><b className="pagina">Gestión comunidad</b></div>
+                    <Link to ='/gestioncomunidad'>
+                        <div className="otrapaginaadmin"style={{top:"70%", textAlign:"center"}}><b className="pagina">Gestión comunidad</b></div>
+                    </Link>
                 }
             </div>
         </div>
