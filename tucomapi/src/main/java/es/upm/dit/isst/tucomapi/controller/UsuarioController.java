@@ -50,6 +50,22 @@ public class UsuarioController {
       return nombreUsuario;
     }
 
+    @GetMapping("/usuarios") /*muestra los usuarios de la comunidad  */
+    List<Usuario> readAll(Principal principal) {
+
+      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+      int idComunidad = 0;
+
+      if (Usuario!=null)
+        idComunidad = Usuario.getIdcomunidad();
+
+      return (List<Usuario>) usuarioRepository.findAllUsersByIdComunidad(idComunidad);
+
+    }
+
+
+
+
     @GetMapping("/usuario/nivel")
     int readNivel(Principal principal) {
 

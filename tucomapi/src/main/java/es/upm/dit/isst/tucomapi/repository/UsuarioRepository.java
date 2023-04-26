@@ -14,4 +14,7 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Integer> {
 
     @Query(value = "SELECT * FROM Usuario WHERE email=?1", nativeQuery = true)
     Optional<Usuario> findByEmail(String email);
+
+    @Query(value = "SELECT * FROM Usuario WHERE idcomunidad=?1 ORDER BY id DESC", nativeQuery = true)
+    Iterable<Usuario> findAllUsersByIdComunidad(int idcomunidad);
 }
