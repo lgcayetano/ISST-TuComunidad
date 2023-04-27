@@ -1,13 +1,15 @@
+import "./EnviarSugerencia.css"
 import React, { useState, useEffect } from 'react';
 import { apiURL } from './App';
 import { Button, Input, Form, FormGroup, Label } from 'reactstrap';
+import { Redirect } from 'react-router-dom';
 
 import Header from './Header';
 
 export default function EnviarSugerencia () {
 
     const [state, setState] = useState({
-        title: '', text: '', invalid_titulo: false, invalid_mensaje: '', publicado: false,  usuario: '', comunidad: '', presidente: false
+        text: '', invalid_mensaje: '', publicado: false,  usuario: '', comunidad: '', presidente: false
     });
 
     useEffect(() => {
@@ -96,21 +98,17 @@ export default function EnviarSugerencia () {
         }
         else
         {/*
-            const comunicados = new FormData();
-            comunicados.append('titulo', event.target.elements.title.value);
-            comunicados.append('mensaje', event.target.elements.text.value);
-            await fetch(apiURL + '/comunicados/nuevo', {
-                method: 'POST',
-                credentials: 'include',
-                body: comunicados
-            }).then((response) => {
-
-                if (response.status===200) {
-                    setState({
-                        publicado:true
-                    });
-                }
-            }); */
+            Las sugerencias no se publican directamente en la web,
+            estas serán enviadas por email al presidente de nuestra comunidad.
+            Para ello debemos:
+            
+            -Buscar en que comunidad nos encontramos
+            -Buscar el presidente de nuestra comunidad
+            -Buscar el correo asociado al presidente de nuestra comunidad
+            -Enviar dicha sugerencias con un email
+            
+            
+            */
         }
     }
 
@@ -127,11 +125,6 @@ export default function EnviarSugerencia () {
                     <div className="comunicados">
                         <div id="datos">
                             <Form onSubmit={handleSubmit}>
-                                <FormGroup>
-                                    <Label for="title"><b>Título de la nueva sugerencia</b></Label>
-                                    <Input type="text" name="title" id="title" value={state.title}
-                                        onChange={handleChange} invalid={state.invalid_titulo} style={{marginBottom:"20px"}}/>
-                                </FormGroup>
                                 <FormGroup>
                                     <Label for="text"><b>Sugerencia a realizar</b></Label>
                                     <textarea name="text" id="text" value={state.text} style={{height:"300px", width:"100%"}}
