@@ -1,0 +1,96 @@
+.titulo{
+    text-align: center;
+    color:rgb(164, 40, 40);
+    -webkit-text-stroke: 2px white;
+}
+
+.info{
+    -webkit-text-stroke: 1px white;
+    color:rgb(164, 40, 40);
+}
+
+.paginausuario{
+    border: 1px;
+    background-color: rgb(63, 62, 62);
+    color:white;
+    left:0;
+    width:  10%;
+    height: 30%;
+    border-style: inset;
+    border-color: black;
+    position: absolute;
+
+}
+
+.otrapaginausuario{
+    border: 1px;
+    background-color: lightgrey;
+    color:black;
+    width:  10%;
+    height: 30%;
+    border-style: inset;
+    border-color:rgb(81, 79, 79);
+    left:0;
+    position: absolute;
+}
+
+.pagina{
+    position: relative;
+    top:45%;
+    width: 100%;
+    text-align: center;
+}
+
+.paginaadmin{
+    border: 1px;
+    background-color: rgb(63, 62, 62);
+    color:white;
+    right:0;
+    width:  10%;
+    height: 30%;
+    border-style: inset;
+    border-color: black;
+    position: absolute;
+}
+
+.otrapaginaadmin{
+    border: 1px;
+    background-color: lightgrey;
+    color:black;
+    width:  10%;
+    height: 30%;
+    border-style: inset;
+    border-color:rgb(81, 79, 79);
+    right: 0px;
+    position:absolute;
+}
+
+.comunicados{
+    margin: 20px 15%;
+    background-color: rgba(255, 255, 255, 0.88);
+    border-radius: 10px;
+    width:70%;
+    padding: 8px 15px 1px 15px;
+}
+
+.comunicados:last-child{
+    margin-bottom: 50px;
+}
+
+
+.footer{
+    position: fixed;
+    left: 0%;
+    bottom: 0%;
+    width: 100%;
+    background-color: grey;
+    color:white;
+    text-align: center;
+    
+}
+
+.vott{
+    text-align: center;
+    height: 30px;
+    
+}

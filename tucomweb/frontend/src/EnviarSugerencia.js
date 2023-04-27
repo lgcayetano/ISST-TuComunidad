@@ -126,12 +126,12 @@ export default function EnviarSugerencia () {
                         <div id="datos">
                             <Form onSubmit={handleSubmit}>
                                 <FormGroup>
-                                    <Label for="text"><b>Sugerencia a realizar</b></Label>
+                                    <Label for="text"><b>Enviar sugerencia al presidente</b></Label>
                                     <textarea name="text" id="text" value={state.text} style={{height:"300px", width:"100%"}}
                                         onChange={handleChange} className={state.invalid_mensaje}  />
                                 </FormGroup>
                                 <FormGroup style={{marginTop:"20px", textAlign:"center"}}>
-                                    <Button type="submit">Enviar sugerencia</Button>
+                                    <Button type="submit">Enviar</Button>
                                 </FormGroup>
                             </Form>
                         </div>
