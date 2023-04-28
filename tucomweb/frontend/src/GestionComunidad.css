@@ -5,6 +5,12 @@
     
 }
 .innnput{
-    /*width: 40%;*/
+    width: 40%;
     margin-bottom: 5px;
+    float: left;
+}
+
+.buton{
+    margin-bottom: 10px;
+    margin-left: 30px;
 }
