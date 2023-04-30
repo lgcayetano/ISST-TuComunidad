@@ -1,6 +1,6 @@
 import "./PublicarVotacion.css"
 import React, { useState, useEffect } from 'react';
-import { apiURL } from './App';
+import { apiURL, PollsApiURL } from './App';
 import { Button, Input, Form, FormGroup, Label } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 
@@ -15,8 +15,8 @@ export default function PublicarVotacion () {
         title: '',
         invalid_title: false,
         options: [
-            { value: '', invalid: false },
-            { value: '', invalid: false }
+            { text: '', invalid: false },
+            { text: '', invalid: false }
         ],
         publicado: false
     });
@@ -64,7 +64,7 @@ export default function PublicarVotacion () {
 
             const newOptions = [
                 ...state.options,
-                { value: '', invalid: false }
+                { text: '', invalid: false }
             ];
 
             if (newOptions.length > minOptions)
@@ -117,7 +117,7 @@ export default function PublicarVotacion () {
 
         if (name.substring(0,2)=="op") {
             let iOption = Number(name.substring(2)) - 1;
-            newOptions[iOption].value = value;
+            newOptions[iOption].text = value;
             newOptions[iOption].invalid = false;
         }
 
@@ -138,6 +138,7 @@ export default function PublicarVotacion () {
 
         const targetElements = event.target.elements;
 
+        let titulo = targetElements.title.value;
         let errorTitulo = false;
         let newOptions = state.options;
 
@@ -169,14 +170,51 @@ export default function PublicarVotacion () {
 
         if (publicar)
         {
-            //Petición POST
+            let pollIdentifier = "0";
 
-            setState({
-                title: state.title,
-                invalid_title: errorTitulo,
-                options: newOptions,
-                publicado: true
+            await fetch(apiURL + '/comunidad/id', {
+                credentials: 'include'
+            })
+            .then(response => response.text())
+            .then(data => pollIdentifier = data);
+
+            const finalOptions = newOptions.map(({invalid, ...text}) => text);
+
+            const votacion = {
+                question: titulo,
+                identifier: pollIdentifier,
+                options: finalOptions
+            };
+
+            let pollCreated = false;
+            let pollId = "";
+
+            await fetch(PollsApiURL + '/create/poll', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'api-key': 'QP127SPZWY447EPYXZPQES4JVST3' //Guardar API KEY en backend, obtener a través de consulta!!!!!!
+                },
+                body: JSON.stringify(votacion)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.statusCode===200) {
+                    pollCreated = true;
+                    pollId = data.data.id;
+                }
             });
+
+            if (pollCreated) {
+
+                console.log(pollId); //ELIMINAR!!!!!!!
+
+                // Hacer petición POST para registrar la votación en nuestra BBDD
+                setState({ publicado: true });
+                ////////////////////////////////////
+            } else {
+                alert("Ha ocurrido un error. Por favor, vuelva a intentarlo de nuevo.");
+            }
         }
     }
 
@@ -206,7 +244,7 @@ export default function PublicarVotacion () {
                                     state.options.map((option, index) => (
                                         <FormGroup className="opcion">
                                             <Label for={"op" + (index + 1)}>Opción {(index + 1)}:</Label>
-                                            <Input type="text" name={"op" + (index + 1)} id={"op" + (index + 1)} value={option.value}
+                                            <Input type="text" name={"op" + (index + 1)} id={"op" + (index + 1)} value={option.text}
                                                 onChange={handleChange} invalid={option.invalid} style={{marginBottom:"10px"}}/>
                                         </FormGroup>
                                     ))

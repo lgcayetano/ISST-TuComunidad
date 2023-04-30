@@ -36,6 +36,19 @@ public class ComunidadController {
       this.usuarioRepository = t2;
     }
 
+    @GetMapping("/comunidad/id")
+    int readId(Principal principal) {
+
+      int idComunidad = 0;
+
+      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (Usuario!=null)
+        idComunidad = Usuario.getIdcomunidad();
+      
+      return idComunidad;
+    }
+
     @GetMapping("/comunidad")
     String readNombre(Principal principal) {
 
