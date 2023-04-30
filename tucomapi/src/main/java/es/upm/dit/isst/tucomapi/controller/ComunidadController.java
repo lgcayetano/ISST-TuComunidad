@@ -55,4 +55,42 @@ public class ComunidadController {
       return nombreComunidad;
     }
 
+    @GetMapping("/comunidad/codigopresidente")
+    String codigoPresidente(Principal principal) {
+
+      int idComunidad = 0;
+      String codigoPresidente = "";
+
+      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (Usuario!=null)
+        idComunidad = Usuario.getIdcomunidad();
+      
+      Comunidad Comunidad = comunidadRepository.findById(idComunidad).orElse(null);
+
+      if (Comunidad!=null)
+      codigoPresidente = Comunidad.getCodigopresidente();
+
+      return codigoPresidente;
+    }
+
+    @GetMapping("/comunidad/codigovecino")
+    String codigoVecino(Principal principal) {
+
+      int idComunidad = 0;
+      String codigoVecino = "";
+
+      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (Usuario!=null)
+        idComunidad = Usuario.getIdcomunidad();
+      
+      Comunidad Comunidad = comunidadRepository.findById(idComunidad).orElse(null);
+
+      if (Comunidad!=null)
+      codigoVecino = Comunidad.getCodigovecino();
+
+      return codigoVecino;
+    }
+
 }
