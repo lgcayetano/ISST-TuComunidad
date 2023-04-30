@@ -8,12 +8,22 @@ import Header from './Header';
 
 export default function PublicarVotacion () {
 
+    const minOptions = 2;
+    const maxOptions = 10;
+
     const [state, setState] = useState({
-        text: '', op1:'',op2:'',op3:'',op4:'',op5:'', invalid_mensaje: '', publicado: false,  usuario: '', comunidad: '', presidente: false
+        title: '',
+        invalid_title: false,
+        options: [
+            { value: '', invalid: false },
+            { value: '', invalid: false }
+        ],
+        publicado: false
     });
 
     useEffect(() => {
 
+        /*
         let promises = [];
 
         promises.push(fetch(apiURL + '/usuario', {
@@ -44,77 +54,135 @@ export default function PublicarVotacion () {
                 presidente: data2,
             })
         });
+        */
 
     }, []);
 
+    function addOption() {
+
+        if (state.options.length < maxOptions) {
+
+            const newOptions = [
+                ...state.options,
+                { value: '', invalid: false }
+            ];
+
+            if (newOptions.length > minOptions)
+                document.getElementById('lessBoton').style.display = 'inline';
+            
+            if (newOptions.length >= maxOptions)
+                document.getElementById('addBoton').style.display = 'none';
+
+            setState({
+                title: state.title,
+                invalid_title: state.invalid_title,
+                options: newOptions,
+                publicado: state.publicado
+            });
+        }
+    }
+
+    function lessOption() {
+
+        if (state.options.length > minOptions) {
+
+            const newOptions = state.options;
+            newOptions.pop();
+
+            if (newOptions.length <= minOptions)
+                document.getElementById('lessBoton').style.display = 'none';
+            
+            if (newOptions.length < maxOptions)
+                document.getElementById('addBoton').style.display = 'inline';
+
+            setState({
+                title: state.title,
+                invalid_title: state.invalid_title,
+                options: newOptions,
+                publicado: state.publicado
+            });
+        }
+    }
+
     function handleChange(event) {
+
         const target = event.target;
         const value = target.value;
         const name = target.name;
 
-        setState({
-            [name]: value
-        });
+        let errorTitulo = state.invalid_title;
+        if (name=='title') errorTitulo = false;
+
+        const newOptions = state.options;
+
+        if (name.substring(0,2)=="op") {
+            let iOption = Number(name.substring(2)) - 1;
+            newOptions[iOption].value = value;
+            newOptions[iOption].invalid = false;
+        }
 
         setState({
-            invalid_titulo: false,
-            invalid_mensaje: '',
-            usuario: state.usuario,
-            comunidad: state.comunidad
+            [name]: value,
+            invalid_title: errorTitulo,
+            options: newOptions,
+            publicado: state.publicado
         });
     }
 
     async function handleSubmit(event) {
-
-        //evita que se recarge la pagina al darle al boton acceder (submit)
+        
+        //evita que se recarge la pagina al darle al boton publicar (submit)
         event.preventDefault();
 
-        if (event.target.elements.title.value=='' && event.target.elements.text.value=='')
+        let publicar = true;
+
+        const targetElements = event.target.elements;
+
+        let errorTitulo = false;
+        let newOptions = state.options;
+
+        Array.from(targetElements).forEach((element) => {
+            let value = element.value;
+            let name = element.name;
+
+            if (name=='title' && value=='') {
+                errorTitulo = true;
+                publicar = false;
+            }
+
+            if (name.substring(0,2)=="op") {
+                let iOption = Number(name.substring(2)) - 1;
+                newOptions[iOption].invalid = false;
+                if (value=='') {
+                    newOptions[iOption].invalid = true;
+                    publicar = false;
+                }
+            }
+        });
+
+        setState({
+            title: state.title,
+            invalid_title: errorTitulo,
+            options: newOptions,
+            publicado: state.publicado
+        });
+
+        if (publicar)
         {
+            //Petición POST
+
             setState({
-                invalid_titulo: true,
-                invalid_mensaje: 'is-invalid form-control',
-                usuario: state.usuario,
-                comunidad: state.comunidad
+                title: state.title,
+                invalid_title: errorTitulo,
+                options: newOptions,
+                publicado: true
             });
-        }
-        else if (event.target.elements.title.value=='')
-        {
-            setState({
-                invalid_titulo: true,
-                invalid_mensaje: '',
-                usuario: state.usuario,
-                comunidad: state.comunidad
-            });
-        }
-        else if (event.target.elements.text.value=='')
-        {
-            setState({
-                invalid_titulo: false,
-                invalid_mensaje: 'is-invalid form-control',
-                usuario: state.usuario,
-                comunidad: state.comunidad
-            });
-        }
-        else
-        {/*
-            Las sugerencias no se publican directamente en la web,
-            estas serán enviadas por email al presidente de nuestra comunidad.
-            Para ello debemos:
-            
-            -Buscar en que comunidad nos encontramos
-            -Buscar el presidente de nuestra comunidad
-            -Buscar el correo asociado al presidente de nuestra comunidad
-            -Enviar dicha sugerencias con un email
-            
-            
-            */
         }
     }
 
     if (state.publicado) {
         return (
-            alert("Sugerencia enviada")
+            <Redirect to='/votaciones' />
         )
     } else {
 
@@ -126,54 +194,36 @@ export default function PublicarVotacion () {
                         <div id="datos">
                             <Form onSubmit={handleSubmit}>
                                 <FormGroup style={{textAlign:"center", height:"60px"}}>
-                                    <h3><b>Publicar Votacion</b></h3>
+                                    <h3><b>Publicar Votación</b></h3>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="text">Título</Label>
-                                    <textarea name="text" id="text" value={state.text} style={{height:"30px", width:"100%"}}
-                                        onChange={handleChange} className={state.invalid_mensaje}  />
+                                    <Label for="title">Pregunta:</Label>
+                                    <Input type="text" name="title" id="title" value={state.title}
+                                        onChange={handleChange} invalid={state.invalid_title} style={{marginBottom:"20px"}}/>
                                 </FormGroup>
-                                <FormGroup>
-                                    <Label for="text">Opción 1</Label>
-                                    <textarea name="op1" id="op1" value={state.op1} style={{height:"30px", width:"100%"}}
-                                        onChange={handleChange} className={state.invalid_mensaje}/>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="text">Opción 2</Label>
-                                    <textarea name="op2" id="op2" value={state.op2} style={{height:"30px", width:"100%"}}
-                                        onChange={handleChange} className={state.invalid_mensaje}/>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="text">Opción 3</Label>
-                                    <textarea name="op3" id="op3" value={state.op3} style={{height:"30px", width:"100%"}}
-                                        onChange={handleChange} className={state.invalid_mensaje}/>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="text">Opción 4</Label>
-                                    <textarea name="op4" id="op4" value={state.op4} style={{height:"30px", width:"100%"}}
-                                        onChange={handleChange} className={state.invalid_mensaje}/>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="text">Opción 5</Label>
-                                    <textarea name="op5" id="op5" value={state.op1} style={{height:"30px", width:"100%"}}
-                                        onChange={handleChange} className={state.invalid_mensaje}/>
+                                
+                                {
+                                    state.options.map((option, index) => (
+                                        <FormGroup className="opcion">
+                                            <Label for={"op" + (index + 1)}>Opción {(index + 1)}:</Label>
+                                            <Input type="text" name={"op" + (index + 1)} id={"op" + (index + 1)} value={option.value}
+                                                onChange={handleChange} invalid={option.invalid} style={{marginBottom:"10px"}}/>
+                                        </FormGroup>
+                                    ))
+                                }
 
+                                <FormGroup style={{marginTop:"20px", textAlign:"left"}}>
+                                    <Button id="addBoton" size='sm' onClick={addOption} style={{display:"inline", marginRight:"10px"}}>+ Añadir opción</Button>
+                                    <Button id="lessBoton" size='sm' onClick={lessOption} style={{display:"none"}}>- Quitar opción</Button>
                                 </FormGroup>
-
-
                                 <FormGroup style={{marginTop:"20px", textAlign:"center"}}>
-                                    <Button type="submit">Publicar Votacion</Button>
+                                    <Button type="submit">Publicar votacion</Button>
                                 </FormGroup>
                             </Form>
                         </div>
 
                     </div>
                 </div>
-                
-                
-    
-    
-                
                 
                 <div className="footer" >
                     <b>TuComunidad 2023</b>
