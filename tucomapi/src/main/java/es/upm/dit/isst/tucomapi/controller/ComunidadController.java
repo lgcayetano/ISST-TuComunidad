@@ -54,5 +54,95 @@ public class ComunidadController {
 
       return nombreComunidad;
     }
+    /*muestra el codigo de registro para un presi */
+    @GetMapping("/comunidad/codigopresidente")
+    String codigoPresidente(Principal principal) {
+      
+
+      int idComunidad = 0;
+      String codigoPresidente = "";
+
+      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (Usuario!=null)
+        idComunidad = Usuario.getIdcomunidad();
+      
+      Comunidad Comunidad = comunidadRepository.findById(idComunidad).orElse(null);
+
+      if (Comunidad!=null)
+      codigoPresidente = Comunidad.getCodigopresidente();
+
+      if (Usuario.getNivel() == 1){
+        return codigoPresidente;
+      }
+
+      return "no tienes acceso a este recurso";
+      
+    }
+
+    /*muestra el codigo de registro para un vecino */
+    @GetMapping("/comunidad/codigovecinos")
+    String codigoVecino(Principal principal) {
+
+      int idComunidad = 0;
+      String codigoVecino = "";
+
+      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (Usuario!=null)
+        idComunidad = Usuario.getIdcomunidad();
+      
+      Comunidad Comunidad = comunidadRepository.findById(idComunidad).orElse(null);
+
+      if (Comunidad!=null)
+      codigoVecino = Comunidad.getCodigovecino();
+
+      return codigoVecino;
+    }
+
+
+
+    /*edita el codigo de presidente */
+    @PostMapping("/comunidad/editcodigopresi")
+    public String editCodigoPresi(@RequestParam("codigo") String codigo, Principal principal){
+
+      int idComunidad = 0;
+
+      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (Usuario!=null){
+        idComunidad = Usuario.getIdcomunidad();
+      }
+
+      Comunidad Comunidad = comunidadRepository.findById(idComunidad).orElse(null);
+
+      if (Usuario.getNivel()==1){
+        Comunidad.setCodigopresidente(codigo);
+        comunidadRepository.save(Comunidad);
+        return "codigo cambiado correctamente";
+      }
+      return "no puedes editar esto";
+    }
+
+    @PostMapping("/comunidad/editcodigovecino")
+    public String editCodigoVecino(@RequestParam("codigo") String codigo, Principal principal){
+
+      int idComunidad = 0;
+
+      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (Usuario!=null){
+        idComunidad = Usuario.getIdcomunidad();
+      }
+
+      Comunidad Comunidad = comunidadRepository.findById(idComunidad).orElse(null);
+
+      if (Usuario.getNivel()==1){
+        Comunidad.setCodigovecino(codigo);
+        comunidadRepository.save(Comunidad);
+        return "codigo cambiado correctamente";
+      }
+      return "no puedes editar esto";
+    }
 
 }
