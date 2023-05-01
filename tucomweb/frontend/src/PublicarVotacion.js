@@ -170,6 +170,8 @@ export default function PublicarVotacion () {
 
         if (publicar)
         {
+            document.getElementById("submitBoton").disabled = true;
+
             let pollIdentifier = "0";
 
             await fetch(apiURL + '/comunidad/id', {
@@ -186,6 +188,14 @@ export default function PublicarVotacion () {
                 options: finalOptions
             };
 
+            let pollsApiKey = "";
+
+            await fetch(apiURL + '/votacion/apikey', {
+                credentials: 'include'
+            })
+            .then(response => response.text())
+            .then(data => pollsApiKey = data);
+
             let pollCreated = false;
             let pollId = "";
 
@@ -193,7 +203,7 @@ export default function PublicarVotacion () {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'api-key': 'QP127SPZWY447EPYXZPQES4JVST3' //Guardar API KEY en backend, obtener a través de consulta!!!!!!
+                    'api-key': pollsApiKey
                 },
                 body: JSON.stringify(votacion)
             })
@@ -207,13 +217,19 @@ export default function PublicarVotacion () {
 
             if (pollCreated) {
 
-                console.log(pollId); //ELIMINAR!!!!!!!
+                const pollIdForm = new FormData();
+                pollIdForm.append('idpollsapi', pollId);
+                await fetch(apiURL + '/votacion/nueva', {
+                    method: 'POST',
+                    credentials: 'include',
+                    body: pollIdForm
+                }).then((response) => {
+                    if (response.status===200) setState({ publicado: true });
+                });
 
-                // Hacer petición POST para registrar la votación en nuestra BBDD
-                setState({ publicado: true });
-                ////////////////////////////////////
             } else {
                 alert("Ha ocurrido un error. Por favor, vuelva a intentarlo de nuevo.");
+                window.location.reload();
             }
         }
     }
@@ -255,7 +271,7 @@ export default function PublicarVotacion () {
                                     <Button id="lessBoton" size='sm' onClick={lessOption} style={{display:"none"}}>- Quitar opción</Button>
                                 </FormGroup>
                                 <FormGroup style={{marginTop:"20px", textAlign:"center"}}>
-                                    <Button type="submit">Publicar votacion</Button>
+                                    <Button id="submitBoton" type="submit">Publicar votacion</Button>
                                 </FormGroup>
                             </Form>
                         </div>

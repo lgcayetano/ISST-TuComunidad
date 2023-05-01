@@ -44,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/css/**", "/img/**", "/layouts/**").permitAll()
 			.antMatchers("/", "/registro","/swagger-ui.html","/swagger-ui/**","/v3/**").permitAll()
 			//.antMatchers("/crear", "/guardar").permitAll()
+            .antMatchers("/votacion/nueva","/comunicados/nuevo").hasAnyRole("PRESI")
 			.anyRequest().authenticated()
         .and()
             .formLogin()
