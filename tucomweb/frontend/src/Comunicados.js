@@ -5,27 +5,12 @@ import Header from './Header';
 export default function Comunicados () {
 
     const [state, setState] = useState({
-        comunicados: [], usuario: '', comunidad: '', presidente: false
+        comunicados: []
     });
 
     useEffect(() => {
 
         let promises = [];
-
-        promises.push(fetch(apiURL + '/usuario', {
-            credentials: 'include'
-        })
-        .then(response => response.text()));
-
-        promises.push(fetch(apiURL + '/comunidad', {
-            credentials: 'include'
-        })
-        .then(response => response.text()));
-
-        promises.push(fetch(apiURL + '/usuario/nivel', {
-            credentials: 'include'
-        })
-        .then(response => response.text()));
 
         promises.push(fetch(apiURL + '/comunicados', {
             credentials: 'include'
@@ -35,21 +20,12 @@ export default function Comunicados () {
         Promise.all(promises)
         .then(data => {
 
-            let data2 = false;
-            if (data[2]=="1")
-                data2 = true;
-
             setState({
-                usuario: data[0],
-                comunidad: data[1],
-                presidente: data2,
-                comunicados: data[3]
+                comunicados: data[0]
             })
         });
 
     }, []);
-
-    
 
     function convertDate(datetext) {
         const date = new Date(datetext);

@@ -21,43 +21,6 @@ export default function PublicarVotacion () {
         publicado: false
     });
 
-    useEffect(() => {
-
-        /*
-        let promises = [];
-
-        promises.push(fetch(apiURL + '/usuario', {
-            credentials: 'include'
-        })
-        .then(response => response.text()));
-
-        promises.push(fetch(apiURL + '/comunidad', {
-            credentials: 'include'
-        })
-        .then(response => response.text()));
-
-        promises.push(fetch(apiURL + '/usuario/nivel', {
-            credentials: 'include'
-        })
-        .then(response => response.text()));
-        
-        Promise.all(promises)
-        .then(data => {
-
-            let data2 = false;
-            if (data[2]=="1")
-                data2 = true;
-
-            setState({
-                usuario: data[0],
-                comunidad: data[1],
-                presidente: data2,
-            })
-        });
-        */
-
-    }, []);
-
     function addOption() {
 
         if (state.options.length < maxOptions) {
@@ -171,6 +134,7 @@ export default function PublicarVotacion () {
         if (publicar)
         {
             document.getElementById("submitBoton").disabled = true;
+            document.getElementById("submitBoton").firstChild.data = "Publicando votación...";
 
             let pollIdentifier = "0";
 
@@ -271,7 +235,7 @@ export default function PublicarVotacion () {
                                     <Button id="lessBoton" size='sm' onClick={lessOption} style={{display:"none"}}>- Quitar opción</Button>
                                 </FormGroup>
                                 <FormGroup style={{marginTop:"20px", textAlign:"center"}}>
-                                    <Button id="submitBoton" type="submit">Publicar votacion</Button>
+                                    <Button id="submitBoton" type="submit">Publicar votación</Button>
                                 </FormGroup>
                             </Form>
                         </div>
