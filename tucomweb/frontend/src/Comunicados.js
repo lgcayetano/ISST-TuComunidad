@@ -1,3 +1,4 @@
+import "./Comunicados.css";
 import React, { useState, useEffect } from 'react';
 import { apiURL } from './App';
 import Header from './Header';
