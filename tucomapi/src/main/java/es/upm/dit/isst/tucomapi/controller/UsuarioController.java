@@ -63,8 +63,18 @@ public class UsuarioController {
 
     }
 
+    @GetMapping("/usuario/id")
+    int readId(Principal principal) {
 
+      int idUsuario = 0;
 
+      Usuario usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (usuario!=null)
+        idUsuario = usuario.getId();
+
+      return idUsuario;
+    }
 
     @GetMapping("/usuario/nivel")
     int readNivel(Principal principal) {
