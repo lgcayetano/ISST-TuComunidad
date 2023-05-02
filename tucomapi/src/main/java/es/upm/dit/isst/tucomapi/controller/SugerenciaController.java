@@ -57,16 +57,11 @@ public class SugerenciaController {
         Usuario usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
         int idComunidad = 0;
         int idUsuario = 0;
-        int nivelUsuario = 0;
 
         if (usuario!=null){
           idComunidad = usuario.getIdcomunidad();
           idUsuario = usuario.getId();
-          nivelUsuario = usuario.getNivel();
-
         }
-
-        if ( nivelUsuario == 2){
           /*nueva sugerencia */
         Sugerencia newSugerencia = new Sugerencia();
 
@@ -80,6 +75,5 @@ public class SugerenciaController {
         return ResponseEntity.ok().body("sugerencia creada correctamente");
 
       }
-      return ResponseEntity.badRequest().body("No tienes permisos para hacer sugerencias"); 
-    }
+
 }

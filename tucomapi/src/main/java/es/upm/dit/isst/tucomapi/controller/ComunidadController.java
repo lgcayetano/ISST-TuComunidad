@@ -152,7 +152,7 @@ public class ComunidadController {
 
       /*generar codigo aleatorio */
 
-      String codigo = RandomStringUtils.randomAlphanumeric(10);
+      String codigo = RandomStringUtils.randomAlphanumeric(10); /*se pone longitud del codigo */
 
       
       Comunidad.setCodigovecino(codigo);
