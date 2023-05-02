@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { apiURL, PollsApiURL } from './App';
 import Header from './Header';
 import { Button, Input, Form, FormGroup, Label, FormFeedback } from 'reactstrap';
+import ProgressBar from './ProgressBar';
 
 export default function Votaciones () {
 
@@ -164,15 +165,21 @@ export default function Votaciones () {
                 {
                     state.votaciones && state.votaciones.map(votacion => {
 
+                        let totalVotos = 0;
+                        votacion.options && votacion.options.map(opcion => totalVotos = totalVotos + opcion.votes_count);
+
+                        if (totalVotos <= 0) totalVotos = 1;
+
                         if (votacion.voted) {
                             return (
-                                <div key={'pid_' + votacion.id} id={'pid_' + votacion.id} className="votaciones">
+                                <div key={'pid_' + votacion.id} id={'pid_' + votacion.id} className="votaciones" style={{paddingBottom:'20px'}}>
                                     <b>{votacion.question}</b> <span style={{float:'right'}}>{convertDate(votacion.created_at)}</span>
                                     {
                                         votacion.options && votacion.options.map(opcion => (
-                                            <p key={'oid_' + opcion.id} id={'oid_' + opcion.id} style={{marginTop:"10px"}}>
-                                                {opcion.text + ' - Número de votos: ' + opcion.votes_count}
-                                            </p>
+                                            <div key={'oid_' + opcion.id} id={'oid_' + opcion.id} style={{margin:'10px 10px 0 10px'}}>
+                                                {opcion.text} <span style={{float:'right', fontSize:'14px'}}>{opcion.votes_count} voto{opcion.votes_count == 1 ? '' : 's'}</span>
+                                                <ProgressBar bgcolor="black" completed={Math.round(opcion.votes_count/totalVotos*100)} />
+                                            </div>
                                         ))
                                     }
                                 </div>
