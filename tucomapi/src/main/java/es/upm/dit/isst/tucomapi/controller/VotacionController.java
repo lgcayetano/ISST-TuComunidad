@@ -2,6 +2,7 @@ package es.upm.dit.isst.tucomapi.controller;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,19 @@ public class VotacionController {
     @GetMapping("/votacion/apikey")
     String readApiKey() {
         return pollsApiKey;
+    }
+
+    @GetMapping("/votaciones") /*muestra los comunicados  */
+    List<Votacion> readAll(Principal principal) {
+
+      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+      int idComunidad = 0;
+
+      if (Usuario!=null)
+        idComunidad = Usuario.getIdcomunidad();
+
+      return (List<Votacion>) votacionRepository.findAllByIdComunidad(idComunidad);
+
     }
 
     @PostMapping("/votacion/nueva")
