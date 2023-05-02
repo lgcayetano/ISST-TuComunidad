@@ -2,6 +2,7 @@ package es.upm.dit.isst.tucomapi.controller;
 
 import es.upm.dit.isst.tucomapi.model.Comunidad;
 import es.upm.dit.isst.tucomapi.model.Usuario;
+import es.upm.dit.isst.tucomapi.model.UsuarioDTO;
 import es.upm.dit.isst.tucomapi.repository.ComunidadRepository;
 import es.upm.dit.isst.tucomapi.repository.UsuarioRepository;
 
@@ -51,7 +52,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/usuarios") /*muestra los usuarios de la comunidad  */
-    List<Usuario> readAll(Principal principal) {
+    List<UsuarioDTO> readAll(Principal principal) {
 
       Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
       int idComunidad = 0;
@@ -59,7 +60,7 @@ public class UsuarioController {
       if (Usuario!=null)
         idComunidad = Usuario.getIdcomunidad();
 
-      return (List<Usuario>) usuarioRepository.findAllUsersByIdComunidad(idComunidad);
+      return (List<UsuarioDTO>) usuarioRepository.findAllByIdComunidad(idComunidad);
 
     }
 
