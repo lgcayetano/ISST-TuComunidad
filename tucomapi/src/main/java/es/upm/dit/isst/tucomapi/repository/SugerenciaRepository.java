@@ -9,4 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 
 
 public interface SugerenciaRepository extends CrudRepository<Sugerencia, Integer> {
+    @Query(value = "SELECT * FROM Sugerencia WHERE idcomunidad=?1 ORDER BY id DESC", nativeQuery = true)
+    Iterable<Sugerencia> findAllByIdComunidad(int idcomunidad);
+
 }

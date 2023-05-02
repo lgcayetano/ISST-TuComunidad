@@ -80,5 +80,6 @@ public class SugerenciaController {
         return ResponseEntity.ok().body("sugerencia creada correctamente");
 
       }
+      return ResponseEntity.badRequest().body("No tienes permisos para hacer sugerencias"); 
     }
 }
