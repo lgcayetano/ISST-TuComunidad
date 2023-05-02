@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +20,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -83,14 +85,12 @@ public class ComunidadController {
       Comunidad Comunidad = comunidadRepository.findById(idComunidad).orElse(null);
 
       if (Comunidad!=null)
-      codigoPresidente = Comunidad.getCodigopresidente();
+        codigoPresidente = Comunidad.getCodigopresidente();
 
-      if (Usuario.getNivel() == 1){
-        return codigoPresidente;
-      }
-
-      return "no tienes acceso a este recurso";
       
+     return codigoPresidente;
+    
+
     }
 
     /*muestra el codigo de registro para un vecino */
@@ -115,8 +115,8 @@ public class ComunidadController {
 
 
 
-    /*edita el codigo de presidente */
-    @PostMapping("/comunidad/editcodigopresi")
+    /*edita el codigo de presidente 
+    @PutMapping("/comunidad/editcodigopresi")
     public String editCodigoPresi(@RequestParam("codigo") String codigo, Principal principal){
 
       int idComunidad = 0;
@@ -135,10 +135,10 @@ public class ComunidadController {
         return "codigo cambiado correctamente";
       }
       return "no puedes editar esto";
-    }
+    }*/
 
-    @PostMapping("/comunidad/editcodigovecino")
-    public String editCodigoVecino(@RequestParam("codigo") String codigo, Principal principal){
+    @PutMapping("/comunidad/editcodigovecino")
+    public String editCodigoVecino(Principal principal){
 
       int idComunidad = 0;
 
@@ -150,12 +150,15 @@ public class ComunidadController {
 
       Comunidad Comunidad = comunidadRepository.findById(idComunidad).orElse(null);
 
-      if (Usuario.getNivel()==1){
-        Comunidad.setCodigovecino(codigo);
-        comunidadRepository.save(Comunidad);
-        return "codigo cambiado correctamente";
-      }
-      return "no puedes editar esto";
+      /*generar codigo aleatorio */
+
+      String codigo = RandomStringUtils.randomAlphanumeric(10);
+
+      
+      Comunidad.setCodigovecino(codigo);
+      comunidadRepository.save(Comunidad);
+      return "codigo cambiado correctamente";
+      
     }
 
 }
