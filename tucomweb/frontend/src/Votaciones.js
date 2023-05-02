@@ -37,9 +37,11 @@ export default function Votaciones () {
         .then(response => response.text())
         .then(data => pollsApiKey = data);
 
+        let ArrVotos = [];
+
         //////////////////////////////////////////////////////////////////
-        let votesAPI_data = JSON.parse('{"status":"success","statusCode":200,"data":{"docs":[{"identifier":"1","poll_id":"644ed3779e9c2c0010ee5ce0","option_id":"644ed3779e9c2c0010ee5ce2","created_at":"2023-05-02T11:39:06.847Z","updated_at":"2023-05-02T11:39:06.847Z","id":"6450f65a9e9c2c0010ee5d55","entity":"Vote"},{"identifier":"1","poll_id":"644fa2c59e9c2c0010ee5d1d","option_id":"644fa2c59e9c2c0010ee5d1f","created_at":"2023-05-02T11:10:53.438Z","updated_at":"2023-05-02T11:10:53.438Z","id":"6450efbd25e6ed0010f8a8bd","entity":"Vote"},{"identifier":"1","poll_id":"644d64ec25e6ed0010f8a866","option_id":"644d64ec25e6ed0010f8a868","created_at":"2023-04-29T18:58:46.639Z","updated_at":"2023-04-29T18:58:46.639Z","id":"644d68e625e6ed0010f8a86a","entity":"Vote"},{"identifier":"1","poll_id":"644d64ec25e6ed0010f8a866","option_id":"644d64ec25e6ed0010f8a868","created_at":"2023-04-29T18:58:12.650Z","updated_at":"2023-04-29T18:58:12.650Z","id":"644d68c425e6ed0010f8a869","entity":"Vote"}],"totalDocs":4,"offset":0,"limit":25,"totalPages":1,"page":1,"pagingCounter":1,"hasPrevPage":false,"hasNextPage":false,"prevPage":null,"nextPage":null}}');
-        /*
+        //let votesAPI_data = JSON.parse('{"status":"success","statusCode":200,"data":{"docs":[{"identifier":"1","poll_id":"644ed3779e9c2c0010ee5ce0","option_id":"644ed3779e9c2c0010ee5ce2","created_at":"2023-05-02T11:39:06.847Z","updated_at":"2023-05-02T11:39:06.847Z","id":"6450f65a9e9c2c0010ee5d55","entity":"Vote"},{"identifier":"1","poll_id":"644fa2c59e9c2c0010ee5d1d","option_id":"644fa2c59e9c2c0010ee5d1f","created_at":"2023-05-02T11:10:53.438Z","updated_at":"2023-05-02T11:10:53.438Z","id":"6450efbd25e6ed0010f8a8bd","entity":"Vote"},{"identifier":"1","poll_id":"644d64ec25e6ed0010f8a866","option_id":"644d64ec25e6ed0010f8a868","created_at":"2023-04-29T18:58:46.639Z","updated_at":"2023-04-29T18:58:46.639Z","id":"644d68e625e6ed0010f8a86a","entity":"Vote"},{"identifier":"1","poll_id":"644d64ec25e6ed0010f8a866","option_id":"644d64ec25e6ed0010f8a868","created_at":"2023-04-29T18:58:12.650Z","updated_at":"2023-04-29T18:58:12.650Z","id":"644d68c425e6ed0010f8a869","entity":"Vote"}],"totalDocs":4,"offset":0,"limit":25,"totalPages":1,"page":1,"pagingCounter":1,"hasPrevPage":false,"hasNextPage":false,"prevPage":null,"nextPage":null}}');
+        ///*
         await fetch(PollsApiURL + '/get/votes-with-identifier/' + voteIdentifier, {
             headers: {
                 'Content-Type': 'application/json',
@@ -48,15 +50,17 @@ export default function Votaciones () {
         })
         .then(response => response.json())
         .then(data => {
-            //...
+            ArrVotos = data.data.docs;
         });
-        */
-        let ArrVotos = votesAPI_data.data.docs;
+        //*/
+        //ArrVotos = votesAPI_data.data.docs;
         //////////////////////////////////////////////////////////////////
 
+        let ArrVotaciones = [];
+
         //////////////////////////////////////////////////////////////////
-        let pollsAPI_data = JSON.parse('{"status":"success","statusCode":200,"data":{"docs":[{"data":"null","identifier":"1","question":"eeee","created_at":"2023-05-01T12:28:08.581Z","updated_at":"2023-05-01T12:28:08.581Z","id":"644fb05825e6ed0010f8a8a0","entity":"Poll","options":[{"data":"null","text":"asd","votes_count":0,"poll_id":"644fb05825e6ed0010f8a8a0","created_at":"2023-05-01T12:28:08.587Z","updated_at":"2023-05-01T12:28:08.587Z","id":"644fb05825e6ed0010f8a8a1","entity":"Option"},{"data":"null","text":"asd","votes_count":0,"poll_id":"644fb05825e6ed0010f8a8a0","created_at":"2023-05-01T12:28:08.587Z","updated_at":"2023-05-01T12:28:08.587Z","id":"644fb05825e6ed0010f8a8a2","entity":"Option"}]},{"data":"null","identifier":"1","question":"Esto es una pregunta de prueba","created_at":"2023-05-01T11:30:13.383Z","updated_at":"2023-05-01T11:30:13.383Z","id":"644fa2c59e9c2c0010ee5d1d","entity":"Poll","options":[{"data":"null","text":"Respuesta 1","votes_count":0,"poll_id":"644fa2c59e9c2c0010ee5d1d","created_at":"2023-05-01T11:30:13.390Z","updated_at":"2023-05-01T11:30:13.390Z","id":"644fa2c59e9c2c0010ee5d1e","entity":"Option"},{"data":"null","text":"Respuesta 2","votes_count":1,"poll_id":"644fa2c59e9c2c0010ee5d1d","created_at":"2023-05-01T11:30:13.390Z","updated_at":"2023-05-02T11:10:53.434Z","id":"644fa2c59e9c2c0010ee5d1f","entity":"Option"},{"data":"null","text":"Respuesta 3","votes_count":0,"poll_id":"644fa2c59e9c2c0010ee5d1d","created_at":"2023-05-01T11:30:13.390Z","updated_at":"2023-05-01T11:30:13.390Z","id":"644fa2c59e9c2c0010ee5d20","entity":"Option"},{"data":"null","text":"Respuesta 4","votes_count":0,"poll_id":"644fa2c59e9c2c0010ee5d1d","created_at":"2023-05-01T11:30:13.390Z","updated_at":"2023-05-01T11:30:13.390Z","id":"644fa2c59e9c2c0010ee5d21","entity":"Option"}]},{"data":"null","identifier":"1","question":"Pregunta TuCom ¿sí o ño?","created_at":"2023-04-30T20:57:26.303Z","updated_at":"2023-04-30T20:57:26.303Z","id":"644ed6369e9c2c0010ee5ce3","entity":"Poll","options":[{"data":"null","text":"Sí","votes_count":0,"poll_id":"644ed6369e9c2c0010ee5ce3","created_at":"2023-04-30T20:57:26.306Z","updated_at":"2023-04-30T20:57:26.306Z","id":"644ed6369e9c2c0010ee5ce4","entity":"Option"},{"data":"null","text":"Ño","votes_count":0,"poll_id":"644ed6369e9c2c0010ee5ce3","created_at":"2023-04-30T20:57:26.307Z","updated_at":"2023-04-30T20:57:26.307Z","id":"644ed6369e9c2c0010ee5ce5","entity":"Option"}]},{"data":"null","identifier":"1","question":"asd","created_at":"2023-04-30T20:45:43.441Z","updated_at":"2023-04-30T20:45:43.441Z","id":"644ed3779e9c2c0010ee5ce0","entity":"Poll","options":[{"data":"null","text":"asdasdads","votes_count":0,"poll_id":"644ed3779e9c2c0010ee5ce0","created_at":"2023-04-30T20:45:43.448Z","updated_at":"2023-04-30T20:45:43.448Z","id":"644ed3779e9c2c0010ee5ce1","entity":"Option"},{"data":"null","text":"asdasdasdasdasd","votes_count":0,"poll_id":"644ed3779e9c2c0010ee5ce0","created_at":"2023-04-30T20:45:43.448Z","updated_at":"2023-04-30T20:45:43.448Z","id":"644ed3779e9c2c0010ee5ce2","entity":"Option"}]}],"totalDocs":4,"offset":0,"limit":25,"totalPages":1,"page":1,"pagingCounter":1,"hasPrevPage":false,"hasNextPage":false,"prevPage":null,"nextPage":null}}');
-        /*
+        //let pollsAPI_data = JSON.parse('{"status":"success","statusCode":200,"data":{"docs":[{"data":"null","identifier":"1","question":"eeee","created_at":"2023-05-01T12:28:08.581Z","updated_at":"2023-05-01T12:28:08.581Z","id":"644fb05825e6ed0010f8a8a0","entity":"Poll","options":[{"data":"null","text":"asd","votes_count":0,"poll_id":"644fb05825e6ed0010f8a8a0","created_at":"2023-05-01T12:28:08.587Z","updated_at":"2023-05-01T12:28:08.587Z","id":"644fb05825e6ed0010f8a8a1","entity":"Option"},{"data":"null","text":"asd","votes_count":0,"poll_id":"644fb05825e6ed0010f8a8a0","created_at":"2023-05-01T12:28:08.587Z","updated_at":"2023-05-01T12:28:08.587Z","id":"644fb05825e6ed0010f8a8a2","entity":"Option"}]},{"data":"null","identifier":"1","question":"Esto es una pregunta de prueba","created_at":"2023-05-01T11:30:13.383Z","updated_at":"2023-05-01T11:30:13.383Z","id":"644fa2c59e9c2c0010ee5d1d","entity":"Poll","options":[{"data":"null","text":"Respuesta 1","votes_count":0,"poll_id":"644fa2c59e9c2c0010ee5d1d","created_at":"2023-05-01T11:30:13.390Z","updated_at":"2023-05-01T11:30:13.390Z","id":"644fa2c59e9c2c0010ee5d1e","entity":"Option"},{"data":"null","text":"Respuesta 2","votes_count":1,"poll_id":"644fa2c59e9c2c0010ee5d1d","created_at":"2023-05-01T11:30:13.390Z","updated_at":"2023-05-02T11:10:53.434Z","id":"644fa2c59e9c2c0010ee5d1f","entity":"Option"},{"data":"null","text":"Respuesta 3","votes_count":0,"poll_id":"644fa2c59e9c2c0010ee5d1d","created_at":"2023-05-01T11:30:13.390Z","updated_at":"2023-05-01T11:30:13.390Z","id":"644fa2c59e9c2c0010ee5d20","entity":"Option"},{"data":"null","text":"Respuesta 4","votes_count":0,"poll_id":"644fa2c59e9c2c0010ee5d1d","created_at":"2023-05-01T11:30:13.390Z","updated_at":"2023-05-01T11:30:13.390Z","id":"644fa2c59e9c2c0010ee5d21","entity":"Option"}]},{"data":"null","identifier":"1","question":"Pregunta TuCom ¿sí o ño?","created_at":"2023-04-30T20:57:26.303Z","updated_at":"2023-04-30T20:57:26.303Z","id":"644ed6369e9c2c0010ee5ce3","entity":"Poll","options":[{"data":"null","text":"Sí","votes_count":0,"poll_id":"644ed6369e9c2c0010ee5ce3","created_at":"2023-04-30T20:57:26.306Z","updated_at":"2023-04-30T20:57:26.306Z","id":"644ed6369e9c2c0010ee5ce4","entity":"Option"},{"data":"null","text":"Ño","votes_count":0,"poll_id":"644ed6369e9c2c0010ee5ce3","created_at":"2023-04-30T20:57:26.307Z","updated_at":"2023-04-30T20:57:26.307Z","id":"644ed6369e9c2c0010ee5ce5","entity":"Option"}]},{"data":"null","identifier":"1","question":"asd","created_at":"2023-04-30T20:45:43.441Z","updated_at":"2023-04-30T20:45:43.441Z","id":"644ed3779e9c2c0010ee5ce0","entity":"Poll","options":[{"data":"null","text":"asdasdads","votes_count":0,"poll_id":"644ed3779e9c2c0010ee5ce0","created_at":"2023-04-30T20:45:43.448Z","updated_at":"2023-04-30T20:45:43.448Z","id":"644ed3779e9c2c0010ee5ce1","entity":"Option"},{"data":"null","text":"asdasdasdasdasd","votes_count":0,"poll_id":"644ed3779e9c2c0010ee5ce0","created_at":"2023-04-30T20:45:43.448Z","updated_at":"2023-04-30T20:45:43.448Z","id":"644ed3779e9c2c0010ee5ce2","entity":"Option"}]}],"totalDocs":4,"offset":0,"limit":25,"totalPages":1,"page":1,"pagingCounter":1,"hasPrevPage":false,"hasNextPage":false,"prevPage":null,"nextPage":null}}');
+        ///*
         await fetch(PollsApiURL + '/get/polls-with-identifier/' + pollIdentifier, {
             headers: {
                 'Content-Type': 'application/json',
@@ -65,10 +69,10 @@ export default function Votaciones () {
         })
         .then(response => response.json())
         .then(data => {
-            //...
+            ArrVotaciones = data.data.docs;
         });
-        */
-        let ArrVotaciones = pollsAPI_data.data.docs;
+        //*/
+        //ArrVotaciones = pollsAPI_data.data.docs;
         //////////////////////////////////////////////////////////////////
         
         ArrVotaciones.map((votacion) => (votacion.voted = false));
@@ -121,8 +125,9 @@ export default function Votaciones () {
                 identifier: voteIdentifier
             };
 
-            //////////////////////////////////////////////////
-            /*
+            let ArrVotaciones = state.votaciones;
+            let ArrVotos = [];
+
             await fetch(PollsApiURL + '/create/vote', {
                 method: 'POST',
                 headers: {
@@ -135,12 +140,21 @@ export default function Votaciones () {
 
                 if (response.status===200) {
                     
-                    alert("Voto registrado!!!");
+                    ArrVotaciones.map((votacion) => {
+                        if (votacion.id == idVotacion)
+                            ArrVotos = votacion.options.map((opcion) => (opcion.id == idOpcion ? {...opcion, votes_count: (opcion.votes_count + 1)} : opcion));
+                    });
+        
+                    ArrVotaciones = ArrVotaciones.map((votacion) => (votacion.id == idVotacion ? {...votacion, options: ArrVotos, voted: true} : votacion));
+        
+                    setState({ votaciones: ArrVotaciones });
 
+                } else {
+                    alert("Ha ocurrido un error. Por favor, vuelva a intentarlo de nuevo.");
+                    window.location.reload();
                 }
             });
-            */
-           ///////////////////////////////////////////////////
+
         }
 
     }
