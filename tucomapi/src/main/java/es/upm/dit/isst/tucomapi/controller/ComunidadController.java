@@ -161,4 +161,24 @@ public class ComunidadController {
       
     }
 
+    @PutMapping("/comunidad/editnombre")
+    public String editNombre(@RequestParam("nombre") String nombre, Principal principal){
+
+      int idComunidad = 0;
+
+      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (Usuario!=null){
+        idComunidad = Usuario.getIdcomunidad();
+      }
+
+      Comunidad Comunidad = comunidadRepository.findById(idComunidad).orElse(null);
+
+      
+      Comunidad.setNombre(nombre);;
+      comunidadRepository.save(Comunidad);
+      return "nombre cambiado correctamente";
+      
+    }
+
 }
