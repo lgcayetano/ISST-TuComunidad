@@ -2,6 +2,8 @@ package es.upm.dit.isst.tucomapi.config;
 
 import java.util.Arrays;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +22,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
 	@Autowired
-    private CustomAuthenticationProvider authProvider;
+    DataSource ds;
 
     @Autowired
     Securityhandler successHandler;
@@ -31,7 +34,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authProvider);
+        auth.jdbcAuthentication().dataSource(ds)
+            .usersByUsernameQuery ("SELECT email, CONCAT('{bcrypt}', contrasena) AS password, estado FROM Usuario where email=?")
+            .authoritiesByUsernameQuery ("SELECT email, CASE WHEN nivel=1 THEN 'ROLE_PRESI' ELSE 'ROLE_VECI' END AS authority FROM Usuario where email=?");
 	}
 
 	@Override
@@ -45,14 +50,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
 			.antMatchers("/css/**", "/img/**", "/layouts/**").permitAll()
 			.antMatchers("/", "/registro","/swagger-ui.html","/swagger-ui/**","/v3/**").permitAll()
-			//.antMatchers("/crear", "/guardar").permitAll()
             .antMatchers("/votacion/nueva","/comunicados/nuevo","/comunidad/editcodigovecino",
-            "/comunidad/codigopresidente").hasAnyRole("PRESI")
+                        "/comunidad/codigopresidente").hasAnyRole("PRESI")
 			.anyRequest().authenticated()
         .and()
             .formLogin()
-				//.loginPage("/login")
-                //.defaultSuccessUrl("/",true) //añadido por luis para probar
 				.permitAll()
                 .successHandler(successHandler)
                 .failureHandler(failureHandler)
@@ -60,16 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .logout()
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
 			    .permitAll();
-/*
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //NEW
-        .and()
-        .authorizeRequests()
-			.antMatchers("/login").permitAll() // sustituye por formLogin y logout
-			.antMatchers("/lista").permitAll()
-            .anyRequest().authenticated()
-        .and()
-			.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
-*/
+
 	}
 
     @Bean

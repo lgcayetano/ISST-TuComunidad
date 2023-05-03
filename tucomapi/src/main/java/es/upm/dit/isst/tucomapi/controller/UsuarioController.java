@@ -13,6 +13,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -120,12 +122,14 @@ public class UsuarioController {
 
           if (codigoregistro.equals(codigopresidente)) nivel = 1;
           else if (codigoregistro.equals(codigovecino)) nivel = 2;
+
+          PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
           
           Usuario newUsuario = new Usuario();
 
           newUsuario.setNombre(nombre);
           newUsuario.setEmail(email);
-          newUsuario.setContrasena(contrasena);
+          newUsuario.setContrasena(passwordEncoder.encode(contrasena));
           newUsuario.setNivel(nivel);
           newUsuario.setEstado(true);
           newUsuario.setPermisos(true);
