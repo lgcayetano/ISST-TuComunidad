@@ -181,7 +181,7 @@ export default function Registro () {
                             </FormGroup>
                             <FormGroup>
                                 <Label for="email"><b >Email</b></Label>
-                                <Input className="innput" type="email" name="email" id="email" value={state.email}
+                                <Input className="innput" type="text" name="email" id="email" value={state.email}
                                     onChange={handleChange} invalid={state.invalid_email}/>
                                 <FormFeedback invalid={state.invalid_email}>{state.respuesta_error}</FormFeedback>
                             </FormGroup>

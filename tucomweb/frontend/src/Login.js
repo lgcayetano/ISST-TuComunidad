@@ -78,7 +78,7 @@ export default function Login () {
                                 <Form onSubmit={handleSubmit}>
                                     <FormGroup>
                                         <Label for="username">Email</Label>
-                                        <Input type="email" name="username" id="username" value={state.username}
+                                        <Input type="text" name="username" id="username" value={state.username}
                                             onChange={handleChange} invalid={state.invalid}/>
                                     </FormGroup>
                                     <FormGroup>

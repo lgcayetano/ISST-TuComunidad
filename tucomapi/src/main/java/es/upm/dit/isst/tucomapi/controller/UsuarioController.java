@@ -9,6 +9,8 @@ import es.upm.dit.isst.tucomapi.repository.UsuarioRepository;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,45 +105,56 @@ public class UsuarioController {
       if (contrasena.isEmpty()) return "error_contrasena|" + vacioTxt;
       if (codigoregistro.isEmpty()) return "error_codigo|" + vacioTxt;
 
-      String resultado = "error_email|El email indicado ya está registrado en la plataforma.";
+      String regexEmail = "^[\\w!#$%&amp;'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&amp;'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+      Pattern patternEmail = Pattern.compile(regexEmail);
+      Matcher matcherEmail = patternEmail.matcher(email);
 
+      if (!matcherEmail.matches()) return "error_email|El email indicado no es válido.";
+
+      String regexPsw = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$";
+      Pattern patternPsw = Pattern.compile(regexPsw);
+      Matcher matcherPsw = patternPsw.matcher(contrasena);
+
+      if (!matcherPsw.matches()) return "error_contrasena|La contraseña debe contener mínimo 8 caracteres, una minúscula, una mayúscula y un número.";
+      
       Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
 
-      if (usuario==null) {
+      if (usuario!=null) return "error_email|El email indicado ya está registrado en la plataforma.";
 
-        resultado = "error_codigo|Código de registro no válido.";
+      Comunidad comunidad = comunidadRepository.findByCodigo(codigoregistro).orElse(null);
 
-        Comunidad comunidad = comunidadRepository.findByCodigo(codigoregistro).orElse(null);
-        
-        if (comunidad!=null) {
-          
-          int nivel = 0;
+      if (comunidad==null) return "error_codigo|Código de registro no válido.";
 
-          String codigopresidente = comunidad.getCodigopresidente();
-          String codigovecino = comunidad.getCodigovecino();
+      int nivel = 0;
 
-          if (codigoregistro.equals(codigopresidente)) nivel = 1;
-          else if (codigoregistro.equals(codigovecino)) nivel = 2;
+      String codigopresidente = comunidad.getCodigopresidente();
+      String codigovecino = comunidad.getCodigovecino();
 
-          PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-          
-          Usuario newUsuario = new Usuario();
+      if (codigoregistro.equals(codigopresidente)) nivel = 1;
+      else if (codigoregistro.equals(codigovecino)) nivel = 2;
 
-          newUsuario.setNombre(nombre);
-          newUsuario.setEmail(email);
-          newUsuario.setContrasena(passwordEncoder.encode(contrasena));
-          newUsuario.setNivel(nivel);
-          newUsuario.setEstado(true);
-          newUsuario.setPermisos(true);
-          newUsuario.setIdcomunidad(comunidad.getId());
+      int idComunidad = comunidad.getId();
 
-          usuarioRepository.save(newUsuario);
-
-          return "OK|¡Registrado correctamente!";
-        }
+      if (nivel==1) {
+        Usuario presiComunidad = usuarioRepository.findPresidenteByIdComunidad(idComunidad).orElse(null);
+        if (presiComunidad!=null) return "error_codigo|Código de registro no válido.";
       }
 
-      return resultado;
+      PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+      
+      Usuario newUsuario = new Usuario();
+
+      newUsuario.setNombre(nombre);
+      newUsuario.setEmail(email);
+      newUsuario.setContrasena(passwordEncoder.encode(contrasena));
+      newUsuario.setNivel(nivel);
+      newUsuario.setEstado(true);
+      newUsuario.setPermisos(true);
+      newUsuario.setIdcomunidad(idComunidad);
+
+      usuarioRepository.save(newUsuario);
+
+      return "OK|¡Registrado correctamente!";
     }
 
 }
