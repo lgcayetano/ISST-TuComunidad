@@ -203,7 +203,7 @@ export default function GestionComunidad () {
                             <Button className='buton' type="submit">Cambiar código de los vecinos</Button>
                         </FormGroup> 
                     </Form>
-                    <div className="cambioNombre" style={{marginBottom:"20px"}}>
+                    <div className="cambioNombre" style={{marginBottom:"50px"}}>
                         <p><b>Código del presidente</b></p>
                         <p className='codes' name="codigopresidente"> {state.codigopresidente} </p>
                     </div> 
