@@ -6,3 +6,4 @@ INSERT INTO COMUNICADO VALUES (1, '2023-04-07', 1, 1, 'msjcom1','titulocom1');
 INSERT INTO COMUNICADO VALUES (2, '2023-04-07', 1, 1, 'msjcom1.2','titulocom1.2');
 INSERT INTO COMUNICADO VALUES (3, '2023-04-07', 2, 3, 'msjcom2','titulocom2');
 INSERT INTO COMUNICADO VALUES (4, '2023-04-07', 2, 3, 'msjcom2.2','titulocom2.2');
+

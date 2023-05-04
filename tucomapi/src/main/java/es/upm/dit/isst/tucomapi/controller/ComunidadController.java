@@ -181,4 +181,31 @@ public class ComunidadController {
       
     }
 
+    @PutMapping("/comunidad/cederpresidencia")
+    public String cederPresidencia(@RequestParam("id") int id, Principal principal){
+
+
+      int idComunidad = 0;
+
+      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (Usuario!=null){
+        idComunidad = Usuario.getIdcomunidad();
+      }
+
+      Usuario antiguoPresi = usuarioRepository.findPresidenteByIdComunidad(idComunidad).orElse(null);
+      Usuario nuevoPresi = usuarioRepository.findByIdAndComunidad(id, idComunidad).orElse(null);
+
+      nuevoPresi.setNivel(1);
+      antiguoPresi.setNivel(2);
+
+      usuarioRepository.save(nuevoPresi);
+      usuarioRepository.save(antiguoPresi);
+
+
+      return "has dejado de ser el presidente";
+    }
+
+
+
 }
