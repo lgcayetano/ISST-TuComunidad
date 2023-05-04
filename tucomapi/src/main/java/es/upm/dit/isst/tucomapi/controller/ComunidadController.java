@@ -207,5 +207,27 @@ public class ComunidadController {
     }
 
 
+    @PutMapping("/comunidad/editarpermisos")
+    public String editarPermisos(@RequestParam("id") int id, Principal principal){
+    int idComunidad = 0;
 
+      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (Usuario!=null){
+        idComunidad = Usuario.getIdcomunidad();
+      }
+
+      Usuario vecinoPermisoEditado = usuarioRepository.findByIdAndComunidad(id, idComunidad).orElse(null);
+
+      if(vecinoPermisoEditado.isPermisos() == true){
+        vecinoPermisoEditado.setPermisos(false);
+      }
+      else vecinoPermisoEditado.setPermisos(true);
+
+      usuarioRepository.save(vecinoPermisoEditado);
+
+
+      return "permisos editados";
+
+    }
 }
