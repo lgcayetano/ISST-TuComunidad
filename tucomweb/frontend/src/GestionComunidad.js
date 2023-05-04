@@ -10,8 +10,12 @@ export default function GestionComunidad () {
     const [state, setState] = useState({
         usuarios: [],
         nombre: '', 
+        nuevoNombre:'',
         codigopresidente: '',
-        codigovecinos: ''
+        codigovecinos: '',
+        invalid_name:false,
+        invalid_neicode:false,
+        modificado: false
     });
 
     function handleChange(event) {
@@ -19,119 +23,221 @@ export default function GestionComunidad () {
         const value = target.value;
         const name = target.name;
 
+        let nombrevacio = state.invalid_name;
+        if (name=='nombre') nombrevacio = false;
+
         setState({
-            [name]: value
+            [name]: value,
+            invalid_name: nombrevacio
         });
     }
 
+    
+
+    async function handleSubmit1(event) {
+        //evita que se recarge la pagina al darle al boton acceder (submit)
+        event.preventDefault();
+        if (event.target.elements.nombre.value=='' )
+        {
+            let nombrevacio = false;
+            if (event.target.elements.nombre.value=='') nombrevacio = true;
+            setState({
+                invalid_name: nombrevacio
+            });
+        } else {
+            const codigos = new FormData();
+            codigos.append('nombre', event.target.elements.nombre.value);
+            
+            await fetch(apiURL + '/comunidad/editnombre', {
+                method: 'PUT',
+                credentials: 'include',
+                body: codigos
+            }).then((response) => {
+                if (response.status===200) {
+                    setState({
+                        modificado:true
+                    });
+                }
+            });
+        }
+    }
+
+
+    async function handleSubmit2(event) {
+        //evita que se recarge la pagina al darle al boton acceder (submit)
+        event.preventDefault();
+         
+        const codigos = new FormData();
+        codigos.append('codigovecinos', event.target.elements.codigovecinos.value);
+            
+        await fetch(apiURL + '/comunidad/editcodigovecino', {
+            method: 'PUT',
+            credentials: 'include',
+            body: codigos
+        }).then((response) => {
+            if (response.status===200) {
+                setState({
+                    modificado:true
+                });
+            }
+        });
+        
+    }
+
+    
+    async function handleSubmit3(event) {
+        //evita que se recarge la pagina al darle al boton acceder (submit)
+        event.preventDefault();
+        
+        const usuarios = new FormData();
+        usuarios.append('id', event.target.elements.usuario.id.value);
+        const buttonType=window.event.submitter.name;
+        
+        if(buttonType=="cederpresidencia"){
+            await fetch(apiURL + '/comunidad/cederpresidencia', {
+                method: 'PUT',
+                credentials: 'include',
+                body: usuarios
+            }).then((response) => {
+                if (response.status===200) {
+                    setState({
+                        modificado:true
+                    });
+                }
+            }); 
+        }
+
+        if(buttonType=="cambiarpermisos"){
+            await fetch(apiURL + '/comunidad/editarpermisos', {
+                method: 'PUT',
+                credentials: 'include',
+                body: usuarios
+            }).then((response) => {
+                if (response.status===200) {
+                    setState({
+                        modificado:true
+                    });
+                }
+            });
+        }
+
+       /*     
+        if(buttonType=="eliminar"){
+            await fetch(apiURL + '/comunidad/editarpermisos', {
+                method: 'DELETE',
+                credentials: 'include',
+                body: codigos
+            }).then((response) => {
+                if (response.status===200) {
+                    setState({
+                        modificado:true
+                    });
+                }
+            });
+        }*/
+            
+        
+    }
+
+
 
     useEffect(() => {
-
         let promises = [];
-
         promises.push(fetch(apiURL + '/comunidad', {
             credentials: 'include'
         })
         .then(response => response.text()));
-
-        //Importante, hay que hacer en tucomAPI que eso sea posible
-        promises.push(fetch(apiURL + '/comunidad/codigopresidente', {
+        promises.push(fetch(apiURL + '/comunidad/codigovecinos', {
             credentials: 'include'
         })
         .then(response => response.text()));
-
-        //Importante, hay que hacer en tucomAPI que eso sea posible
-        promises.push(fetch(apiURL + '/comunicados/codigovecinos', {
-            credentials: 'include'
-        })
-        .then(response => response.json()));
-
         promises.push(fetch(apiURL + '/usuarios', {
             credentials: 'include'
         })
         .then(response => response.json()));
-        
+        promises.push(fetch(apiURL + '/comunidad/codigopresidente', {
+            credentials: 'include'
+        })
+        .then(response => response.text()));
         Promise.all(promises)
         .then(data => {
             setState({
                 nombre: data[0],
-                codigopresidente: data[1],
-                codigovecinos: data[2],
-                usuarios: data[3]
+                codigovecinos: data[1],
+                usuarios: data[2],
+                codigopresidente: data[3]
             })
         });
 
     }, []);
 
+    
+    if (state.modificado) {
+        return (
+            <Redirect to='/' />
+        )
+    } else {
+        return(
+            <div>
+                <Header />
+                
+                <div className="comunicados" style={{marginBottom:"20px"}}>
+    
+                    <Form onSubmit={handleSubmit1}>
+                        <FormGroup className="cambioNombre">
+                            <p><b>Nombre de la comunidad</b></p>
+                            <Input className="innnput" name="nombre" type="text" placeholder={state.nombre} id="nombre"
+                                 value={state.nombre} invalid={state.invalid_name} onChange={handleChange} />
+                        </FormGroup>
+                        <FormGroup>
+                            <Button className='buton' type="submit" >Cambiar nombre de la comunidad</Button>
+                        </FormGroup>
+                    </Form>
 
-    //No sé por qué me da error chungo
-    /*
-    function eliminarUsuario(int id){
-        usuarioss = state.usuarios.length;
-        for (int i=1, i<=usuarioss.length, i++){
-            if (i==id){
-                usuarioss.splice(i, 1)
-            }
-            break;
-        }
-        setState({usuarios: usuarioss});
-        
+                    <Form onSubmit={handleSubmit2}>
+                        <FormGroup className="cambioNombre">
+                            <p><b>Código de los vecinos</b></p>
+                            <Label for="codigovecinos" className='codes' name="codigovecinos" id="codigovecinos"> {state.codigovecinos} </Label>
+                        </FormGroup>
+                        <FormGroup>
+                            <Button className='buton' type="submit">Cambiar código de los vecinos</Button>
+                        </FormGroup> 
+                    </Form>
+                    <div className="cambioNombre" style={{marginBottom:"20px"}}>
+                        <p><b>Código del presidente</b></p>
+                        <p className='codes' name="codigopresidente"> {state.codigopresidente} </p>
+                    </div> 
+                </div>
+    
+                <div className="comunicados" >
+                    <h3 style={{color:"rgb(164, 40, 40)"}}>LISTA DE USUARIOS</h3>
+                    
+                    {
+                        state.usuarios && state.usuarios.map(usuario => (
+                            <Form onSubmit={handleSubmit3}>
+                                <div key={usuario.id} style={{marginTop:"20px"}}>
+                                    <FormGroup>
+                                        <div style={{float:"left", marginRight:"20px", width:"30%"}}>
+                                            <b name="nombreusuario">{usuario.nombre}</b> 
+                                            <p>{usuario.email}</p> 
+                                        </div>
+                                        <Button className="buton" type="submit" name="cederpresidencia"> Ceder presidencia </Button>
+                                        <Button className="buton" type="submit" name="cambiarpermisos"> Cambiar permisos</Button>
+                                        <Button className="buton" type="submit" style={{backgroundColor:"rgb(164, 40, 40)"}} 
+                                            name="eliminar"> X </Button>
+                                    </FormGroup>
+                            </div>  
+                           </Form>
+                       ))
+                   }
+                 
+                   </div>
+    
+                <div className="footer" >
+                    <b>TuComunidad 2023</b>
+                </div>
+            </div>
+        )    
     }
-    */
-
-    return(
-        <div>
-            <Header />
-            
-            <div className="comunicados" style={{marginBottom:"20px"}}>
-
-                <Form /*onSubmit={handleSubmit}*/>
-                    <FormGroup className="cambioNombre">
-                        <p><b>Nombre de la comunidad</b></p>
-                        <Input className="innnput" type="text" placeholder={state.nombre}
-                             value={state.nombre}  onChange={handleChange}  />
-                       
-                        <Button className='buton' type="submit" >Cambiar nombre de la comunidad</Button>
-                    </FormGroup>
-                    <FormGroup className="cambioNombre">
-                        <p><b>Nombre de la comunidad</b></p>
-                        <Input className="innnput" type="text" placeholder={state.codigopresidente}
-                             value={state.codigopresidente}  onChange={handleChange}/>
-                        <Button className='buton' type="submit">Cambiar código del presidente</Button>
-                    </FormGroup> 
-                    <FormGroup className="cambioNombre">
-                        <p><b>Nombre de la comunidad</b></p>
-                        <Input className="innnput" type="text" placeholder={state.codigovecinos}
-                             value={state.codigovecinos}  onChange={handleChange}/>
-                        <Button className='buton' type="submit">Cambiar código de los vecinos</Button>
-                    </FormGroup> 
-                </Form>
-            </div>
-
-            <div className="comunicados" >
-                <h3 style={{color:"rgb(164, 40, 40)"}}>LISTA DE USUARIOS</h3>
-                {
-                    state.usuarios && state.usuarios.map(usuario => (
-                        <div key={usuario.id} style={{marginTop:"20px"}}>
-                            <div style={{float:"left", marginRight:"20px", width:"20%"}}>
-                                <b>{usuario.nombre}</b> 
-                                <p>{usuario.email}</p> 
-                            </div>
-                            <Button className="buton"> Ceder presidencia </Button>
-                            <Button className="buton"> Quitar/dar permisos </Button>
-                            <Button className="buton" /*onClick={eliminarUsuario(usuario.id)}*/
-                                style={{backgroundColor:"rgb(164, 40, 40)"}}> X </Button>
-
-                       </div>
-                   ))
-               }
-               </div>
-
-            <div className="footer" >
-                <b>TuComunidad 2023</b>
-            </div>
-        </div>
-    )    
-
 }
 
