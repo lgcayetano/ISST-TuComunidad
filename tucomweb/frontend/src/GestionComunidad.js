@@ -10,7 +10,6 @@ export default function GestionComunidad () {
     const [state, setState] = useState({
         usuarios: [],
         nombre: '', 
-        nuevoNombre:'',
         codigopresidente: '',
         codigovecinos: '',
         invalid_name:false,
@@ -68,7 +67,6 @@ export default function GestionComunidad () {
         event.preventDefault();
          
         const codigos = new FormData();
-        codigos.append('codigovecinos', event.target.elements.codigovecinos.value);
             
         await fetch(apiURL + '/comunidad/editcodigovecino', {
             method: 'PUT',
@@ -90,7 +88,7 @@ export default function GestionComunidad () {
         event.preventDefault();
         
         const usuarios = new FormData();
-        usuarios.append('id', event.target.elements.usuario.id.value);
+        usuarios.append('id', event.target.elements.id);
         const buttonType=window.event.submitter.name;
         
         if(buttonType=="cederpresidencia"){
@@ -120,12 +118,8 @@ export default function GestionComunidad () {
                 }
             });
         }
-            
-        
     }
-
-
-
+    
     useEffect(() => {
         let promises = [];
         promises.push(fetch(apiURL + '/comunidad', {
@@ -202,7 +196,10 @@ export default function GestionComunidad () {
                             <Form onSubmit={handleSubmit3}>
                                 <div key={usuario.id} style={{marginTop:"20px"}}>
                                     <FormGroup>
-                                        <div style={{float:"left", marginRight:"20px", width:"20%"}}>
+                                        <div style={{float:"left", marginRight:"10px", width:"5%"}}>
+                                            <span name="id" id="id" value={usuario.id}>{usuario.id}</span>
+                                        </div>
+                                        <div style={{float:"left", marginRight:"10px", width:"20%"}}>
                                             <b name="nombreusuario">{usuario.nombre}</b> 
                                             <p>{usuario.email}</p> 
                                         </div>
