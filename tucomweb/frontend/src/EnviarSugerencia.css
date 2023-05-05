@@ -1,0 +1,11 @@
+.sugerencias{
+    margin: 20px 15%;
+    background-color: rgba(255, 255, 255, 0.88);
+    border-radius: 10px;
+    width:70%;
+    padding: 8px 15px 1px 15px;
+  }
+  
+  .sugerencias:last-child{
+    margin-bottom: 50px;
+  }
