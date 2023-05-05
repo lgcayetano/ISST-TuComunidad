@@ -4,4 +4,5 @@ public interface UsuarioDTO {
     int getId();
     String getNombre();
     String getEmail();
+    Boolean getEstado();
 }
