@@ -120,21 +120,6 @@ export default function GestionComunidad () {
                 }
             });
         }
-
-       /*     
-        if(buttonType=="eliminar"){
-            await fetch(apiURL + '/comunidad/editarpermisos', {
-                method: 'DELETE',
-                credentials: 'include',
-                body: codigos
-            }).then((response) => {
-                if (response.status===200) {
-                    setState({
-                        modificado:true
-                    });
-                }
-            });
-        }*/
             
         
     }
@@ -217,14 +202,14 @@ export default function GestionComunidad () {
                             <Form onSubmit={handleSubmit3}>
                                 <div key={usuario.id} style={{marginTop:"20px"}}>
                                     <FormGroup>
-                                        <div style={{float:"left", marginRight:"20px", width:"30%"}}>
+                                        <div style={{float:"left", marginRight:"20px", width:"20%"}}>
                                             <b name="nombreusuario">{usuario.nombre}</b> 
                                             <p>{usuario.email}</p> 
                                         </div>
                                         <Button className="buton" type="submit" name="cederpresidencia"> Ceder presidencia </Button>
-                                        <Button className="buton" type="submit" name="cambiarpermisos"> Cambiar permisos</Button>
-                                        <Button className="buton" type="submit" style={{backgroundColor:"rgb(164, 40, 40)"}} 
-                                            name="eliminar"> X </Button>
+                                        <Button className="buton" type="submit" name="cambiarpermisos"> Habilitar/deshabilitar</Button>
+                                        {usuario.estado ? <b className="buton" style={{color:"darkgreen"}}>Habilitado</b> : 
+                                            <b className="buton" style={{color:"darkred"}}>Deshabilitado</b>}
                                     </FormGroup>
                             </div>  
                            </Form>
