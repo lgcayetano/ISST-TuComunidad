@@ -27,7 +27,12 @@ export default function GestionComunidad () {
 
         setState({
             [name]: value,
-            invalid_name: nombrevacio
+            invalid_name: nombrevacio,
+            usuarios: state.usuarios,
+            codigopresidente: state.codigopresidente,
+            codigovecinos: state.codigovecinos,
+            invalid_neicode: state.invalid_neicode,
+            modificado: state.modificado
         });
     }
 
@@ -46,7 +51,6 @@ export default function GestionComunidad () {
         } else {
             const codigos = new FormData();
             codigos.append('nombre', event.target.elements.nombre.value);
-            
             await fetch(apiURL + '/comunidad/editnombre', {
                 method: 'PUT',
                 credentials: 'include',
@@ -61,13 +65,10 @@ export default function GestionComunidad () {
         }
     }
 
-
     async function handleSubmit2(event) {
         //evita que se recarge la pagina al darle al boton acceder (submit)
         event.preventDefault();
-         
         const codigos = new FormData();
-            
         await fetch(apiURL + '/comunidad/editcodigovecino', {
             method: 'PUT',
             credentials: 'include',
@@ -79,7 +80,6 @@ export default function GestionComunidad () {
                 });
             }
         });
-        
     }
 
     
@@ -90,7 +90,6 @@ export default function GestionComunidad () {
         const usuarios = new FormData();
         usuarios.append('id', event.target.elements.id);
         const buttonType=window.event.submitter.name;
-        
         if(buttonType=="cederpresidencia"){
             await fetch(apiURL + '/comunidad/cederpresidencia', {
                 method: 'PUT',
@@ -196,8 +195,8 @@ export default function GestionComunidad () {
                             <Form onSubmit={handleSubmit3}>
                                 <div key={usuario.id} style={{marginTop:"20px"}}>
                                     <FormGroup>
-                                        <div style={{float:"left", marginRight:"10px", width:"5%"}}>
-                                            <span name="id" id="id" value={usuario.id}>{usuario.id}</span>
+                                        <div>
+                                            <span name="id" id="id" value={usuario.id}></span>
                                         </div>
                                         <div style={{float:"left", marginRight:"10px", width:"20%"}}>
                                             <b name="nombreusuario">{usuario.nombre}</b> 
