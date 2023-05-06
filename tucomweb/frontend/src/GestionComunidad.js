@@ -86,9 +86,10 @@ export default function GestionComunidad () {
     async function handleSubmit3(event) {
         //evita que se recarge la pagina al darle al boton acceder (submit)
         event.preventDefault();
-        
+        let idForm = event.target.id;
+
         const usuarios = new FormData();
-        usuarios.append('id', event.target.elements.id);
+        usuarios.append('id', idForm);
         const buttonType=window.event.submitter.name;
         if(buttonType=="cederpresidencia"){
             await fetch(apiURL + '/comunidad/cederpresidencia', {
@@ -192,12 +193,8 @@ export default function GestionComunidad () {
                     
                     {
                         state.usuarios && state.usuarios.map(usuario => (
-                            <Form onSubmit={handleSubmit3}>
-                                <div key={usuario.id} style={{marginTop:"20px"}}>
-                                    <FormGroup>
-                                        <div>
-                                            <span name="id" id="id" value={usuario.id}></span>
-                                        </div>
+                            <Form id={usuario.id}  onSubmit={handleSubmit3}>
+                                    <FormGroup key={usuario.id} style={{marginTop:"20px"}}>
                                         <div style={{float:"left", marginRight:"10px", width:"20%"}}>
                                             <b name="nombreusuario">{usuario.nombre}</b> 
                                             <p>{usuario.email}</p> 
@@ -207,7 +204,6 @@ export default function GestionComunidad () {
                                         {usuario.estado ? <b className="buton" style={{color:"darkgreen"}}>Habilitado</b> : 
                                             <b className="buton" style={{color:"darkred"}}>Deshabilitado</b>}
                                     </FormGroup>
-                            </div>  
                            </Form>
                        ))
                    }
