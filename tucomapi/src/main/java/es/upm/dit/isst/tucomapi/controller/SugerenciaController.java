@@ -34,8 +34,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SugerenciaController {
 
+    /*mail */
     @Autowired
     private JavaMailSender mailSender;
+
+    
 
     private final SugerenciaRepository sugerenciaRepository;
     private final UsuarioRepository usuarioRepository;

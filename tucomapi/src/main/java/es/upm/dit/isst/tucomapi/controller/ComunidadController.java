@@ -230,4 +230,27 @@ public class ComunidadController {
       return "permisos editados";
 
     }
+
+    @PutMapping("/comunidad/editarestado")
+    public String editarEstado(@RequestParam("id") int id, Principal principal){
+    int idComunidad = 0;
+
+      Usuario Usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (Usuario!=null){
+        idComunidad = Usuario.getIdcomunidad();
+      }
+
+      Usuario vecinoEstadoEditado = usuarioRepository.findByIdAndComunidad(id, idComunidad).orElse(null);
+
+      
+      vecinoEstadoEditado.setEstado(false);
+      
+      
+      usuarioRepository.save(vecinoEstadoEditado);
+
+
+      return "estado editado";
+
+    }
 }
