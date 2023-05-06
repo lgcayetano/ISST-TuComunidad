@@ -93,7 +93,7 @@ public class SugerenciaController {
         Usuario presiComunidad = usuarioRepository.findPresidenteByIdComunidad(idComunidad).orElse(null);
 
         String emailPresi = presiComunidad.getEmail();
-
+        
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("tucomunidademailservice@gmail.com");
         message.setTo("<"+emailPresi+">");

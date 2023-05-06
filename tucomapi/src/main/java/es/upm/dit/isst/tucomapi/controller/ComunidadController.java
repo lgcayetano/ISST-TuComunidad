@@ -157,7 +157,8 @@ public class ComunidadController {
       
       Comunidad.setCodigovecino(codigo);
       comunidadRepository.save(Comunidad);
-      return "codigo cambiado correctamente";
+      
+      return codigo;
       
     }
 
