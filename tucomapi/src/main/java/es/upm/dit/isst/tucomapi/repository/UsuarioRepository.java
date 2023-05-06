@@ -19,6 +19,9 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Integer> {
     /*Iterable<Usuario> findAllUsersByIdComunidad(int idcomunidad);*/
     List<UsuarioDTO> findAllByIdComunidad(int idcomunidad);
 
+    @Query(value = "SELECT usuario.id AS id, usuario.nombre AS nombre, usuario.email AS email, usuario.permisos AS permisos FROM Usuario WHERE idcomunidad=?1 AND estado=1 AND nivel=2 ORDER BY id DESC", nativeQuery = true)
+    List<UsuarioDTO> findVecinosByIdComunidad(int idcomunidad);
+
     @Query(value = "SELECT * FROM Usuario WHERE idcomunidad=?1 AND nivel=1", nativeQuery = true)
     Optional<Usuario> findPresidenteByIdComunidad(int idcomunidad);
 

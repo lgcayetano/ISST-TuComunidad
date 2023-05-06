@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 //Controlador para poder cargar/refrescar páginas (a parte de la "Home") sin que salga White Label Error,
-//es decir, para poder cargar http://localhost:8080/xxxx sin errores
+//es decir, para poder cargar https://localhost:8080/xxxx sin errores
 @CrossOrigin
 @RestController
 public class IndexController implements ErrorController {

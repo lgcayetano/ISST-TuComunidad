@@ -229,14 +229,16 @@ export default function GestionComunidad () {
                             <Button className='buton' type="submit">Cambiar código de los vecinos</Button>
                         </FormGroup> 
                     </Form>
+                    {/*
                     <div className="cambioNombre" style={{marginBottom:"50px"}}>
                         <p><b>Código del presidente</b></p>
                         <p className='codes' name="codigopresidente"> {state.codigopresidente} </p>
                     </div> 
+                    */}
                 </div>
     
-                <div className="comunicados" >
-                    <h3 style={{color:"rgb(164, 40, 40)"}}>LISTA DE USUARIOS</h3>
+                <div className="listadousuarios" >
+                    <h3 style={{color:"rgb(164, 40, 40)"}}>Listado de vecinos:</h3>
                     
                     {
                         state.usuarios && state.usuarios.map(usuario => (

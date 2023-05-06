@@ -11,7 +11,7 @@ import Votacion from './Votaciones';
 import EnviarSugerencia from './EnviarSugerencia';
 import GestionComunidad from './GestionComunidad';
 
-export const apiURL = "http://localhost:8083";
+export const apiURL = "https://localhost:8083";
 export const PollsApiURL = "https://api.pollsapi.com/v1";
 
 export const AuthContext = React.createContext({

@@ -91,9 +91,6 @@ export default function Votaciones () {
 
         let votadoPorUsuario = !permisosUsuario;
 
-        console.log(permisosUsuario);
-        console.log(votadoPorUsuario);
-
         ArrVotaciones.map((votacion) => (votacion.voted = votadoPorUsuario));
 
         ArrVotos.map((voto) => {

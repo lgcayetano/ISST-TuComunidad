@@ -77,7 +77,7 @@ public class UsuarioController {
       if (Usuario!=null)
         idComunidad = Usuario.getIdcomunidad();
 
-      return (List<UsuarioDTO>) usuarioRepository.findAllByIdComunidad(idComunidad);
+      return (List<UsuarioDTO>) usuarioRepository.findVecinosByIdComunidad(idComunidad);
 
     }
 
