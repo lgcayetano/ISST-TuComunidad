@@ -118,6 +118,20 @@ export default function GestionComunidad () {
                 }
             });
         }
+
+        if(buttonType=="eliminar"){
+            await fetch(apiURL + '/comunidad/editarestado', {
+                method: 'PUT',
+                credentials: 'include',
+                body: usuarios
+            }).then((response) => {
+                if (response.status===200) {
+                    setState({
+                        modificado:true
+                    });
+                }
+            });
+        }
     }
     
     useEffect(() => {
@@ -201,8 +215,9 @@ export default function GestionComunidad () {
                                         </div>
                                         <Button className="buton" type="submit" name="cederpresidencia"> Ceder presidencia </Button>
                                         <Button className="buton" type="submit" name="cambiarpermisos"> Habilitar/deshabilitar</Button>
-                                        {usuario.estado ? <b className="buton" style={{color:"darkgreen"}}>Habilitado</b> : 
-                                            <b className="buton" style={{color:"darkred"}}>Deshabilitado</b>}
+                                        <Button className="buton" type="submit" name="eliminar" style={{backgroundColor:"darkred"}}> X </Button>
+                                        {usuario.permisos ? <b className="buton" style={{color:"darkgreen"}}>Con permisos</b> : 
+                                            <b className="buton" style={{color:"darkred"}}>Sin permisos</b>}
                                     </FormGroup>
                            </Form>
                        ))
@@ -217,4 +232,3 @@ export default function GestionComunidad () {
         )    
     }
 }
-
