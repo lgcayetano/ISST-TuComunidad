@@ -12,6 +12,8 @@ import javax.persistence.Lob;
 
 import java.time.LocalDateTime;
 
+
+
 @Entity
 public class Sugerencia {
 

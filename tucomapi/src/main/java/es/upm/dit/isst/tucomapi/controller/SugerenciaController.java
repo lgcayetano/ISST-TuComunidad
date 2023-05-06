@@ -21,9 +21,21 @@ import org.springframework.web.bind.annotation.RestController;
 import es.upm.dit.isst.tucomapi.model.Sugerencia;
 import es.upm.dit.isst.tucomapi.repository.SugerenciaRepository;
 
+/*mail */
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 @CrossOrigin
 @RestController
 public class SugerenciaController {
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     private final SugerenciaRepository sugerenciaRepository;
     private final UsuarioRepository usuarioRepository;
@@ -70,10 +82,19 @@ public class SugerenciaController {
         newSugerencia.setFecha(LocalDateTime.now());
         newSugerencia.setIdusuario(idUsuario);
         sugerenciaRepository.save(newSugerencia);
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("tucomunidademailservice@gmail.com");
+        message.setTo("<kikegda14@gmail.com>");
+        message.setSubject("Nuevasugerencia");
+        message.setText(mensaje);
+        mailSender.send(message);
+
         
        
         return ResponseEntity.ok().body("sugerencia creada correctamente");
 
       }
+
 
 }
