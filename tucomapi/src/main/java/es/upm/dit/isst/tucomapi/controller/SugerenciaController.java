@@ -85,7 +85,7 @@ public class SugerenciaController {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("tucomunidademailservice@gmail.com");
-        message.setTo("<kikegda14@gmail.com>");
+        message.setTo("<correopresidente@gmail.com>");
         message.setSubject("Nuevasugerencia");
         message.setText(mensaje);
         mailSender.send(message);
