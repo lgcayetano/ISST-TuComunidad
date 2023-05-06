@@ -94,11 +94,13 @@ public class SugerenciaController {
 
         String emailPresi = presiComunidad.getEmail();
 
+        String sugerenciaNueva = "Ha recibido una nueva sugerencia: \n";
+        
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("tucomunidademailservice@gmail.com");
         message.setTo("<"+emailPresi+">");
-        message.setSubject("Sugerencia nueva");
-        message.setText(mensaje);
+        message.setSubject("TuComunidad-Sugerencia nueva");
+        message.setText(sugerenciaNueva+mensaje);
         mailSender.send(message);
 
         

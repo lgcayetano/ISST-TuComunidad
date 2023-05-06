@@ -70,7 +70,7 @@ export default function Header () {
             <div>
                 <div id="cabecera">    
                     <p>
-                        <b style={{position:'fixed', color:"black", top:"2%", left:"2%"}}>{state.comunidad}</b>
+                        <b id="nombrecomunidad" style={{position:'fixed', color:"black", top:"2%", left:"2%"}}>{state.comunidad}</b>
                         <b style={{position:'fixed', color:"black", top:"2%", right:"2%"}}>{state.usuario} (<Link to="" onClick={logoutClick}>Salir</Link>)</b>
                         <h1 className="titulo"><b>TuComunidad</b></h1>
                     </p>    

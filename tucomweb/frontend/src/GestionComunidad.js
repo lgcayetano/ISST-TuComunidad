@@ -12,8 +12,8 @@ export default function GestionComunidad () {
         nombre: '', 
         codigopresidente: '',
         codigovecinos: '',
-        invalid_name:false,
-        invalid_neicode:false,
+        invalid_name: false,
+        invalid_neicode: false,
         modificado: false
     });
 
@@ -31,8 +31,7 @@ export default function GestionComunidad () {
             usuarios: state.usuarios,
             codigopresidente: state.codigopresidente,
             codigovecinos: state.codigovecinos,
-            invalid_neicode: state.invalid_neicode,
-            modificado: state.modificado
+            invalid_neicode: state.invalid_neicode
         });
     }
 
@@ -46,7 +45,10 @@ export default function GestionComunidad () {
             let nombrevacio = false;
             if (event.target.elements.nombre.value=='') nombrevacio = true;
             setState({
-                invalid_name: nombrevacio
+                invalid_name: nombrevacio,
+                usuarios: state.usuarios,
+                codigopresidente: state.codigopresidente,
+                codigovecinos: state.codigovecinos
             });
         } else {
             const codigos = new FormData();
@@ -57,8 +59,12 @@ export default function GestionComunidad () {
                 body: codigos
             }).then((response) => {
                 if (response.status===200) {
+                    document.getElementById("nombrecomunidad").firstChild.data = event.target.elements.nombre.value;
                     setState({
-                        modificado:true
+                        nombre: event.target.elements.nombre.value,       
+                        usuarios: state.usuarios,
+                        codigopresidente: state.codigopresidente,
+                        codigovecinos: state.codigovecinos
                     });
                 }
             });
@@ -73,13 +79,25 @@ export default function GestionComunidad () {
             method: 'PUT',
             credentials: 'include',
             body: codigos
-        }).then((response) => {
+        }).then(response => response.text())
+        .then(data => {
+            setState({        
+                codigovecinos: data,
+                usuarios: state.usuarios,
+                nombre: state.nombre, 
+                codigopresidente: state.codigopresidente
+            });
+        });
+        
+        /*.then((response) => {
             if (response.status===200) {
-                setState({
-                    modificado:true
+                setState({        
+                    usuarios: state.usuarios,
+                    nombre: state.nombre, 
+                    codigopresidente: state.codigopresidente
                 });
             }
-        });
+        });*/
     }
 
     
@@ -92,17 +110,23 @@ export default function GestionComunidad () {
         usuarios.append('id', idForm);
         const buttonType=window.event.submitter.name;
         if(buttonType=="cederpresidencia"){
-            await fetch(apiURL + '/comunidad/cederpresidencia', {
-                method: 'PUT',
-                credentials: 'include',
-                body: usuarios
-            }).then((response) => {
-                if (response.status===200) {
-                    setState({
-                        modificado:true
-                    });
-                }
-            }); 
+            if (window.confirm("¿Seguro que quiere ceder la presidencia?") == true) {
+                await fetch(apiURL + '/comunidad/cederpresidencia', {
+                    method: 'PUT',
+                    credentials: 'include',
+                    body: usuarios
+                }).then((response) => {
+                    if (response.status===200) {
+                        setState({
+                            nombre: state.nombre, 
+                            codigopresidente: state.codigopresidente,
+                            codigovecinos: state.codigovecinos,
+                            modificado:true
+                        });
+                    }
+                });     
+            }
+            
         }
 
         if(buttonType=="cambiarpermisos"){
@@ -113,10 +137,33 @@ export default function GestionComunidad () {
             }).then((response) => {
                 if (response.status===200) {
                     setState({
-                        modificado:true
+                        usuarios: state.usuarios.map((usuario) => (usuario.id == idForm ? {...usuario, permisos: !usuario.permisos} : usuario)),
+                        nombre: state.nombre, 
+                        codigopresidente: state.codigopresidente,
+                        codigovecinos: state.codigovecinos,
                     });
                 }
             });
+        }
+
+        if(buttonType=="eliminar"){
+            if (window.confirm("¿Seguro que quiere eliminar al usuario?") == true) {
+                await fetch(apiURL + '/comunidad/editarestado', {
+                    method: 'PUT',
+                    credentials: 'include',
+                    body: usuarios
+                }).then((response) => {
+                    if (response.status===200) {
+                        setState({
+                            usuarios: state.usuarios.filter(function( obj ) {  return obj.id != idForm; }),
+                            nombre: state.nombre, 
+                            codigopresidente: state.codigopresidente,
+                            codigovecinos: state.codigovecinos,
+                        });
+                    }
+                });
+            }
+            
         }
     }
     
@@ -200,9 +247,10 @@ export default function GestionComunidad () {
                                             <p>{usuario.email}</p> 
                                         </div>
                                         <Button className="buton" type="submit" name="cederpresidencia"> Ceder presidencia </Button>
-                                        <Button className="buton" type="submit" name="cambiarpermisos"> Habilitar/deshabilitar</Button>
-                                        {usuario.estado ? <b className="buton" style={{color:"darkgreen"}}>Habilitado</b> : 
-                                            <b className="buton" style={{color:"darkred"}}>Deshabilitado</b>}
+                                        <Button className="buton" type="submit" name="cambiarpermisos"> Cambiar permisos</Button>
+                                        <Button className="buton" type="submit" name="eliminar" style={{backgroundColor:"darkred"}}> X </Button>
+                                        {usuario.permisos ? <b className="buton" style={{color:"darkgreen"}}>Con permisos</b> : 
+                                            <b className="buton" style={{color:"darkred"}}>Sin permisos</b>}
                                     </FormGroup>
                            </Form>
                        ))
@@ -217,4 +265,3 @@ export default function GestionComunidad () {
         )    
     }
 }
-

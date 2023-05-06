@@ -78,7 +78,7 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.6.14</version>
         </dependency>
-		<!-- BBDD MySQL -->
+		<!-- email -->
 		<dependency>
       		<groupId>org.springframework.boot</groupId>
       		<artifactId>spring-boot-starter-mail</artifactId>
