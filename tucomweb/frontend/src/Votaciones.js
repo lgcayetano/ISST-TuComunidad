@@ -29,7 +29,15 @@ export default function Votaciones () {
         })
         .then(response => response.text())
         .then(data => voteIdentifier = data);
+
+        let permisosUsuario = false;
         
+        await fetch(apiURL + '/usuario/permisos', {
+            credentials: 'include'
+        })
+        .then(response => response.text())
+        .then(data => permisosUsuario = (data === 'true'));
+
         let pollsApiKey = "";
 
         await fetch(apiURL + '/votacion/apikey', {
@@ -80,8 +88,13 @@ export default function Votaciones () {
                     ArrVotaciones.push(votacion);
             });
         });
-        
-        ArrVotaciones.map((votacion) => (votacion.voted = false));
+
+        let votadoPorUsuario = !permisosUsuario;
+
+        console.log(permisosUsuario);
+        console.log(votadoPorUsuario);
+
+        ArrVotaciones.map((votacion) => (votacion.voted = votadoPorUsuario));
 
         ArrVotos.map((voto) => {
             let poll_id = voto.poll_id;
