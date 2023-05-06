@@ -55,6 +55,19 @@ public class UsuarioController {
       return nombreUsuario;
     }
 
+    @GetMapping("/usuario/permisos")
+    boolean readPermisos(Principal principal) {
+
+      boolean permisosUsuario = false;
+
+      Usuario usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
+
+      if (usuario!=null)
+      permisosUsuario = usuario.isPermisos();
+
+      return permisosUsuario;
+    }
+
     @GetMapping("/usuarios") /*muestra los usuarios de la comunidad  */
     List<UsuarioDTO> readAll(Principal principal) {
 
