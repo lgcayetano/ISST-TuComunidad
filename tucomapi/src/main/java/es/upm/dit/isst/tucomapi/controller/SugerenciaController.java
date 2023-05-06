@@ -75,6 +75,8 @@ public class SugerenciaController {
           idUsuario = usuario.getId();
         }
           /*nueva sugerencia */
+
+        
         Sugerencia newSugerencia = new Sugerencia();
 
         newSugerencia.setIdComunidad(idComunidad);
@@ -83,10 +85,16 @@ public class SugerenciaController {
         newSugerencia.setIdusuario(idUsuario);
         sugerenciaRepository.save(newSugerencia);
 
+        /*enviar mail */
+
+        Usuario presiComunidad = usuarioRepository.findPresidenteByIdComunidad(idComunidad).orElse(null);
+
+        String emailPresi = presiComunidad.getEmail();
+
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("tucomunidademailservice@gmail.com");
-        message.setTo("<correopresidente@gmail.com>");
-        message.setSubject("Nuevasugerencia");
+        message.setTo("<"+emailPresi+">");
+        message.setSubject("Sugerencia nueva");
         message.setText(mensaje);
         mailSender.send(message);
 
