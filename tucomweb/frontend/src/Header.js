@@ -4,7 +4,7 @@ import { Link, Redirect, NavLink } from 'react-router-dom';
 
 export default function Header () {
     const [state, setState] = useState({
-         usuario: '', comunidad: '', presidente: false, redirect_login: false
+         usuario: '', comunidad: '', presidente: false, redirect_login: false, permisos: false
     });
 
     useEffect(() => {
@@ -35,6 +35,14 @@ export default function Header () {
             else setState({ redirect_login: true });
         }));
 
+        promises.push(fetch(apiURL + '/usuario/permisos', {
+            credentials: 'include'
+        })
+        .then(response => {
+            if (response.ok) return response.text();
+            else setState({ redirect_login: true });
+        }));
+
         Promise.all(promises)
         .then(data => {
 
@@ -45,7 +53,8 @@ export default function Header () {
             setState({
                 usuario: data[0],
                 comunidad: data[1],
-                presidente: data2
+                presidente: data2,
+                permisos: (data[3] === 'true')
             });
         });
 
@@ -82,9 +91,11 @@ export default function Header () {
                     <NavLink to="/votaciones" activeClassName="active">
                         <div className="otrapaginausuario" style={{top:"38%", textAlign:"center"}}> <b className="pagina">Votaciones</b></div>
                     </NavLink>
-                    <NavLink to ='/enviarsugerencia' activeClassName="active">
-                    <div className="otrapaginausuario" style={{top:"67%", textAlign:"center"}}><b className="pagina linea2">Enviar sugerencias</b></div>
-                    </NavLink>
+                    { state.permisos &&
+                        <NavLink to ='/enviarsugerencia' activeClassName="active">
+                        <div className="otrapaginausuario" style={{top:"67%", textAlign:"center"}}><b className="pagina linea2">Enviar sugerencias</b></div>
+                        </NavLink>
+                    }
                     { state.presidente &&
                         <NavLink to="/publicarcomunicado" activeClassName="active">
                             <div className="otrapaginaadmin" style={{top:"9%", textAlign:"center"}}><b className="pagina linea2">Publicar comunicados</b></div>
