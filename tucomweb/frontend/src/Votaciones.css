@@ -1,9 +1,11 @@
 .votaciones{
     margin: 20px 15%;
-    background-color: rgba(255, 255, 255, 0.88);
+    background-color: #ffffff;
     border-radius: 10px;
     width:70%;
     padding: 8px 15px 5px 15px;
+    border: 1px solid #0000002d;
+
 }
 
 .votaciones:last-child{

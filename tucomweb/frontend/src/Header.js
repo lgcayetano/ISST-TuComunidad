@@ -73,31 +73,31 @@ export default function Header () {
                         <b id="nombrecomunidad" style={{position:'fixed', color:"black", top:"2%", left:"2%"}}>{state.comunidad}</b>
                         <b style={{position:'fixed', color:"black", top:"2%", right:"2%"}}>{state.usuario} (<Link to="" onClick={logoutClick}>Salir</Link>)</b>
                         <h1 className="titulo"><b>TuComunidad</b></h1>
-                    </p>    
+                    </p>
                 </div>
                 <div id="menuNav">
                     <NavLink exact to="/" activeClassName="active">
-                        <div className="otrapaginausuario" style={{top:"10%", textAlign:"center"}}><b className="pagina">Comunicados</b></div>
+                        <div className="otrapaginausuario" style={{top:"9%", textAlign:"center"}}><b className="pagina">Comunicados</b></div>
                     </NavLink>
                     <NavLink to="/votaciones" activeClassName="active">
                         <div className="otrapaginausuario" style={{top:"38%", textAlign:"center"}}> <b className="pagina">Votaciones</b></div>
                     </NavLink>
                     <NavLink to ='/enviarsugerencia' activeClassName="active">
-                    <div className="otrapaginausuario" style={{top:"66%", textAlign:"center"}}><b className="pagina">Enviar sugerencias</b></div>
+                    <div className="otrapaginausuario" style={{top:"67%", textAlign:"center"}}><b className="pagina linea2">Enviar sugerencias</b></div>
                     </NavLink>
                     { state.presidente &&
                         <NavLink to="/publicarcomunicado" activeClassName="active">
-                            <div className="otrapaginaadmin" style={{top:"10%", textAlign:"center"}}><b className="pagina">Publicar comunicados</b></div>
+                            <div className="otrapaginaadmin" style={{top:"9%", textAlign:"center"}}><b className="pagina linea2">Publicar comunicados</b></div>
                         </NavLink> 
                     }
                     { state.presidente &&
                         <NavLink to ="/publicarvotacion" activeClassName="active">
-                            <div className="otrapaginaadmin"style={{top:"38%", textAlign:"center"}}><b className="pagina">Publicar votaciones</b></div>
+                            <div className="otrapaginaadmin"style={{top:"38%", textAlign:"center"}}><b className="pagina linea2">Publicar votaciones</b></div>
                         </NavLink>
                     }
                     { state.presidente && 
                         <NavLink to ='/gestioncomunidad' activeClassName="active">
-                            <div className="otrapaginaadmin"style={{top:"66%", textAlign:"center"}}><b className="pagina">Gestión comunidad</b></div>
+                            <div className="otrapaginaadmin"style={{top:"67%", textAlign:"center"}}><b className="pagina linea2">Gestión comunidad</b></div>
                         </NavLink>
                     }
                 </div>

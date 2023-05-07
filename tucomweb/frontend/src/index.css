@@ -30,15 +30,18 @@ code {
 }
 
 .otrapaginausuario{
-  border: 1px;
   background-color: lightgrey;
   color:black;
   width:  10%;
   height: 28%;
-  border-style: inset;
-  border-color:rgb(81, 79, 79);
-  left:0;
   position: fixed;
+  word-wrap: break-word;
+  hyphens: auto;
+  left: 8px;
+  border-radius: 6px;
+  transition-duration: 0.3s;
+  box-shadow: 1px 1.5px 4px #777;
+  padding: 0 3px;
 }
 
 .pagina{
@@ -48,16 +51,23 @@ code {
   text-align: center;
 }
 
+.pagina.linea2{
+  top:38%;
+}
+
 .otrapaginaadmin{
-  border: 1px;
   background-color: lightgrey;
   color:black;
   width:  10%;
   height: 28%;
-  border-style: inset;
-  border-color:rgb(81, 79, 79);
-  right: 0px;
   position: fixed;
+  word-wrap: break-word;
+  hyphens: auto;
+  right: 8px;
+  border-radius: 6px;
+  transition-duration: 0.3s;
+  box-shadow: 1px 1.5px 4px #777;
+  padding: 0 3px;
 }
 
 .footer{
@@ -72,6 +82,15 @@ code {
 }
 
 #menuNav .active > div {
-  background-color: black;
+  background-color: #777;
+  color: white;
+}
+
+#menuNav a > div:hover {
+  background-color: #aaa;
+}
+
+#menuNav .active > div:hover {
+  background-color: #777;
   color: white;
 }
