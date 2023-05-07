@@ -1,9 +1,6 @@
 #CuadroRegistro #cuadro{
-border: solid;
-border-color: black;
-margin-right: 10%;
-margin-left: 10%;
-background-color: white;
+    margin-right: 10%;
+    margin-left: 10%;
 }
 
 #datos{

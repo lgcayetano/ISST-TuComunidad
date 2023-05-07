@@ -34,7 +34,7 @@ code {
   background-color: lightgrey;
   color:black;
   width:  10%;
-  height: 30%;
+  height: 28%;
   border-style: inset;
   border-color:rgb(81, 79, 79);
   left:0;
@@ -53,7 +53,7 @@ code {
   background-color: lightgrey;
   color:black;
   width:  10%;
-  height: 30%;
+  height: 28%;
   border-style: inset;
   border-color:rgb(81, 79, 79);
   right: 0px;
@@ -69,4 +69,9 @@ code {
   color:white;
   text-align: center;
   
+}
+
+#menuNav .active > div {
+  background-color: black;
+  color: white;
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { apiURL } from './App';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, NavLink } from 'react-router-dom';
 
 export default function Header () {
     const [state, setState] = useState({
@@ -75,30 +75,30 @@ export default function Header () {
                         <h1 className="titulo"><b>TuComunidad</b></h1>
                     </p>    
                 </div>
-                <div>
-                    <Link to="/">
+                <div id="menuNav">
+                    <NavLink exact to="/" activeClassName="active">
                         <div className="otrapaginausuario" style={{top:"10%", textAlign:"center"}}><b className="pagina">Comunicados</b></div>
-                    </Link>
-                    <Link to="/votaciones">
-                        <div className="otrapaginausuario" style={{top:"40%", textAlign:"center"}}> <b className="pagina">Votaciones</b></div>
-                    </Link>
-                    <Link to ='/enviarsugerencia'>
-                    <div className="otrapaginausuario" style={{top:"70%", textAlign:"center"}}><b className="pagina">Enviar sugerencias</b></div>
-                    </Link>
+                    </NavLink>
+                    <NavLink to="/votaciones" activeClassName="active">
+                        <div className="otrapaginausuario" style={{top:"38%", textAlign:"center"}}> <b className="pagina">Votaciones</b></div>
+                    </NavLink>
+                    <NavLink to ='/enviarsugerencia' activeClassName="active">
+                    <div className="otrapaginausuario" style={{top:"66%", textAlign:"center"}}><b className="pagina">Enviar sugerencias</b></div>
+                    </NavLink>
                     { state.presidente &&
-                        <Link to="/publicarcomunicado">
+                        <NavLink to="/publicarcomunicado" activeClassName="active">
                             <div className="otrapaginaadmin" style={{top:"10%", textAlign:"center"}}><b className="pagina">Publicar comunicados</b></div>
-                        </Link> 
+                        </NavLink> 
                     }
                     { state.presidente &&
-                        <Link to ="/publicarvotacion">
-                            <div className="otrapaginaadmin"style={{top:"40%", textAlign:"center"}}><b className="pagina">Publicar votaciones</b></div>
-                        </Link>
+                        <NavLink to ="/publicarvotacion" activeClassName="active">
+                            <div className="otrapaginaadmin"style={{top:"38%", textAlign:"center"}}><b className="pagina">Publicar votaciones</b></div>
+                        </NavLink>
                     }
                     { state.presidente && 
-                        <Link to ='/gestioncomunidad'>
-                            <div className="otrapaginaadmin"style={{top:"70%", textAlign:"center"}}><b className="pagina">Gestión comunidad</b></div>
-                        </Link>
+                        <NavLink to ='/gestioncomunidad' activeClassName="active">
+                            <div className="otrapaginaadmin"style={{top:"66%", textAlign:"center"}}><b className="pagina">Gestión comunidad</b></div>
+                        </NavLink>
                     }
                 </div>
             </div>
