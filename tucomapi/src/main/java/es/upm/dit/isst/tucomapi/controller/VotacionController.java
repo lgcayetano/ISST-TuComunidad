@@ -74,6 +74,23 @@ public class VotacionController {
 
             votacionRepository.save(newVotacion);
 
+            /*enviar mail */
+
+            Usuario presiComunidad = usuarioRepository.findPresidenteByIdComunidad(idComunidad).orElse(null);
+            Usuario vecinoComunidad = usuarioRepository.findVecinoByIdComunidad(idComunidad).orElse(null);
+
+            String emailPresi = presiComunidad.getEmail();
+            String emailVecino = vecinoComunidad.getEmail();
+
+            String votacionNueva = "Ha recibido una nueva votacion: \n";
+        
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("tucomunidademail@gmail.com");
+            message.setTo("<"+emailPresi+emailVecino">");
+            message.setSubject("TuComunidad-Votacion nueva");
+            message.setText(votacionNueva+mensaje);
+            mailSender.send(message);
+
             return ResponseEntity.ok().body("Votacion creada correctamente");
         }
 

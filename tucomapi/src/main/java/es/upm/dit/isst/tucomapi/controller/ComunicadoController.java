@@ -74,6 +74,21 @@ public class ComunicadoController {
         newComunicado.setFecha(LocalDateTime.now());
         newComunicado.setIdusuario(idUsuario);
         comunicadoRepository.save(newComunicado);
+
+        /*enviar mail */
+
+        Usuario vecinoComunidad = usuarioRepository.findVecinoByIdComunidad(idComunidad).orElse(null);
+
+        String emailVecino = vecinoComunidad.getEmail();
+
+      String comunicadoNuevo = "Ha recibido un comunicado nuevo: \n";
+      
+      SimpleMailMessage message = new SimpleMailMessage();
+      message.setFrom("tucomunidademail@gmail.com");
+      message.setTo("<"+emailVecino+">");
+      message.setSubject("TuComunidad-Comunicado nuevo");
+      message.setText(comunicadoNuevo+mensaje);
+      mailSender.send(message);
   
         return ResponseEntity.ok().body("comunicado creado correctamente");
 
