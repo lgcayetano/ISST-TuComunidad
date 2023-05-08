@@ -88,11 +88,11 @@ public class VotacionController {
 
             /*enviar mail */
 
-            List<UsuarioDTO> listaUsuarios = usuarioRepository.findAllByIdComunidad(idComunidad);
+            List<Usuario> listaUsuarios = usuarioRepository.findAllByIdComunidadMail(idComunidad);
 
             String votacionNuevo = "Se ha publicado una votación nueva: \n\n Acceda a https://localhost:8080 para verlo ";
 
-            for(UsuarioDTO cadausuario : listaUsuarios){
+            for(Usuario cadausuario : listaUsuarios){
                 String email = cadausuario.getEmail();
                 SimpleMailMessage message = new SimpleMailMessage();
                 message.setFrom("tucomunidademail@gmail.com");

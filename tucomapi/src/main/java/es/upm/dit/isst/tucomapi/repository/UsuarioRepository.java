@@ -27,6 +27,9 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Integer> {
 
     @Query(value = "SELECT * FROM Usuario WHERE id=?1 AND idcomunidad=?2", nativeQuery = true)
     Optional<Usuario> findByIdAndComunidad(int id, int idcomunidad);
+
+    @Query(value = "SELECT  * FROM Usuario WHERE idcomunidad=?1 AND estado=1 ORDER BY id DESC", nativeQuery = true)
+    List<Usuario> findAllByIdComunidadMail(int idcomunidad);
     
     
 }
