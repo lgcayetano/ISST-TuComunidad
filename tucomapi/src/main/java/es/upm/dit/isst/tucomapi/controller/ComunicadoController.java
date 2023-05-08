@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import es.upm.dit.isst.tucomapi.model.Usuario;
+import es.upm.dit.isst.tucomapi.model.UsuarioDTO;
 import es.upm.dit.isst.tucomapi.repository.UsuarioRepository;
 
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/*mail */
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import es.upm.dit.isst.tucomapi.model.Comunicado;
 import es.upm.dit.isst.tucomapi.repository.ComunicadoRepository;
 
 @CrossOrigin
 @RestController
 public class ComunicadoController {
+
+    @Autowired
+    private JavaMailSender mailSender;
+
 
     private final ComunicadoRepository comunicadoRepository;
     private final UsuarioRepository usuarioRepository;
@@ -77,18 +91,27 @@ public class ComunicadoController {
 
         /*enviar mail */
 
-        Usuario vecinoComunidad = usuarioRepository.findVecinoByIdComunidad(idComunidad).orElse(null);
 
-        String emailVecino = vecinoComunidad.getEmail();
 
-      String comunicadoNuevo = "Ha recibido un comunicado nuevo: \n";
+
+      List<UsuarioDTO> listaUsuarios = usuarioRepository.findAllByIdComunidad(idComunidad);
+
+      String comunicadoNuevo = "Se ha publicado un comunicado nuevo: \n\n Acceda a https://localhost:8080 para verlo ";
       
-      SimpleMailMessage message = new SimpleMailMessage();
-      message.setFrom("tucomunidademail@gmail.com");
-      message.setTo("<"+emailVecino+">");
-      message.setSubject("TuComunidad-Comunicado nuevo");
-      message.setText(comunicadoNuevo+mensaje);
-      mailSender.send(message);
+
+      for(UsuarioDTO cadausuario : listaUsuarios){
+        String email = cadausuario.getEmail();
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("tucomunidademail@gmail.com");
+        message.setTo("<"+email+">");
+        message.setSubject("TuComunidad-Comunicado nuevo");
+        message.setText(comunicadoNuevo);
+        mailSender.send(message);
+      }
+
+      
+      
+      
   
         return ResponseEntity.ok().body("comunicado creado correctamente");
 

@@ -13,8 +13,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+/*mail */
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import es.upm.dit.isst.tucomapi.model.Usuario;
+import es.upm.dit.isst.tucomapi.model.UsuarioDTO;
 import es.upm.dit.isst.tucomapi.model.Votacion;
 import es.upm.dit.isst.tucomapi.repository.UsuarioRepository;
 import es.upm.dit.isst.tucomapi.repository.VotacionRepository;
@@ -22,6 +31,9 @@ import es.upm.dit.isst.tucomapi.repository.VotacionRepository;
 @CrossOrigin
 @RestController
 public class VotacionController {
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Value("${pollsApiKey}")
     private String pollsApiKey;
@@ -76,20 +88,20 @@ public class VotacionController {
 
             /*enviar mail */
 
-            Usuario presiComunidad = usuarioRepository.findPresidenteByIdComunidad(idComunidad).orElse(null);
-            Usuario vecinoComunidad = usuarioRepository.findVecinoByIdComunidad(idComunidad).orElse(null);
+            List<UsuarioDTO> listaUsuarios = usuarioRepository.findAllByIdComunidad(idComunidad);
 
-            String emailPresi = presiComunidad.getEmail();
-            String emailVecino = vecinoComunidad.getEmail();
+            String votacionNuevo = "Se ha publicado una votación nueva: \n\n Acceda a https://localhost:8080 para verlo ";
 
-            String votacionNueva = "Ha recibido una nueva votacion: \n";
-        
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("tucomunidademail@gmail.com");
-            message.setTo("<"+emailPresi+emailVecino">");
-            message.setSubject("TuComunidad-Votacion nueva");
-            message.setText(votacionNueva+mensaje);
-            mailSender.send(message);
+            for(UsuarioDTO cadausuario : listaUsuarios){
+                String email = cadausuario.getEmail();
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setFrom("tucomunidademail@gmail.com");
+                message.setTo("<"+email+">");
+                message.setSubject("TuComunidad-Votacion nueva");
+                message.setText(votacionNuevo);
+                mailSender.send(message);
+            }
+
 
             return ResponseEntity.ok().body("Votacion creada correctamente");
         }
