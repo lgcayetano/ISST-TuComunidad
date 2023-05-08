@@ -198,6 +198,7 @@ public class ComunidadController {
       Usuario nuevoPresi = usuarioRepository.findByIdAndComunidad(id, idComunidad).orElse(null);
 
       nuevoPresi.setNivel(1);
+      nuevoPresi.setPermisos(true);
       antiguoPresi.setNivel(2);
 
       usuarioRepository.save(nuevoPresi);

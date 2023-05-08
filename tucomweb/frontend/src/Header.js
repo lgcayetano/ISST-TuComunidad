@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { apiURL } from './App';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, NavLink } from 'react-router-dom';
 
 export default function Header () {
     const [state, setState] = useState({
-         usuario: '', comunidad: '', presidente: false, redirect_login: false
+         usuario: '', comunidad: '', presidente: false, redirect_login: false, permisos: false
     });
 
     useEffect(() => {
@@ -35,6 +35,14 @@ export default function Header () {
             else setState({ redirect_login: true });
         }));
 
+        promises.push(fetch(apiURL + '/usuario/permisos', {
+            credentials: 'include'
+        })
+        .then(response => {
+            if (response.ok) return response.text();
+            else setState({ redirect_login: true });
+        }));
+
         Promise.all(promises)
         .then(data => {
 
@@ -45,7 +53,8 @@ export default function Header () {
             setState({
                 usuario: data[0],
                 comunidad: data[1],
-                presidente: data2
+                presidente: data2,
+                permisos: (data[3] === 'true')
             });
         });
 
@@ -73,32 +82,34 @@ export default function Header () {
                         <b id="nombrecomunidad" style={{position:'fixed', color:"black", top:"2%", left:"2%"}}>{state.comunidad}</b>
                         <b style={{position:'fixed', color:"black", top:"2%", right:"2%"}}>{state.usuario} (<Link to="" onClick={logoutClick}>Salir</Link>)</b>
                         <h1 className="titulo"><b>TuComunidad</b></h1>
-                    </p>    
+                    </p>
                 </div>
-                <div>
-                    <Link to="/">
-                        <div className="otrapaginausuario" style={{top:"10%", textAlign:"center"}}><b className="pagina">Comunicados</b></div>
-                    </Link>
-                    <Link to="/votaciones">
-                        <div className="otrapaginausuario" style={{top:"40%", textAlign:"center"}}> <b className="pagina">Votaciones</b></div>
-                    </Link>
-                    <Link to ='/enviarsugerencia'>
-                    <div className="otrapaginausuario" style={{top:"70%", textAlign:"center"}}><b className="pagina">Enviar sugerencias</b></div>
-                    </Link>
-                    { state.presidente &&
-                        <Link to="/publicarcomunicado">
-                            <div className="otrapaginaadmin" style={{top:"10%", textAlign:"center"}}><b className="pagina">Publicar comunicados</b></div>
-                        </Link> 
+                <div id="menuNav">
+                    <NavLink exact to="/" activeClassName="active">
+                        <div className="otrapaginausuario" style={{top:"9%", textAlign:"center"}}><b className="pagina">Comunicados</b></div>
+                    </NavLink>
+                    <NavLink to="/votaciones" activeClassName="active">
+                        <div className="otrapaginausuario" style={{top:"38%", textAlign:"center"}}> <b className="pagina">Votaciones</b></div>
+                    </NavLink>
+                    { state.permisos &&
+                        <NavLink to ='/enviarsugerencia' activeClassName="active">
+                        <div className="otrapaginausuario" style={{top:"67%", textAlign:"center"}}><b className="pagina linea2">Enviar sugerencias</b></div>
+                        </NavLink>
                     }
                     { state.presidente &&
-                        <Link to ="/publicarvotacion">
-                            <div className="otrapaginaadmin"style={{top:"40%", textAlign:"center"}}><b className="pagina">Publicar votaciones</b></div>
-                        </Link>
+                        <NavLink to="/publicarcomunicado" activeClassName="active">
+                            <div className="otrapaginaadmin" style={{top:"9%", textAlign:"center"}}><b className="pagina linea2">Publicar comunicados</b></div>
+                        </NavLink> 
+                    }
+                    { state.presidente &&
+                        <NavLink to ="/publicarvotacion" activeClassName="active">
+                            <div className="otrapaginaadmin"style={{top:"38%", textAlign:"center"}}><b className="pagina linea2">Publicar votaciones</b></div>
+                        </NavLink>
                     }
                     { state.presidente && 
-                        <Link to ='/gestioncomunidad'>
-                            <div className="otrapaginaadmin"style={{top:"70%", textAlign:"center"}}><b className="pagina">Gestión comunidad</b></div>
-                        </Link>
+                        <NavLink to ='/gestioncomunidad' activeClassName="active">
+                            <div className="otrapaginaadmin"style={{top:"67%", textAlign:"center"}}><b className="pagina linea2">Gestión comunidad</b></div>
+                        </NavLink>
                     }
                 </div>
             </div>

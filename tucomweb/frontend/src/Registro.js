@@ -170,7 +170,7 @@ export default function Registro () {
                 <div id="cabecera"><h1 className="titulo"><b>TuComunidad</b></h1></div>
 
                 <p style={{textAlign: "center", marginTop:"2%"}}><h3 className="info"><b>Datos de nuevo usuario</b></h3></p>
-                <div id="cuadro">
+                <Card id="cuadro">
                     <div id="datos">
                         <Form onSubmit={handleSubmit}>
                             <FormGroup>
@@ -202,7 +202,7 @@ export default function Registro () {
                             </FormGroup>
                         </Form>
                     </div>
-                </div>
+                </Card>
                 <div className="footer">
                     <b>TuComunidad 2023</b>
                 </div>

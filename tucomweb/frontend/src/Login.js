@@ -64,7 +64,7 @@ export default function Login () {
                     <CardGroup className='body'>
                         <Card>
                             <CardTitle>
-                                <h1>Acceso de usuario</h1>
+                                <h2>Acceso de usuario</h2>
                             </CardTitle>
                             <CardBody>
                                 {/*

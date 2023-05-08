@@ -72,27 +72,29 @@ public class SugerenciaController {
         Usuario usuario = usuarioRepository.findByEmail(principal.getName()).orElse(null);
         int idComunidad = 0;
         int idUsuario = 0;
+        boolean permisosUsuario = false;
 
         if (usuario!=null){
           idComunidad = usuario.getIdcomunidad();
           idUsuario = usuario.getId();
+          permisosUsuario = usuario.isPermisos();
         }
           /*nueva sugerencia */
 
-        
-        Sugerencia newSugerencia = new Sugerencia();
+        if (permisosUsuario) {
+          Sugerencia newSugerencia = new Sugerencia();
 
-        newSugerencia.setIdComunidad(idComunidad);
-        newSugerencia.setMensaje(mensaje);
-        newSugerencia.setFecha(LocalDateTime.now());
-        newSugerencia.setIdusuario(idUsuario);
-        sugerenciaRepository.save(newSugerencia);
+          newSugerencia.setIdComunidad(idComunidad);
+          newSugerencia.setMensaje(mensaje);
+          newSugerencia.setFecha(LocalDateTime.now());
+          newSugerencia.setIdusuario(idUsuario);
+          sugerenciaRepository.save(newSugerencia);
 
-        /*enviar mail */
+          /*enviar mail */
 
-        Usuario presiComunidad = usuarioRepository.findPresidenteByIdComunidad(idComunidad).orElse(null);
+          Usuario presiComunidad = usuarioRepository.findPresidenteByIdComunidad(idComunidad).orElse(null);
 
-        String emailPresi = presiComunidad.getEmail();
+          String emailPresi = presiComunidad.getEmail();
 
         String sugerenciaNueva = "Ha recibido una nueva sugerencia: \n";
         
@@ -103,8 +105,8 @@ public class SugerenciaController {
         message.setText(sugerenciaNueva+mensaje);
         mailSender.send(message);
 
+        }
         
-       
         return ResponseEntity.ok().body("sugerencia creada correctamente");
 
       }
