@@ -47,6 +47,10 @@ export default function PublicarComunicados () {
             });
 
         } else {
+
+            document.getElementById("submitBoton").disabled = true;
+            document.getElementById("submitBoton").firstChild.data = "Publicando comunicado...";
+
             const comunicados = new FormData();
             comunicados.append('titulo', event.target.elements.title.value);
             comunicados.append('mensaje', event.target.elements.text.value);
@@ -89,7 +93,7 @@ export default function PublicarComunicados () {
                                             onChange={handleChange} className={state.invalid_mensaje + "form-control"}  />
                                 </FormGroup>
                                 <FormGroup style={{marginTop:"20px", textAlign:"center"}}>
-                                    <Button type="submit">Publicar comunicado</Button>
+                                    <Button id="submitBoton" type="submit">Publicar comunicado</Button>
                                 </FormGroup>
                             </Form>
 

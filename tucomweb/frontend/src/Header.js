@@ -93,22 +93,22 @@ export default function Header () {
                     </NavLink>
                     { state.permisos &&
                         <NavLink to ='/enviarsugerencia' activeClassName="active">
-                        <div className="otrapaginausuario" style={{top:"67%", textAlign:"center"}}><b className="pagina linea2">Enviar sugerencias</b></div>
+                        <div className="otrapaginausuario" style={{top:"67%", textAlign:"center"}}><b className="pagina linea2">Enviar<br></br>sugerencias</b></div>
                         </NavLink>
                     }
                     { state.presidente &&
                         <NavLink to="/publicarcomunicado" activeClassName="active">
-                            <div className="otrapaginaadmin" style={{top:"9%", textAlign:"center"}}><b className="pagina linea2">Publicar comunicados</b></div>
+                            <div className="otrapaginaadmin" style={{top:"9%", textAlign:"center"}}><b className="pagina linea2">Publicar<br></br>comunicados</b></div>
                         </NavLink> 
                     }
                     { state.presidente &&
                         <NavLink to ="/publicarvotacion" activeClassName="active">
-                            <div className="otrapaginaadmin"style={{top:"38%", textAlign:"center"}}><b className="pagina linea2">Publicar votaciones</b></div>
+                            <div className="otrapaginaadmin"style={{top:"38%", textAlign:"center"}}><b className="pagina linea2">Publicar<br></br>votaciones</b></div>
                         </NavLink>
                     }
                     { state.presidente && 
                         <NavLink to ='/gestioncomunidad' activeClassName="active">
-                            <div className="otrapaginaadmin"style={{top:"67%", textAlign:"center"}}><b className="pagina linea2">Gestión comunidad</b></div>
+                            <div className="otrapaginaadmin"style={{top:"67%", textAlign:"center"}}><b className="pagina linea2">Gestión<br></br>comunidad</b></div>
                         </NavLink>
                     }
                 </div>

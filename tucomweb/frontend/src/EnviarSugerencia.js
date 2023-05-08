@@ -42,6 +42,10 @@ export default function EnviarSugerencia () {
             });
 
         } else {
+
+            document.getElementById("submitBoton").disabled = true;
+            document.getElementById("submitBoton").firstChild.data = "Enviando sugerencia...";
+
             const sugerencias = new FormData();
             sugerencias.append('mensaje', event.target.elements.text.value);
             await fetch(apiURL + '/sugerencias/nueva', {
@@ -51,7 +55,16 @@ export default function EnviarSugerencia () {
             }).then((response) => {
 
                 if (response.status===200) {
+
+                    alert("¡Sugerencia enviada!");
+
+                    document.getElementById("submitBoton").disabled = false;
+                    document.getElementById("submitBoton").firstChild.data = "Enviar sugerencia";
+
                     setState({
+                        title: '',
+                        text: '',
+                        invalid_mensaje: '',
                         publicado:true
                     });
                 }
@@ -59,39 +72,32 @@ export default function EnviarSugerencia () {
         }
     }
 
-    if (state.publicado) {
-        return (
-            alert("Sugerencia enviada"),
-            <Redirect to='/' />
-        )
-    } else {
-        return(
-            <div>
-                <Header />
-                <div className="cuerpo">
-                    <div className="comunicados" >
-                        <div id="datos">
+    return(
+        <div>
+            <Header />
+            <div className="cuerpo">
+                <div className="comunicados" >
+                    <div id="datos">
 
-                            <Form onSubmit={handleSubmit}>
-                                <FormGroup>
-                                    <Label for="text"><b>Sugerencia a escribir</b></Label>
-                                    <textarea name="text" id="text" value={state.text} style={{height:"300px", width:"100%"}}
-                                            onChange={handleChange} className={state.invalid_mensaje + "form-control"}  />
-                                </FormGroup>
-                                <FormGroup style={{marginTop:"20px", textAlign:"center"}}>
-                                    <Button type="submit">Enviar sugerencia</Button>
-                                </FormGroup>
-                            </Form>
+                        <Form onSubmit={handleSubmit}>
+                            <FormGroup>
+                                <Label for="text"><b>Sugerencia para el presidente:</b></Label>
+                                <textarea name="text" id="text" value={state.text} style={{height:"300px", width:"100%"}}
+                                        onChange={handleChange} className={state.invalid_mensaje + "form-control"}  />
+                            </FormGroup>
+                            <FormGroup style={{marginTop:"20px", textAlign:"center"}}>
+                                <Button id="submitBoton" type="submit">Enviar sugerencia</Button>
+                            </FormGroup>
+                        </Form>
 
-                        </div>
                     </div>
                 </div>
-                
-                <div className="footer" >
-                    <b>TuComunidad 2023</b>
-                </div>
             </div>
-        )    
+            
+            <div className="footer" >
+                <b>TuComunidad 2023</b>
+            </div>
+        </div>
+    )    
 
-    }
 }
