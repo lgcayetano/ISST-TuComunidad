@@ -107,6 +107,7 @@ public class ComunicadoController {
         message.setSubject("TuComunidad-Comunicado nuevo - "+ titulo);
         message.setText(comunicadoNuevo);
         mailSender.send(message);
+        
       }
 
       
