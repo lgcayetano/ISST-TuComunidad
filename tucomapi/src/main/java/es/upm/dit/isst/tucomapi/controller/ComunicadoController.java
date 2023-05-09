@@ -96,7 +96,7 @@ public class ComunicadoController {
 
       List<Usuario> listaUsuarios = usuarioRepository.findAllByIdComunidadMail(idComunidad);
 
-      String comunicadoNuevo = "Se ha publicado un comunicado nuevo: \n\n Acceda a https://localhost:8080 para verlo ";
+      String comunicadoNuevo = titulo + "\n\n"+ mensaje +"\n\n Acceda a https://localhost:8080/comunicados para verlo ";
       
 
       for(Usuario cadausuario : listaUsuarios){
@@ -104,7 +104,7 @@ public class ComunicadoController {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("tucomunidademail@gmail.com");
         message.setTo("<"+email+">");
-        message.setSubject("TuComunidad-Comunicado nuevo");
+        message.setSubject("TuComunidad-Comunicado nuevo - "+ titulo);
         message.setText(comunicadoNuevo);
         mailSender.send(message);
       }

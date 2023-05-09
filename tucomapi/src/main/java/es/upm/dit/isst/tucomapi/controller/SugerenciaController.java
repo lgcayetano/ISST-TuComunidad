@@ -96,7 +96,7 @@ public class SugerenciaController {
 
           String emailPresi = presiComunidad.getEmail();
 
-        String sugerenciaNueva = "Ha recibido una nueva sugerencia: \n";
+        String sugerenciaNueva = "Ha recibido una nueva sugerencia: \n\n";
         
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("tucomunidademail@gmail.com");

@@ -51,7 +51,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/css/**", "/img/**", "/layouts/**").permitAll()
 			.antMatchers("/", "/registro","/swagger-ui.html","/swagger-ui/**","/v3/**").permitAll()
             .antMatchers("/votacion/nueva","/comunicados/nuevo","/comunidad/editcodigovecino",
-                        "/comunidad/codigopresidente").hasAnyRole("PRESI")
+                        "/comunidad/codigopresidente","/comunidad/editnombre","/comunidad/cederpresidencia",
+                        "/comunidad/editarpermisos","/comunidad/editarestado","/usuarios","/usuario/permisos",
+                        "/usuario/id","/usuario/nivel").hasAnyRole("PRESI")
 			.anyRequest().authenticated()
         .and()
             .formLogin()

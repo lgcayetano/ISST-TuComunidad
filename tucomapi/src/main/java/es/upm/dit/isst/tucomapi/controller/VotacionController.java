@@ -90,7 +90,7 @@ public class VotacionController {
 
             List<Usuario> listaUsuarios = usuarioRepository.findAllByIdComunidadMail(idComunidad);
 
-            String votacionNuevo = "Se ha publicado una votación nueva: \n\n Acceda a https://localhost:8080 para verlo ";
+            String votacionNuevo = "Se ha publicado una votación nueva: \n\nAcceda a https://localhost:8080/votaciones para verla. ";
 
             for(Usuario cadausuario : listaUsuarios){
                 String email = cadausuario.getEmail();
