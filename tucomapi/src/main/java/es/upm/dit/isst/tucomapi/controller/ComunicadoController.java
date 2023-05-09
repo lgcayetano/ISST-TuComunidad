@@ -102,7 +102,7 @@ public class ComunicadoController {
       for(Usuario cadausuario : listaUsuarios){
         String email = cadausuario.getEmail();
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("tucomunidademail@gmail.com");
+        message.setFrom("tucomunidad.notificaciones@gmail.com");
         message.setTo("<"+email+">");
         message.setSubject("TuComunidad-Comunicado nuevo - "+ titulo);
         message.setText(comunicadoNuevo);
